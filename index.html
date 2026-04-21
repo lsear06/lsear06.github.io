@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI大模型术语词典 · 知识图谱版</title>
+<title>AI大模型术语</title>
 <script src="https://cdn.jsdelivr.net/npm/@antv/g6@4.8.24/dist/g6.min.js"></script>
 <style>
 * {
@@ -12,117 +12,227 @@
   box-sizing: border-box;
   font-family: "Segoe UI", Roboto, "Microsoft YaHei", sans-serif;
 }
-body.graph-mode {
-  background: #0f172a;
-  color: #f1f5f9;
+
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --bg-light: #f8fafc;
+  --bg-dark: #0f172a;
+  --card-light: #fff;
+  --card-dark: #1e293b;
+  --text-light: #1e293b;
+  --text-dark: #f1f5f9;
+}
+
+body {
+  transition: background 0.3s, color 0.3s;
 }
 body.card-mode {
-  background: #f8fafc;
-  color: #1e293b;
+  background: var(--bg-light);
+  color: var(--text-light);
 }
+body.graph-mode {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+/* 导航栏（搜索框并入） */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background: #111827;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(10px);
   color: #fff;
-  padding: 16px 24px;
+  padding: 14px 24px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   z-index: 999;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 body.card-mode .navbar {
-  background: #1e293b;
+  background: rgba(30, 41, 59, 0.9);
 }
-.navbar .title {
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-left .title {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
+  background: linear-gradient(90deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.navbar a {
+
+.nav-center {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 20px;
+}
+.search-input {
+  width: 100%;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+.search-input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+.search-input:focus {
+  outline: none;
+  background: rgba(255,255,255,0.15);
+  border-color: var(--primary);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nav-right a {
   color: #e2e8f0;
-  margin: 0 12px;
   text-decoration: none;
   font-size: 15px;
+  transition: color 0.2s;
 }
-.navbar button {
-  background: #4f46e5;
+.nav-right a:hover {
+  color: #60a5fa;
+}
+.btn-toggle {
+  background: var(--primary);
   color: white;
   border: none;
   padding: 8px 14px;
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
+  transition: background 0.2s;
 }
-.navbar button:hover {
-  background: #4338ca;
+.btn-toggle:hover {
+  background: var(--primary-dark);
 }
-.search-box {
-  max-width: 600px;
-  margin: 90px auto 20px;
-  padding: 0 20px;
-}
-.search-box input {
+
+/* 顶部大图 Banner */
+.hero {
+  margin-top: 70px;
   width: 100%;
-  padding: 14px 18px;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  height: 260px;
+  background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.8)),
+              url('https://img.freepik.com/free-photo/ai-technology-brain-background-digital-transformation-concept_53876-129427.jpg') center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.2), transparent 70%);
+  animation: pulse 6s infinite;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.1); opacity: 0.6; }
+}
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 8px;
+  z-index: 2;
+  background: linear-gradient(90deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero p {
   font-size: 16px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  color: rgba(255,255,255,0.8);
+  z-index: 2;
 }
-body.graph-mode .search-box input {
-  background: #1e293b;
-  color: #fff;
-  border-color: #334155;
-}
+
+/* 主容器 */
 .container {
   max-width: 1300px;
-  margin: 0 auto 40px;
+  margin: 40px auto;
   padding: 0 20px;
-  transition: all 0.3s;
 }
+
+/* 分类区块 */
 .section {
   margin-bottom: 50px;
 }
 .section h2 {
   font-size: 22px;
   margin-bottom: 20px;
-  color: #0f172a;
-  border-left: 6px solid #4f46e5;
+  color: var(--text-light);
+  border-left: 6px solid var(--primary);
   padding-left: 12px;
+  transition: color 0.3s;
 }
 body.graph-mode .section h2 {
-  color: #f1f5f9;
+  color: var(--text-dark);
 }
+
+/* 卡片网格 */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
+
+/* 精美卡片（带动态） */
 .card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 18px;
+  background: var(--card-light);
+  border-radius: 14px;
+  padding: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   text-decoration: none;
-  color: #1e293b;
-  transition: all 0.2s;
+  color: var(--text-light);
+  transition: all 0.25s ease;
+  border: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.05), transparent);
+  transition: left 0.5s;
+}
+.card:hover::before {
+  left: 100%;
 }
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+  border-color: var(--primary);
 }
 body.graph-mode .card {
-  background: #1e293b;
-  color: #f1f5f9;
+  background: var(--card-dark);
+  color: var(--text-dark);
+  border-color: rgba(255,255,255,0.1);
 }
+
 .label {
   font-size: 13px;
   color: #64748b;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  transition: color 0.3s;
 }
 body.graph-mode .label {
   color: #94a3b8;
@@ -130,39 +240,51 @@ body.graph-mode .label {
 .name {
   font-size: 16px;
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text-light);
+  transition: color 0.3s;
 }
 body.graph-mode .name {
   color: #fff;
 }
+
+/* 知识图谱 */
 #graph-container {
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 70px);
   display: none;
+  margin-top: 70px;
 }
 </style>
 </head>
+
 <body class="card-mode">
 
+<!-- 导航栏（搜索框已并入） -->
 <div class="navbar">
-  <div class="title">AI大模型术语词典</div>
-  <div class="nav">
+  <div class="nav-left">
+    <div class="title">AI大模型术语</div>
+  </div>
+
+  <div class="nav-center">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 搜索中文/英文术语...">
+  </div>
+
+  <div class="nav-right">
     <a href="index.html">首页</a>
     <a href="materials.html">资料</a>
     <a href="favorites.html">收藏</a>
-    <button id="modeToggle">切换深色图谱</button>
+    <button class="btn-toggle" id="modeToggle">切换深色图谱</button>
   </div>
 </div>
 
-<div class="search-box">
-  <input type="text" id="searchInput" placeholder="🔍 搜索AI术语（中文/英文）...">
+<!-- 顶部AI大图 -->
+<div class="hero">
+  <h1>AI 大模型专业术语库</h1>
+  <p>100+ 术语 | 中英对照 | 分类图谱 | 实时搜索</p>
 </div>
 
+<!-- 内容区 -->
 <div class="container" id="cardContainer">
-  <div style="text-align:center;margin-bottom:40px">
-    <h1 style="font-size:30px;margin-bottom:8px">AI 大模型专业术语库</h1>
-    <p style="color:#64748b">100+ 术语中英对照 | 分类整理 | 详情跳转</p>
-  </div>
 
   <!-- 模型基础架构 -->
   <div class="section">
@@ -201,7 +323,7 @@ body.graph-mode .name {
     </div>
   </div>
 
-  <!-- 提示与上下文 -->
+  <!-- 提示词与上下文 -->
   <div class="section">
     <h2>💬 提示词与上下文</h2>
     <div class="grid">
@@ -219,7 +341,7 @@ body.graph-mode .name {
     </div>
   </div>
 
-  <!-- 文本与Token -->
+  <!-- 文本、分词与表示 -->
   <div class="section">
     <h2>🔤 文本、分词与表示</h2>
     <div class="grid">
@@ -235,7 +357,7 @@ body.graph-mode .name {
     </div>
   </div>
 
-  <!-- 多模态 -->
+  <!-- 多模态与生成 -->
   <div class="section">
     <h2>🖼️ 多模态与生成</h2>
     <div class="grid">
@@ -313,8 +435,10 @@ body.graph-mode .name {
       <a href="terms/streamlit.html" class="card"><div class="label">Streamlit</div><div class="name">应用构建</div></a>
     </div>
   </div>
+
 </div>
 
+<!-- 图谱容器 -->
 <div id="graph-container"></div>
 
 <script>
@@ -322,10 +446,10 @@ body.graph-mode .name {
 const searchInput = document.getElementById('searchInput');
 const cards = document.querySelectorAll('.card');
 searchInput.addEventListener('input', () => {
-  const keyword = searchInput.value.toLowerCase();
+  const kw = searchInput.value.toLowerCase();
   cards.forEach(card => {
     const text = card.textContent.toLowerCase();
-    card.style.display = text.includes(keyword) ? 'block' : 'none';
+    card.style.display = text.includes(kw) ? 'block' : 'none';
   });
 });
 
@@ -333,11 +457,11 @@ searchInput.addEventListener('input', () => {
 const modeToggle = document.getElementById('modeToggle');
 const cardContainer = document.getElementById('cardContainer');
 const graphContainer = document.getElementById('graph-container');
-let isGraphMode = false;
+let isGraph = false;
 
 modeToggle.addEventListener('click', () => {
-  isGraphMode = !isGraphMode;
-  if (isGraphMode) {
+  isGraph = !isGraph;
+  if (isGraph) {
     document.body.className = 'graph-mode';
     cardContainer.style.display = 'none';
     graphContainer.style.display = 'block';
@@ -351,7 +475,7 @@ modeToggle.addEventListener('click', () => {
   }
 });
 
-// 知识图谱初始化
+// 知识图谱
 function initGraph() {
   const data = {
     nodes: [
@@ -383,18 +507,13 @@ function initGraph() {
     ]
   };
 
-  const container = document.getElementById('graph-container');
-  const width = container.scrollWidth;
-  const height = container.scrollHeight;
-
   const graph = new G6.Graph({
-    container: container,
-    width: width,
-    height: height,
+    container: 'graph-container',
+    width: graphContainer.scrollWidth,
+    height: graphContainer.scrollHeight,
     modes: { default: ['drag-canvas', 'zoom-canvas', 'drag-node'] },
     defaultNode: {
-      type: 'circle',
-      size: 30,
+      type: 'circle', size: 30,
       style: { fill: '#1e293b', stroke: '#4f46e5', lineWidth: 2 },
       labelCfg: { style: { fill: '#fff', fontSize: 12 } }
     },
@@ -402,22 +521,11 @@ function initGraph() {
       type: 'cubic-horizontal',
       style: { stroke: '#64748b', lineWidth: 1.5, opacity: 0.7 }
     },
-    layout: {
-      type: 'force',
-      preventOverlap: true,
-      nodeSize: 30,
-      linkDistance: 120
-    }
+    layout: { type: 'force', preventOverlap: true, nodeSize: 30, linkDistance: 120 }
   });
 
-  const categoryColor = {
-    基础: '#4f46e5', 训练: '#16a34a', 应用: '#f59e0b',
-    表示: '#0ea5e9', 生成: '#ef4444', 部署: '#8b5cf6'
-  };
-  data.nodes.forEach(node => {
-    node.style = { fill: categoryColor[node.category] || '#1e293b' };
-  });
-
+  const color = { 基础: '#4f46e5', 训练: '#16a34a', 应用: '#f59e0b', 表示: '#0ea5e9', 生成: '#ef4444', 部署: '#8b5cf6' };
+  data.nodes.forEach(n => { n.style = { fill: color[n.category] || '#1e293b' }; });
   graph.data(data);
   graph.render();
 }
