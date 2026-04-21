@@ -6,27 +6,20 @@
 <title>AI大模型术语词典 · 知识图谱版</title>
 <script src="https://cdn.jsdelivr.net/npm/@antv/g6@4.8.24/dist/g6.min.js"></script>
 <style>
-/* ========== 全局样式（最终美化版） ========== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Segoe UI", Roboto, "Microsoft YaHei", sans-serif;
 }
-
-/* --- 深色图谱模式样式 --- */
 body.graph-mode {
   background: #0f172a;
   color: #f1f5f9;
 }
-
-/* --- 浅色卡片模式样式 --- */
 body.card-mode {
   background: #f8fafc;
   color: #1e293b;
 }
-
-/* 导航栏 */
 .navbar {
   position: fixed;
   top: 0;
@@ -41,23 +34,19 @@ body.card-mode {
   z-index: 999;
   box-shadow: 0 2px 12px rgba(0,0,0,0.3);
 }
-
 body.card-mode .navbar {
   background: #1e293b;
 }
-
 .navbar .title {
   font-size: 18px;
   font-weight: 600;
 }
-
 .navbar a {
   color: #e2e8f0;
   margin: 0 12px;
   text-decoration: none;
   font-size: 15px;
 }
-
 .navbar button {
   background: #4f46e5;
   color: white;
@@ -67,24 +56,37 @@ body.card-mode .navbar {
   font-weight: 500;
   cursor: pointer;
 }
-
 .navbar button:hover {
   background: #4338ca;
 }
-
-/* 主容器 */
+.search-box {
+  max-width: 600px;
+  margin: 90px auto 20px;
+  padding: 0 20px;
+}
+.search-box input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  font-size: 16px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+body.graph-mode .search-box input {
+  background: #1e293b;
+  color: #fff;
+  border-color: #334155;
+}
 .container {
   max-width: 1300px;
-  margin: 80px auto 40px;
+  margin: 0 auto 40px;
   padding: 0 20px;
   transition: all 0.3s;
 }
-
-/* --- 分类卡片样式 --- */
 .section {
   margin-bottom: 50px;
 }
-
 .section h2 {
   font-size: 22px;
   margin-bottom: 20px;
@@ -92,17 +94,14 @@ body.card-mode .navbar {
   border-left: 6px solid #4f46e5;
   padding-left: 12px;
 }
-
 body.graph-mode .section h2 {
   color: #f1f5f9;
 }
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 16px;
 }
-
 .card {
   background: #fff;
   border-radius: 12px;
@@ -112,49 +111,39 @@ body.graph-mode .section h2 {
   color: #1e293b;
   transition: all 0.2s;
 }
-
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
-
 body.graph-mode .card {
   background: #1e293b;
   color: #f1f5f9;
 }
-
 .label {
   font-size: 13px;
   color: #64748b;
   margin-bottom: 4px;
 }
-
 body.graph-mode .label {
   color: #94a3b8;
 }
-
 .name {
   font-size: 16px;
   font-weight: 600;
   color: #0f172a;
 }
-
 body.graph-mode .name {
   color: #fff;
 }
-
-/* --- 知识图谱容器 --- */
 #graph-container {
   width: 100%;
   height: calc(100vh - 80px);
-  display: none; /* 默认隐藏，切换模式后显示 */
+  display: none;
 }
 </style>
 </head>
-
 <body class="card-mode">
 
-<!-- 导航栏 -->
 <div class="navbar">
   <div class="title">AI大模型术语词典</div>
   <div class="nav">
@@ -165,14 +154,17 @@ body.graph-mode .name {
   </div>
 </div>
 
-<!-- 主内容区 -->
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="🔍 搜索AI术语（中文/英文）...">
+</div>
+
 <div class="container" id="cardContainer">
   <div style="text-align:center;margin-bottom:40px">
     <h1 style="font-size:30px;margin-bottom:8px">AI 大模型专业术语库</h1>
     <p style="color:#64748b">100+ 术语中英对照 | 分类整理 | 详情跳转</p>
   </div>
 
-  <!-- ==================== 分类1：模型基础架构 ==================== -->
+  <!-- 模型基础架构 -->
   <div class="section">
     <h2>🧠 模型基础架构</h2>
     <div class="grid">
@@ -191,7 +183,7 @@ body.graph-mode .name {
     </div>
   </div>
 
-  <!-- ==================== 分类2：训练与微调 ==================== -->
+  <!-- 训练与微调 -->
   <div class="section">
     <h2>⚙️ 训练、微调与对齐</h2>
     <div class="grid">
@@ -209,7 +201,7 @@ body.graph-mode .name {
     </div>
   </div>
 
-  <!-- ==================== 分类3：提示与上下文 ==================== -->
+  <!-- 提示与上下文 -->
   <div class="section">
     <h2>💬 提示词与上下文</h2>
     <div class="grid">
@@ -227,7 +219,7 @@ body.graph-mode .name {
     </div>
   </div>
 
-  <!-- ==================== 分类4：文本与Token ==================== -->
+  <!-- 文本与Token -->
   <div class="section">
     <h2>🔤 文本、分词与表示</h2>
     <div class="grid">
@@ -243,7 +235,7 @@ body.graph-mode .name {
     </div>
   </div>
 
-  <!-- ==================== 分类5：多模态 ==================== -->
+  <!-- 多模态 -->
   <div class="section">
     <h2>🖼️ 多模态与生成</h2>
     <div class="grid">
@@ -258,7 +250,7 @@ body.graph-mode .name {
     </div>
   </div>
 
-  <!-- ==================== 分类6：训练参数 ==================== -->
+  <!-- 训练参数 -->
   <div class="section">
     <h2>📦 训练参数与优化</h2>
     <div class="grid">
@@ -269,4 +261,166 @@ body.graph-mode .name {
       <a href="terms/learning-rate.html" class="card"><div class="label">Learning Rate</div><div class="name">学习率</div></a>
       <a href="terms/optimizer.html" class="card"><div class="label">Optimizer</div><div class="name">优化器</div></a>
       <a href="terms/gradient.html" class="card"><div class="label">Gradient</div><div class="name">梯度</div></a>
-      <a href="terms/backpropagation.html" class="card"><div class="label">Backpropagation</div><div class="name
+      <a href="terms/backpropagation.html" class="card"><div class="label">Backpropagation</div><div class="name">反向传播</div></a>
+      <a href="terms/regularization.html" class="card"><div class="label">Regularization</div><div class="name">正则化</div></a>
+      <a href="terms/dropout.html" class="card"><div class="label">Dropout</div><div class="name">随机失活</div></a>
+    </div>
+  </div>
+
+  <!-- 部署与推理 -->
+  <div class="section">
+    <h2>🚀 部署、推理与量化</h2>
+    <div class="grid">
+      <a href="terms/inference.html" class="card"><div class="label">Inference</div><div class="name">推理</div></a>
+      <a href="terms/quantization.html" class="card"><div class="label">Quantization</div><div class="name">量化</div></a>
+      <a href="terms/int4.html" class="card"><div class="label">INT4</div><div class="name">4位量化</div></a>
+      <a href="terms/int8.html" class="card"><div class="label">INT8</div><div class="name">8位量化</div></a>
+      <a href="terms/fp16.html" class="card"><div class="label">FP16</div><div class="name">半精度浮点</div></a>
+      <a href="terms/bf16.html" class="card"><div class="label">BF16</div><div class="name">脑浮点</div></a>
+      <a href="terms/api.html" class="card"><div class="label">API</div><div class="name">应用程序接口</div></a>
+      <a href="terms/openai-api.html" class="card"><div class="label">OpenAI API</div><div class="name">OpenAI接口</div></a>
+      <a href="terms/llama.html" class="card"><div class="label">LLaMA</div><div class="name">Meta大模型</div></a>
+      <a href="terms/chatglm.html" class="card"><div class="label">ChatGLM</div><div class="name">清华大模型</div></a>
+    </div>
+  </div>
+
+  <!-- 评估与安全 -->
+  <div class="section">
+    <h2>🔬 评估、安全与伦理</h2>
+    <div class="grid">
+      <a href="terms/benchmark.html" class="card"><div class="label">Benchmark</div><div class="name">基准测试</div></a>
+      <a href="terms/accuracy.html" class="card"><div class="label">Accuracy</div><div class="name">准确率</div></a>
+      <a href="terms/perplexity.html" class="card"><div class="label">Perplexity</div><div class="name">困惑度</div></a>
+      <a href="terms/bias.html" class="card"><div class="label">Bias</div><div class="name">偏见</div></a>
+      <a href="terms/jailbreak.html" class="card"><div class="label">Jailbreak</div><div class="name">越狱攻击</div></a>
+      <a href="terms/red-teaming.html" class="card"><div class="label">Red Teaming</div><div class="name">红队测试</div></a>
+      <a href="terms/ai-safety.html" class="card"><div class="label">AI Safety</div><div class="name">AI安全</div></a>
+      <a href="terms/ai-ethics.html" class="card"><div class="label">AI Ethics</div><div class="name">AI伦理</div></a>
+    </div>
+  </div>
+
+  <!-- 工具与框架 -->
+  <div class="section">
+    <h2>🛠️ 工具、框架与生态</h2>
+    <div class="grid">
+      <a href="terms/pytorch.html" class="card"><div class="label">PyTorch</div><div class="name">深度学习框架</div></a>
+      <a href="terms/tensorflow.html" class="card"><div class="label">TensorFlow</div><div class="name">谷歌框架</div></a>
+      <a href="terms/huggingface.html" class="card"><div class="label">Hugging Face</div><div class="name">模型社区</div></a>
+      <a href="terms/transformers.html" class="card"><div class="label">Transformers</div><div class="name">模型库</div></a>
+      <a href="terms/langchain.html" class="card"><div class="label">LangChain</div><div class="name">大模型应用框架</div></a>
+      <a href="terms/llamaindex.html" class="card"><div class="label">LlamaIndex</div><div class="name">检索框架</div></a>
+      <a href="terms/gradio.html" class="card"><div class="label">Gradio</div><div class="name">可视化界面</div></a>
+      <a href="terms/streamlit.html" class="card"><div class="label">Streamlit</div><div class="name">应用构建</div></a>
+    </div>
+  </div>
+</div>
+
+<div id="graph-container"></div>
+
+<script>
+// 搜索功能
+const searchInput = document.getElementById('searchInput');
+const cards = document.querySelectorAll('.card');
+searchInput.addEventListener('input', () => {
+  const keyword = searchInput.value.toLowerCase();
+  cards.forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = text.includes(keyword) ? 'block' : 'none';
+  });
+});
+
+// 模式切换
+const modeToggle = document.getElementById('modeToggle');
+const cardContainer = document.getElementById('cardContainer');
+const graphContainer = document.getElementById('graph-container');
+let isGraphMode = false;
+
+modeToggle.addEventListener('click', () => {
+  isGraphMode = !isGraphMode;
+  if (isGraphMode) {
+    document.body.className = 'graph-mode';
+    cardContainer.style.display = 'none';
+    graphContainer.style.display = 'block';
+    modeToggle.textContent = '切换卡片视图';
+    initGraph();
+  } else {
+    document.body.className = 'card-mode';
+    cardContainer.style.display = 'block';
+    graphContainer.style.display = 'none';
+    modeToggle.textContent = '切换深色图谱';
+  }
+});
+
+// 知识图谱初始化
+function initGraph() {
+  const data = {
+    nodes: [
+      { id: 'llm', label: '大语言模型\nLLM', category: '基础', size: 40 },
+      { id: 'transformer', label: 'Transformer', category: '基础', size: 35 },
+      { id: 'attention', label: '注意力机制', category: '基础', size: 30 },
+      { id: 'finetune', label: '微调', category: '训练', size: 32 },
+      { id: 'rlhf', label: 'RLHF', category: '训练', size: 30 },
+      { id: 'prompt', label: '提示词', category: '应用', size: 32 },
+      { id: 'rag', label: 'RAG', category: '应用', size: 30 },
+      { id: 'embedding', label: '词嵌入', category: '表示', size: 30 },
+      { id: 'agent', label: 'AI智能体', category: '应用', size: 32 },
+      { id: 'diffusion', label: '扩散模型', category: '生成', size: 32 },
+      { id: 'quant', label: '量化', category: '部署', size: 30 },
+      { id: 'multimodal', label: '多模态', category: '基础', size: 32 },
+    ],
+    edges: [
+      { source: 'llm', target: 'transformer' },
+      { source: 'transformer', target: 'attention' },
+      { source: 'llm', target: 'finetune' },
+      { source: 'finetune', target: 'rlhf' },
+      { source: 'llm', target: 'prompt' },
+      { source: 'llm', target: 'rag' },
+      { source: 'rag', target: 'embedding' },
+      { source: 'llm', target: 'agent' },
+      { source: 'multimodal', target: 'diffusion' },
+      { source: 'llm', target: 'quant' },
+      { source: 'llm', target: 'multimodal' },
+    ]
+  };
+
+  const container = document.getElementById('graph-container');
+  const width = container.scrollWidth;
+  const height = container.scrollHeight;
+
+  const graph = new G6.Graph({
+    container: container,
+    width: width,
+    height: height,
+    modes: { default: ['drag-canvas', 'zoom-canvas', 'drag-node'] },
+    defaultNode: {
+      type: 'circle',
+      size: 30,
+      style: { fill: '#1e293b', stroke: '#4f46e5', lineWidth: 2 },
+      labelCfg: { style: { fill: '#fff', fontSize: 12 } }
+    },
+    defaultEdge: {
+      type: 'cubic-horizontal',
+      style: { stroke: '#64748b', lineWidth: 1.5, opacity: 0.7 }
+    },
+    layout: {
+      type: 'force',
+      preventOverlap: true,
+      nodeSize: 30,
+      linkDistance: 120
+    }
+  });
+
+  const categoryColor = {
+    基础: '#4f46e5', 训练: '#16a34a', 应用: '#f59e0b',
+    表示: '#0ea5e9', 生成: '#ef4444', 部署: '#8b5cf6'
+  };
+  data.nodes.forEach(node => {
+    node.style = { fill: categoryColor[node.category] || '#1e293b' };
+  });
+
+  graph.data(data);
+  graph.render();
+}
+</script>
+</body>
+</html>
