@@ -1,0 +1,108 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+/* 导航栏 */
+.navbar {
+  background: #1f2937;
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.navbar a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+.navbar button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 容器 */
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+h1 {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* 卡片模式 */
+body.card-mode .term-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+body.card-mode .term-item {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: #222;
+}
+
+/* 图谱深色模式 */
+body.graph-mode {
+  background: #111;
+  color: #eee;
+}
+body.graph-mode .term-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  position: relative;
+}
+body.graph-mode .term-item {
+  background: #222;
+  color: #eee;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #444;
+}
+
+/* 详情页通用 */
+.detail-page {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.desc {
+  margin: 20px 0;
+  line-height: 1.7;
+}
+.links a {
+  display: inline-block;
+  margin: 6px 10px 6px 0;
+  padding: 8px 14px;
+  background: #2563eb;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.download-btn {
+  background: #16a34a !important;
+}
+.fav-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 10px 0;
+}
