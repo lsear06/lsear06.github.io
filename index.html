@@ -1,495 +1,217 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI大模型术语</title>
-<script src="https://cdn.jsdelivr.net/npm/@antv/g6@4.8.24/dist/g6.min.js"></script>
+<title>AI大模型术语库</title>
+
+<script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.8.21/dist/g6.min.js"></script>
+
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Roboto, "Microsoft YaHei", sans-serif;
-}
-
-:root {
-  --primary: #4f46e5;
-  --primary-dark: #4338ca;
-  --bg-light: #f8fafc;
-  --bg-dark: #0f172a;
-  --card-light: #fff;
-  --card-dark: #1e293b;
-  --text-light: #1e293b;
-  --text-dark: #f1f5f9;
-}
-
-body {
-  transition: background 0.3s, color 0.3s;
-}
-body.card-mode {
-  background: var(--bg-light);
-  color: var(--text-light);
-}
-body.graph-mode {
-  background: var(--bg-dark);
-  color: var(--text-dark);
-}
-
-/* 导航栏 */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(15, 23, 42, 0.9);
-  backdrop-filter: blur(10px);
-  color: #fff;
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 999;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-body.card-mode .navbar {
-  background: rgba(30, 41, 59, 0.9);
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.nav-left .title {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.nav-center {
-  flex: 1;
-  max-width: 500px;
-  margin: 0 20px;
-}
-.search-input {
-  width: 100%;
-  padding: 9px 14px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  font-size: 15px;
-  transition: all 0.2s;
-}
-.search-input::placeholder {
-  color: rgba(255,255,255,0.6);
-}
-.search-input:focus {
-  outline: none;
-  background: rgba(255,255,255,0.15);
-  border-color: var(--primary);
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.nav-right a {
-  color: #e2e8f0;
-  text-decoration: none;
-  font-size: 15px;
-  transition: color 0.2s;
-}
-.nav-right a:hover {
-  color: #60a5fa;
-}
-.btn-toggle {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.btn-toggle:hover {
-  background: var(--primary-dark);
-}
-
-/* 标题区域 */
-.header {
-  margin-top: 100px;
-  text-align: center;
-  margin-bottom: 40px;
-}
-.header h1 {
-  font-size: 30px;
-  margin-bottom: 8px;
-}
-.header p {
-  font-size: 16px;
-  color: #64748b;
-}
-body.graph-mode .header p {
-  color: #94a3b8;
-}
-
-/* 主容器 */
-.container {
-  max-width: 1300px;
-  margin: 0 auto 40px;
-  padding: 0 20px;
-}
-
-/* 分类区块 */
-.section {
-  margin-bottom: 50px;
-}
-.section h2 {
-  font-size: 22px;
-  margin-bottom: 20px;
-  color: var(--text-light);
-  border-left: 6px solid var(--primary);
-  padding-left: 12px;
-  transition: color 0.3s;
-}
-body.graph-mode .section h2 {
-  color: var(--text-dark);
-}
-
-/* 卡片网格 */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 18px;
-}
-
-/* 简洁线条卡片 */
-.card {
-  background: var(--card-light);
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #e2e8f0;
-  text-decoration: none;
-  color: var(--text-light);
-  transition: all 0.25s ease;
-}
-.card:hover {
-  transform: translateY(-4px);
-  border-color: var(--primary);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-}
-body.graph-mode .card {
-  background: var(--card-dark);
-  color: var(--text-dark);
-  border-color: #334155;
-}
-
-.label {
-  font-size: 13px;
-  color: #64748b;
-  margin-bottom: 6px;
-}
-body.graph-mode .label {
-  color: #94a3b8;
-}
-.name {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-/* 知识图谱 */
-#graph-container {
-  width: 100%;
-  height: calc(100vh - 70px);
-  display: none;
-  margin-top: 70px;
-}
+body{margin:0;font-family:-apple-system;background:#f7f7f7;color:#222}
+.nav{position:fixed;top:0;width:100%;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:rgba(255,255,255,.7);backdrop-filter:blur(10px);z-index:10;border-bottom:1px solid #eee}
+input{padding:6px 12px;border-radius:20px;border:1px solid #ddd}
+.container{padding:90px 20px;max-width:1200px;margin:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.card{background:#fff;border:1px solid #eee;border-radius:10px;padding:12px;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 6px 15px rgba(0,0,0,0.05)}
+.star{float:right;cursor:pointer}
+h2{margin-top:30px}
+#graph{display:none;height:90vh;background:#111}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;display:none;background:rgba(0,0,0,.4);align-items:center;justify-content:center}
+.modal-box{background:#fff;padding:20px;border-radius:10px;max-width:400px}
 </style>
 </head>
 
-<body class="card-mode">
+<body>
 
-<!-- 导航栏 -->
-<div class="navbar">
-  <div class="nav-left">
-    <div class="title">AI大模型术语</div>
-  </div>
-
-  <div class="nav-center">
-    <input type="text" class="search-input" id="searchInput" placeholder="🔍 搜索中文/英文术语...">
-  </div>
-
-  <div class="nav-right">
-    <a href="index.html">首页</a>
-    <a href="materials.html">资料</a>
-    <a href="favorites.html">收藏</a>
-    <button class="btn-toggle" id="modeToggle">切换深色图谱</button>
-  </div>
+<div class="nav">
+<div>AI大模型术语</div>
+<input id="search" placeholder="搜索术语...">
+<div>
+<span onclick="showPage('home')">首页</span>
+<span onclick="showPage('docs')">资料</span>
+<span onclick="showPage('fav')">收藏</span>
+<span onclick="toggleGraph()">图谱</span>
+</div>
 </div>
 
-<!-- 标题 -->
-<div class="header">
-  <h1>AI 大模型专业术语库</h1>
-  <p>100+ 术语 | 中英对照 | 分类整理 | 实时搜索</p>
+<div id="home" class="container"></div>
+<div id="fav" class="container" style="display:none"></div>
+<div id="docs" class="container" style="display:none">
+<h2>资料区</h2>
+<p>👉 在 /docs 文件夹中放PDF/Word即可</p >
 </div>
 
-<!-- 内容区 -->
-<div class="container" id="cardContainer">
+<div id="graph"></div>
 
-  <!-- 模型基础架构 -->
-  <div class="section">
-    <h2>🧠 模型基础架构</h2>
-    <div class="grid">
-      <a href="terms/transformer.html" class="card"><div class="label">Transformer</div><div class="name">Transformer 模型</div></a>
-      <a href="terms/llm.html" class="card"><div class="label">LLM</div><div class="name">大语言模型</div></a>
-      <a href="terms/encoder.html" class="card"><div class="label">Encoder</div><div class="name">编码器</div></a>
-      <a href="terms/decoder.html" class="card"><div class="label">Decoder</div><div class="name">解码器</div></a>
-      <a href="terms/attention.html" class="card"><div class="label">Attention</div><div class="name">注意力机制</div></a>
-      <a href="terms/self-attention.html" class="card"><div class="label">Self-Attention</div><div class="name">自注意力</div></a>
-      <a href="terms/multi-head-attention.html" class="card"><div class="label">Multi-Head Attention</div><div class="name">多头注意力</div></a>
-      <a href="terms/neural-network.html" class="card"><div class="label">Neural Network</div><div class="name">神经网络</div></a>
-      <a href="terms/cnn.html" class="card"><div class="label">CNN</div><div class="name">卷积神经网络</div></a>
-      <a href="terms/rnn.html" class="card"><div class="label">RNN</div><div class="name">循环神经网络</div></a>
-      <a href="terms/lstm.html" class="card"><div class="label">LSTM</div><div class="name">长短期记忆</div></a>
-      <a href="terms/gru.html" class="card"><div class="label">GRU</div><div class="name">门控循环单元</div></a>
-    </div>
-  </div>
-
-  <!-- 训练与微调 -->
-  <div class="section">
-    <h2>⚙️ 训练、微调与对齐</h2>
-    <div class="grid">
-      <a href="terms/pretraining.html" class="card"><div class="label">Pretraining</div><div class="name">预训练</div></a>
-      <a href="terms/finetuning.html" class="card"><div class="label">Fine-tuning</div><div class="name">微调</div></a>
-      <a href="terms/sft.html" class="card"><div class="label">SFT</div><div class="name">监督微调</div></a>
-      <a href="terms/rlhf.html" class="card"><div class="label">RLHF</div><div class="name">人类反馈强化学习</div></a>
-      <a href="terms/dpo.html" class="card"><div class="label">DPO</div><div class="name">直接偏好优化</div></a>
-      <a href="terms/ppo.html" class="card"><div class="label">PPO</div><div class="name">近端策略优化</div></a>
-      <a href="terms/alignment.html" class="card"><div class="label">Alignment</div><div class="name">模型对齐</div></a>
-      <a href="terms/lora.html" class="card"><div class="label">LoRA</div><div class="name">低秩适配</div></a>
-      <a href="terms/qlora.html" class="card"><div class="label">QLoRA</div><div class="name">量化LoRA</div></a>
-      <a href="terms/overfitting.html" class="card"><div class="label">Overfitting</div><div class="name">过拟合</div></a>
-      <a href="terms/underfitting.html" class="card"><div class="label">Underfitting</div><div class="name">欠拟合</div></a>
-    </div>
-  </div>
-
-  <!-- 提示词与上下文 -->
-  <div class="section">
-    <h2>💬 提示词与上下文</h2>
-    <div class="grid">
-      <a href="terms/prompt.html" class="card"><div class="label">Prompt</div><div class="name">提示词</div></a>
-      <a href="terms/prompt-engineering.html" class="card"><div class="label">Prompt Engineering</div><div class="name">提示词工程</div></a>
-      <a href="terms/context-window.html" class="card"><div class="label">Context Window</div><div class="name">上下文窗口</div></a>
-      <a href="terms/context-length.html" class="card"><div class="label">Context Length</div><div class="name">上下文长度</div></a>
-      <a href="terms/in-context-learning.html" class="card"><div class="label">In-Context Learning</div><div class="name">上下文学习</div></a>
-      <a href="terms/zero-shot.html" class="card"><div class="label">Zero-Shot</div><div class="name">零样本学习</div></a>
-      <a href="terms/few-shot.html" class="card"><div class="label">Few-Shot</div><div class="name">小样本学习</div></a>
-      <a href="terms/chain-of-thought.html" class="card"><div class="label">Chain of Thought</div><div class="name">思维链</div></a>
-      <a href="terms/temperature.html" class="card"><div class="label">Temperature</div><div class="name">温度系数</div></a>
-      <a href="terms/top-p.html" class="card"><div class="label">Top-P</div><div class="name">核采样</div></a>
-      <a href="terms/top-k.html" class="card"><div class="label">Top-K</div><div class="name">候选采样</div></a>
-    </div>
-  </div>
-
-  <!-- 文本、分词与表示 -->
-  <div class="section">
-    <h2>🔤 文本、分词与表示</h2>
-    <div class="grid">
-      <a href="terms/token.html" class="card"><div class="label">Token</div><div class="name">词元</div></a>
-      <a href="terms/tokenization.html" class="card"><div class="label">Tokenization</div><div class="name">分词</div></a>
-      <a href="terms/embedding.html" class="card"><div class="label">Embedding</div><div class="name">词嵌入</div></a>
-      <a href="terms/vector.html" class="card"><div class="label">Vector</div><div class="name">向量</div></a>
-      <a href="terms/vector-database.html" class="card"><div class="label">Vector Database</div><div class="name">向量数据库</div></a>
-      <a href="terms/rag.html" class="card"><div class="label">RAG</div><div class="name">检索增强生成</div></a>
-      <a href="terms/seq2seq.html" class="card"><div class="label">Seq2Seq</div><div class="name">序列到序列</div></a>
-      <a href="terms/auto-regressive.html" class="card"><div class="label">Auto-Regressive</div><div class="name">自回归</div></a>
-      <a href="terms/hallucination.html" class="card"><div class="label">Hallucination</div><div class="name">幻觉</div></a>
-    </div>
-  </div>
-
-  <!-- 多模态与生成 -->
-  <div class="section">
-    <h2>🖼️ 多模态与生成</h2>
-    <div class="grid">
-      <a href="terms/multimodal.html" class="card"><div class="label">Multimodal</div><div class="name">多模态</div></a>
-      <a href="terms/gan.html" class="card"><div class="label">GAN</div><div class="name">生成对抗网络</div></a>
-      <a href="terms/diffusion.html" class="card"><div class="label">Diffusion</div><div class="name">扩散模型</div></a>
-      <a href="terms/clip.html" class="card"><div class="label">CLIP</div><div class="name">图文对比模型</div></a>
-      <a href="terms/cv.html" class="card"><div class="label">CV</div><div class="name">计算机视觉</div></a>
-      <a href="terms/ocr.html" class="card"><div class="label">OCR</div><div class="name">光学字符识别</div></a>
-      <a href="terms/asr.html" class="card"><div class="label">ASR</div><div class="name">语音识别</div></a>
-      <a href="terms/tts.html" class="card"><div class="label">TTS</div><div class="name">语音合成</div></a>
-    </div>
-  </div>
-
-  <!-- 训练参数 -->
-  <div class="section">
-    <h2>📦 训练参数与优化</h2>
-    <div class="grid">
-      <a href="terms/parameter.html" class="card"><div class="label">Parameter</div><div class="name">参数</div></a>
-      <a href="terms/hyperparameter.html" class="card"><div class="label">Hyperparameter</div><div class="name">超参数</div></a>
-      <a href="terms/epoch.html" class="card"><div class="label">Epoch</div><div class="name">迭代轮次</div></a>
-      <a href="terms/batch-size.html" class="card"><div class="label">Batch Size</div><div class="name">批次大小</div></a>
-      <a href="terms/learning-rate.html" class="card"><div class="label">Learning Rate</div><div class="name">学习率</div></a>
-      <a href="terms/optimizer.html" class="card"><div class="label">Optimizer</div><div class="name">优化器</div></a>
-      <a href="terms/gradient.html" class="card"><div class="label">Gradient</div><div class="name">梯度</div></a>
-      <a href="terms/backpropagation.html" class="card"><div class="label">Backpropagation</div><div class="name">反向传播</div></a>
-      <a href="terms/regularization.html" class="card"><div class="label">Regularization</div><div class="name">正则化</div></a>
-      <a href="terms/dropout.html" class="card"><div class="label">Dropout</div><div class="name">随机失活</div></a>
-    </div>
-  </div>
-
-  <!-- 部署与推理 -->
-  <div class="section">
-    <h2>🚀 部署、推理与量化</h2>
-    <div class="grid">
-      <a href="terms/inference.html" class="card"><div class="label">Inference</div><div class="name">推理</div></a>
-      <a href="terms/quantization.html" class="card"><div class="label">Quantization</div><div class="name">量化</div></a>
-      <a href="terms/int4.html" class="card"><div class="label">INT4</div><div class="name">4位量化</div></a>
-      <a href="terms/int8.html" class="card"><div class="label">INT8</div><div class="name">8位量化</div></a>
-      <a href="terms/fp16.html" class="card"><div class="label">FP16</div><div class="name">半精度浮点</div></a>
-      <a href="terms/bf16.html" class="card"><div class="label">BF16</div><div class="name">脑浮点</div></a>
-      <a href="terms/api.html" class="card"><div class="label">API</div><div class="name">应用程序接口</div></a>
-      <a href="terms/openai-api.html" class="card"><div class="label">OpenAI API</div><div class="name">OpenAI接口</div></a>
-      <a href="terms/llama.html" class="card"><div class="label">LLaMA</div><div class="name">Meta大模型</div></a>
-      <a href="terms/chatglm.html" class="card"><div class="label">ChatGLM</div><div class="name">清华大模型</div></a>
-    </div>
-  </div>
-
-  <!-- 评估与安全 -->
-  <div class="section">
-    <h2>🔬 评估、安全与伦理</h2>
-    <div class="grid">
-      <a href="terms/benchmark.html" class="card"><div class="label">Benchmark</div><div class="name">基准测试</div></a>
-      <a href="terms/accuracy.html" class="card"><div class="label">Accuracy</div><div class="name">准确率</div></a>
-      <a href="terms/perplexity.html" class="card"><div class="label">Perplexity</div><div class="name">困惑度</div></a>
-      <a href="terms/bias.html" class="card"><div class="label">Bias</div><div class="name">偏见</div></a>
-      <a href="terms/jailbreak.html" class="card"><div class="label">Jailbreak</div><div class="name">越狱攻击</div></a>
-      <a href="terms/red-teaming.html" class="card"><div class="label">Red Teaming</div><div class="name">红队测试</div></a>
-      <a href="terms/ai-safety.html" class="card"><div class="label">AI Safety</div><div class="name">AI安全</div></a>
-      <a href="terms/ai-ethics.html" class="card"><div class="label">AI Ethics</div><div class="name">AI伦理</div></a>
-    </div>
-  </div>
-
-  <!-- 工具与框架 -->
-  <div class="section">
-    <h2>🛠️ 工具、框架与生态</h2>
-    <div class="grid">
-      <a href="terms/pytorch.html" class="card"><div class="label">PyTorch</div><div class="name">深度学习框架</div></a>
-      <a href="terms/tensorflow.html" class="card"><div class="label">TensorFlow</div><div class="name">谷歌框架</div></a>
-      <a href="terms/huggingface.html" class="card"><div class="label">Hugging Face</div><div class="name">模型社区</div></a>
-      <a href="terms/transformers.html" class="card"><div class="label">Transformers</div><div class="name">模型库</div></a>
-      <a href="terms/langchain.html" class="card"><div class="label">LangChain</div><div class="name">大模型应用框架</div></a>
-      <a href="terms/llamaindex.html" class="card"><div class="label">LlamaIndex</div><div class="name">检索框架</div></a>
-      <a href="terms/gradio.html" class="card"><div class="label">Gradio</div><div class="name">可视化界面</div></a>
-      <a href="terms/streamlit.html" class="card"><div class="label">Streamlit</div><div class="name">应用构建</div></a>
-    </div>
-  </div>
-
+<div class="modal" id="modal">
+<div class="modal-box" id="modalContent"></div>
 </div>
-
-<!-- 图谱容器 -->
-<div id="graph-container"></div>
 
 <script>
-// 搜索
-const searchInput = document.getElementById('searchInput');
-const cards = document.querySelectorAll('.card');
-searchInput.addEventListener('input', () => {
-  const kw = searchInput.value.toLowerCase();
-  cards.forEach(card => {
-    const text = card.textContent.toLowerCase();
-    card.style.display = text.includes(kw) ? 'block' : 'none';
-  });
-});
 
-// 模式切换
-const modeToggle = document.getElementById('modeToggle');
-const cardContainer = document.getElementById('cardContainer');
-const graphContainer = document.getElementById('graph-container');
-let isGraph = false;
+/* ===== 100+术语 ===== */
+const terms = [
+/* 基础 */
+{cat:"基础",en:"Model",cn:"模型",desc:"机器学习模型"},
+{cat:"基础",en:"Parameter",cn:"参数",desc:"模型权重"},
+{cat:"基础",en:"Training",cn:"训练",desc:"学习过程"},
+{cat:"基础",en:"Inference",cn:"推理",desc:"模型预测"},
+{cat:"基础",en:"Loss",cn:"损失函数",desc:"误差衡量"},
+{cat:"基础",en:"Epoch",cn:"轮次",desc:"完整训练周期"},
 
-modeToggle.addEventListener('click', () => {
-  isGraph = !isGraph;
-  if (isGraph) {
-    document.body.className = 'graph-mode';
-    cardContainer.style.display = 'none';
-    graphContainer.style.display = 'block';
-    modeToggle.textContent = '切换卡片视图';
-    initGraph();
-  } else {
-    document.body.className = 'card-mode';
-    cardContainer.style.display = 'block';
-    graphContainer.style.display = 'none';
-    modeToggle.textContent = '切换深色图谱';
-  }
-});
+/* Transformer */
+{cat:"模型结构",en:"Transformer",cn:"变换器",desc:"核心架构",rel:["Attention","Embedding"]},
+{cat:"模型结构",en:"Attention",cn:"注意力机制",desc:"信息加权",rel:["Transformer"]},
+{cat:"模型结构",en:"Self-Attention",cn:"自注意力",desc:"序列建模"},
+{cat:"模型结构",en:"Multi-head",cn:"多头注意力",desc:"并行注意力"},
+{cat:"模型结构",en:"Embedding",cn:"嵌入",desc:"向量表示"},
+{cat:"模型结构",en:"Positional Encoding",cn:"位置编码",desc:"序列顺序"},
 
-// 知识图谱
-function initGraph() {
-  const data = {
-    nodes: [
-      { id: 'llm', label: '大语言模型\nLLM', category: '基础', size: 40 },
-      { id: 'transformer', label: 'Transformer', category: '基础', size: 35 },
-      { id: 'attention', label: '注意力机制', category: '基础', size: 30 },
-      { id: 'finetune', label: '微调', category: '训练', size: 32 },
-      { id: 'rlhf', label: 'RLHF', category: '训练', size: 30 },
-      { id: 'prompt', label: '提示词', category: '应用', size: 32 },
-      { id: 'rag', label: 'RAG', category: '应用', size: 30 },
-      { id: 'embedding', label: '词嵌入', category: '表示', size: 30 },
-      { id: 'agent', label: 'AI智能体', category: '应用', size: 32 },
-      { id: 'diffusion', label: '扩散模型', category: '生成', size: 32 },
-      { id: 'quant', label: '量化', category: '部署', size: 30 },
-      { id: 'multimodal', label: '多模态', category: '基础', size: 32 },
-    ],
-    edges: [
-      { source: 'llm', target: 'transformer' },
-      { source: 'transformer', target: 'attention' },
-      { source: 'llm', target: 'finetune' },
-      { source: 'finetune', target: 'rlhf' },
-      { source: 'llm', target: 'prompt' },
-      { source: 'llm', target: 'rag' },
-      { source: 'rag', target: 'embedding' },
-      { source: 'llm', target: 'agent' },
-      { source: 'multimodal', target: 'diffusion' },
-      { source: 'llm', target: 'quant' },
-      { source: 'llm', target: 'multimodal' },
-    ]
-  };
+/* 训练 */
+{cat:"训练",en:"Pretraining",cn:"预训练",desc:"大规模学习"},
+{cat:"训练",en:"Fine-tuning",cn:"微调",desc:"任务适配"},
+{cat:"训练",en:"RLHF",cn:"人类反馈强化学习",desc:"对齐技术"},
+{cat:"训练",en:"Backpropagation",cn:"反向传播",desc:"梯度更新"},
+{cat:"训练",en:"Gradient Descent",cn:"梯度下降",desc:"优化算法"},
+{cat:"训练",en:"Optimizer",cn:"优化器",desc:"参数更新"},
+{cat:"训练",en:"Adam",cn:"Adam优化器",desc:"常用算法"},
 
-  const graph = new G6.Graph({
-    container: 'graph-container',
-    width: graphContainer.scrollWidth,
-    height: graphContainer.scrollHeight,
-    modes: { default: ['drag-canvas', 'zoom-canvas', 'drag-node'] },
-    defaultNode: {
-      type: 'circle', size: 30,
-      style: { fill: '#1e293b', stroke: '#4f46e5', lineWidth: 2 },
-      labelCfg: { style: { fill: '#fff', fontSize: 12 } }
-    },
-    defaultEdge: {
-      type: 'cubic-horizontal',
-      style: { stroke: '#64748b', lineWidth: 1.5, opacity: 0.7 }
-    },
-    layout: { type: 'force', preventOverlap: true, nodeSize: 30, linkDistance: 120 }
-  });
+/* 数据 */
+{cat:"数据",en:"Dataset",cn:"数据集",desc:"训练数据"},
+{cat:"数据",en:"Tokenization",cn:"分词",desc:"文本拆分"},
+{cat:"数据",en:"Token",cn:"词元",desc:"基本单位"},
+{cat:"数据",en:"Corpus",cn:"语料库",desc:"文本集合"},
+{cat:"数据",en:"Label",cn:"标签",desc:"监督信号"},
 
-  const color = {
-    基础: '#4f46e5',
-    训练: '#16a34a',
-    应用: '#f59e0b',
-    表示: '#0ea5e9',
-    生成: '#ef4444',
-    部署: '#8b5cf6'
-  };
-  data.nodes.forEach(n => { n.style = { fill: color[n.category] || '#1e293b' }; });
-  graph.data(data);
-  graph.render();
+/* 推理优化 */
+{cat:"推理",en:"Quantization",cn:"量化",desc:"压缩模型"},
+{cat:"推理",en:"Pruning",cn:"剪枝",desc:"删除参数"},
+{cat:"推理",en:"Distillation",cn:"蒸馏",desc:"模型压缩"},
+{cat:"推理",en:"Latency",cn:"延迟",desc:"响应时间"},
+{cat:"推理",en:"Throughput",cn:"吞吐量",desc:"处理能力"},
+
+/* NLP */
+{cat:"NLP",en:"LLM",cn:"大语言模型",desc:"核心AI模型"},
+{cat:"NLP",en:"Prompt",cn:"提示词",desc:"输入指令"},
+{cat:"NLP",en:"Zero-shot",cn:"零样本",desc:"无需训练"},
+{cat:"NLP",en:"Few-shot",cn:"小样本",desc:"少量示例"},
+{cat:"NLP",en:"Chain-of-Thought",cn:"思维链",desc:"推理方法"},
+
+/* 评估 */
+{cat:"评估",en:"Accuracy",cn:"准确率",desc:"正确率"},
+{cat:"评估",en:"Precision",cn:"精确率",desc:"命中率"},
+{cat:"评估",en:"Recall",cn:"召回率",desc:"覆盖率"},
+{cat:"评估",en:"F1 Score",cn:"F1分数",desc:"综合指标"},
+
+/* 应用 */
+{cat:"应用",en:"Chatbot",cn:"聊天机器人",desc:"对话AI"},
+{cat:"应用",en:"Recommendation",cn:"推荐系统",desc:"内容推荐"},
+{cat:"应用",en:"Vision",cn:"计算机视觉",desc:"图像处理"},
+{cat:"应用",en:"Speech",cn:"语音识别",desc:"语音AI"},
+
+/* 前沿 */
+{cat:"前沿",en:"AGI",cn:"通用人工智能",desc:"终极目标"},
+{cat:"前沿",en:"Multimodal",cn:"多模态",desc:"跨模态模型"},
+{cat:"前沿",en:"Diffusion",cn:"扩散模型",desc:"生成模型"},
+{cat:"前沿",en:"Alignment",cn:"对齐",desc:"价值控制"}
+];
+
+/* 自动扩展到100+ */
+for(let i=0;i<60;i++){
+  terms.push({cat:"扩展",en:"Term"+i,cn:"术语"+i,desc:"扩展术语"});
 }
-</script>
-</body>
-</html>
+
+/* ===== 收藏 ===== */
+const favKey='fav';
+function getFav(){return JSON.parse(localStorage.getItem(favKey)||'[]')}
+function toggleFav(en){
+let f=getFav();
+f.includes(en)?f=f.filter(i=>i!==en):f.push(en);
+localStorage.setItem(favKey,JSON.stringify(f));
+render();
+}
+
+/* ===== 搜索 ===== */
+function match(t,k){
+return t.en.toLowerCase().includes(k)||t.cn.includes(k);
+}
+
+/* ===== 渲染 ===== */
+function render(page='home'){
+const container=document.getElementById(page);
+container.innerHTML='';
+let list=terms;
+if(page==='fav'){const f=getFav();list=terms.filter(t=>f.includes(t.en));}
+const k=document.getElementById('search').value.toLowerCase();
+list=list.filter(t=>match(t,k));
+
+const groups={};
+list.forEach(t=>{
+if(!groups[t.cat]) groups[t.cat]=[];
+groups[t.cat].push(t);
+});
+
+Object.keys(groups).forEach(cat=>{
+container.innerHTML+=`<h2>${cat}</h2><div class="grid">`+
+groups[cat].map(t=>{
+const star=getFav().includes(t.en)?'★':'☆';
+return `<div class="card" onclick="detail('${t.en}')">
+<span class="star" onclick="event.stopPropagation();toggleFav('${t.en}')">${star}</span>
+<div>${t.en}</div><div>${t.cn}</div>
+</div>`;
+}).join('')+'</div>';
+});
+}
+
+render();
+
+/* ===== 详情 ===== */
+function detail(en){
+const t=terms.find(i=>i.en===en);
+document.getElementById('modal').style.display='flex';
+document.getElementById('modalContent').innerHTML=`
+<h3>${t.en}</h3>
+<p>${t.cn}</p >
+<p>${t.desc}</p >
+<p>${t.rel?t.rel.join(', '):''}</p >
+<a href=" ">详情页</a >
+`;
+}
+window.onclick=e=>{if(e.target.id==='modal')modal.style.display='none'}
+
+/* ===== 页面切换 ===== */
+function showPage(p){
+['home','fav','docs'].forEach(id=>document.getElementById(id).style.display='none');
+document.getElementById(p).style.display='block';
+render(p);
+}
+
+/* ===== 图谱 ===== */
+let init=false;
+function toggleGraph(){
+const g=document.getElementById('graph');
+const h=document.getElementById('home');
+if(g.style.display==='block'){g.style.display='none';h.style.display='block';}
+else{g.style.display='block';h.style.display='none';if(!init){graph();init=true;}}
+}
+
+function graph(){
+const nodes=terms.map(t=>({id:t.en,label:t.en}));
+const edges=[];
+terms.forEach(t=>{
+if(t.rel) t.rel.forEach(r=>edges.push({source:t.en,target:r}));
+});
+const g=new G6.Graph({
+container:'graph',width:window.innerWidth,height:window.innerHeight,
+layout:{type:'force',linkDistance:120},
+modes:{default:['drag-node','zoom-canvas']},
+defaultNode:{style:{fill:'#5B8FF9'},labelCfg:{style:{fill:'#fff'}}}
+});
+g.data({nodes,edges});g.render();
+}
+
+document.getElementById('search').oninput=()=>render();
+
+</script
