@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI大模型术语词典</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,"Microsoft YaHei",sans-serif}
+body{background:#f8fafc;color:#1e293b;line-height:1.6}
+.navbar{position:sticky;top:0;background:#111827;color:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);z-index:999}
+.navbar .title{font-size:18px;font-weight:600}
+.navbar a{color:#e2e8f0;margin:0 10px;text-decoration:none;font-size:15px}
+.navbar button{background:#4f46e5;color:white;border:none;padding:8px 14px;border-radius:8px;font-weight:500;cursor:pointer}
+.navbar button:hover{background:#4338ca}
+.container{max-width:1300px;margin:40px auto;padding:0 20px}
+.section{margin-bottom:50px}
+.section h2{font-size:22px;margin-bottom:20px;color:#0f172a;border-left:6px solid #4f46e5;padding-left:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 4px 12px rgba(0,0,0,0.05);text-decoration:none;color:#1e293b;transition:all .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(0,0,0,0.1)}
+.label{font-size:13px;color:#64748b;margin-bottom:4px}
+.name{font-size:16px;font-weight:600;color:#0f172a}
+
+/* 深色图谱模式 */
+body.dark{background:#0f172a;color:#f1f5f9}
+body.dark .card{background:#1e293b;color:#f1f5f9}
+body.dark .name{color:#fff}
+body.dark .section h2{color:#fff}
+body.dark .label{color:#94a3b8}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <div class="title">AI大模型术语词典</div>
+  <div class="nav">
+    <a href="index.html">首页</a>
+    <a href="materials.html">资料</a>
+    <a href="favorites.html">收藏</a>
+    <button id="toggle">切换深色图谱</button>
+  </div>
+</div>
+
+<div class="container">
+
+<div style="text-align:center;margin-bottom:40px">
+  <h1 style="font-size:30px;margin-bottom:8px">AI 大模型专业术语库</h1>
+  <p style="color:#64748b">100+ 术语中英对照 | 分类整理 | 可跳转详情</p>
+</div>
+
+<!-- ==================== 分类1：基础架构 ==================== -->
+<div class="section">
+<h2>🧠 模型基础架构</h2>
+<div class="grid">
+  <a href="terms/transformer.html" class="card"><div class="label">Transformer</div><div class="name">Transformer 模型</div></a>
+  <a href="terms/llm.html" class="card"><div class="label">LLM</div><div class="name">大语言模型</div></a>
+  <a href="terms/encoder.html" class="card"><div class="label">Encoder</div><div class="name">编码器</div></a>
+  <a href="terms/decoder.html" class="card"><div class="label">Decoder</div><div class="name">解码器</div></a>
+  <a href="terms/attention.html" class="card"><div class="label">Attention</div><div class="name">注意力机制</div></a>
+  <a href="terms/self-attention.html" class="card"><div class="label">Self-Attention</div><div class="name">自注意力</div></a>
+  <a href="terms/multi-head-attention.html" class="card"><div class="label">Multi-Head Attention</div><div class="name">多头注意力</div></a>
+  <a href="terms/neural-network.html" class="card"><div class="label">Neural Network</div><div class="name">神经网络</div></a>
+  <a href="terms/cnn.html" class="card"><div class="label">CNN</div><div class="name">卷积神经网络</div></a>
+  <a href="terms/rnn.html" class="card"><div class="label">RNN</div><div class="name">循环神经网络</div></a>
+  <a href="terms/lstm.html" class="card"><div class="label">LSTM</div><div class="name">长短期记忆</div></a>
+  <a href="terms/gru.html" class="card"><div class="label">GRU</div><div class="name">门控循环单元</div></a>
+</div>
+</div>
+
+<!-- ==================== 分类2：训练与微调 ==================== -->
+<div class="section">
+<h2>⚙️ 训练、微调与对齐</h2>
+<div class="grid">
+  <a href="terms/pretraining.html" class="card"><div class="label">Pretraining</div><div class="name">预训练</div></a>
+  <a href="terms/finetuning.html" class="card"><div class="label">Fine-tuning</div><div class="name">微调</div></a>
+  <a href="terms/sft.html" class="card"><div class="label">SFT</div><div class="name">监督微调</div></a>
+  <a href="terms/rlhf.html" class="card"><div class="label">RLHF</div><div class="name">人类反馈强化学习</div></a>
+  <a href="terms/dpo.html" class="card"><div class="label">DPO</div><div class="name">直接偏好优化</div></a>
+  <a href="terms/ppo.html" class="card"><div class="label">PPO</div><div class="name">近端策略优化</div></a>
+  <a href="terms/alignment.html" class="card"><div class="label">Alignment</div><div class="name">模型对齐</div></a>
+  <a href="terms/lora.html" class="card"><div class="label">LoRA</div><div class="name">低秩适配</div></a>
+  <a href="terms/qlora.html" class="card"><div class="label">QLoRA</div><div class="name">量化LoRA</div></a>
+  <a href="terms/overfitting.html" class="card"><div class="label">Overfitting</div><div class="name">过拟合</div></a>
+  <a href="terms/underfitting.html" class="card"><div class="label">Underfitting</div><div class="name">欠拟合</div></a>
+</div>
+</div>
+
+<!-- ==================== 分类3：提示与上下文 ==================== -->
+<div class="section">
+<h2>💬 提示词与上下文</h2>
+<div class="grid">
+  <a href="terms/prompt.html" class="card"><div class="label">Prompt</div><div class="name">提示词</div></a>
+  <a href="terms/prompt-engineering.html" class="card"><div class="label">Prompt Engineering</div><div class="name">提示词工程</div></a>
+  <a href="terms/context-window.html" class="card"><div class="label">Context Window</div><div class="name">上下文窗口</div></a>
+  <a href="terms/context-length.html" class="card"><div class="label">Context Length</div><div class="name">上下文长度</div></a>
+  <a href="terms/in-context-learning.html" class="card"><div class="label">In-Context Learning</div><div class="name">上下文学习</div></a>
+  <a href="terms/zero-shot.html" class="card"><div class="label">Zero-Shot</div><div class="name">零样本学习</div></a>
+  <a href="terms/few-shot.html" class="card"><div class="label">Few-Shot</div><div class="name">小样本学习</div></a>
+  <a href="terms/chain-of-thought.html" class="card"><div class="label">Chain of Thought</div><div class="name">思维链</div></a>
+  <a href="terms/temperature.html" class="card"><div class="label">Temperature</div><div class="name">温度系数</div></a>
+  <a href="terms/top-p.html" class="card"><div class="label">Top-P</div><div class="name">核采样</div></a>
+  <a href="terms/top-k.html" class="card"><div class="label">Top-K</div><div class="name">候选采样</div></a>
+</div>
+</div>
+
+<!-- ==================== 分类4：文本与Token ==================== -->
+<div class="section">
+<h2>🔤 文本、分词与表示</h2>
+<div class="grid">
+  <a href="terms/token.html" class="card"><div class="label">Token</div><div class="name">词元</div></a>
+  <a href="terms/tokenization.html" class="card"><div class="label">Tokenization</div><div class="name">分词</div></a>
+  <a href="terms/embedding.html" class="card"><div class="label">Embedding</div><div class="name">词嵌入</div></a>
+  <a href="terms/vector.html" class="card"><div class="label">Vector</div><div class="name">向量</div></a>
+  <a href="terms/vector-database.html" class="card"><div class="label">Vector Database</div><div class="name">向量数据库</div></a>
+  <a href="terms/rag.html" class="card"><div class="label">RAG</div><div class="name">检索增强生成</div></a>
+  <a href="terms/seq2seq.html" class="card"><div class="label">Seq2Seq</div><div class="name">序列到序列</div></a>
+  <a href="terms/auto-regressive.html" class="card"><div class="label">Auto-Regressive</div><div class="name">自回归</div></a>
+  <a href="terms/hallucination.html" class="card"><div class="label">Hallucination</div><div class="name">幻觉</div></a>
+</div>
+</div>
+
+<!-- ==================== 分类5：多模态 ==================== -->
+<div class="section">
+<h2>🖼️ 多模态与生成</h2>
+<div class="grid">
+  <a href="terms/multimodal.html" class="card"><div class="label">Multimodal</div><div class="name">多模态</div></a>
+  <a href="terms/gan.html" class="card"><div class="label">GAN</div><div class="name">生成对抗网络</div></a>
+  <a href="terms/diffusion.html" class="card"><div class="label">Diffusion</div><div class="name">扩散模型</div></a>
+  <a href="terms/clip.html" class="card"><div class="label">CLIP</div><div class="name">图文对比模型</div></a>
+  <a href="terms/cv.html" class="card"><div class="label">CV</div><div class="name">计算机视觉</div></a>
+  <a href="terms/ocr.html" class="card"><div class="label">OCR</div><div class="name">光学字符识别</div></a>
+  <a href="terms/asr.html" class="card"><div class="label">ASR</div><div class="name">语音识别</div></a>
+  <a href="terms/tts.html" class="card"><div class="label">TTS</div><div class="name">语音合成</div></a>
+</div>
+</div>
+
+<!-- ==================== 分类6：训练参数 ==================== -->
+<div class="section">
+<h2>📦 训练参数与优化</h2>
+<div class="grid">
+  <a href="terms/parameter.html" class="card"><div class="label">Parameter</div><div class="name">参数</div></a>
+  <a href="terms/hyperparameter.html" class="card"><div class="label">Hyperparameter</div><div class="name">超参数</div></a>
+  <a href="terms/epoch.html" class="card"><div class="label">Epoch</div><div class="name">迭代轮次</div></a>
+  <a href="terms/batch-size.html" class="card"><div class="label">Batch Size</div><div class="name">批次大小</div></a>
+  <a href="terms/learning-rate.html" class="card"><div class="label">Learning Rate</div><div class="name">学习率</div></a>
+  <a href="terms/optimizer.html" class="card"><div class="label">Optimizer</div><div class="name">优化器</div></a>
+  <a href="terms/gradient.html" class="card"><div class="label">Gradient</div><div class="name">梯度</div></a>
+  <a href="terms/backpropagation.html" class="card"><div class="label">Backpropagation</div><div class="name">反向传播</div></a>
+</div>
+</div>
+
+<!-- ==================== 分类7：量化与部署 ==================== -->
+<div class="section">
+<h2>🚀 量化、部署与推理</h2>
+<div class="grid">
+  <a href="terms/inference.html" class="card"><div class="label">Inference</div><div class="name">推理</div></a>
+  <a href="terms/training.html" class="card"><div class="label">Training</div><div class="name">训练</div></a>
+  <a href="terms/quantization.html" class="card"><div class="label">Quantization</div><div class="name">模型量化</div></a>
+  <a href="terms/gguf.html" class="card"><div class="label">GGUF</div><div class="name">大模型格式</div></a>
+  <a href="terms/fp16.html" class="card"><div class="label">FP16</div><div class="name">半精度</div></a>
+  <a href="terms/bf16.html" class="card"><div class="label">BF16</div><div class="name">脑浮点</div></a>
+  <a href="terms/int8.html" class="card"><div class="label">INT8</div><div class="name">8位量化</div></a>
+  <a href="terms/int4.html" class="card"><div class="label">INT4</div><div class="name">4位量化</div></a>
+  <a href="terms/gpu.html" class="card"><div class="label">GPU</div><div class="name">显卡</div></a>
+  <a href="terms/tpu.html" class="card"><div class="label">TPU</div><div class="name">张量处理器</div></a>
+</div>
+</div>
+
+<!-- ==================== 分类8：AI应用 ==================== -->
+<div class="section">
+<h2>🤖 AI智能体与应用</h2>
+<div class="grid">
+  <a href="terms/agent.html" class="card"><div class="label">AI Agent</div><div class="name">智能体</div></a>
+  <a href="terms/tool-use.html" class="card"><div class="label">Tool Use</div><div class="name">工具调用</div></a>
+  <a href="terms/plugin.html" class="card"><div class="label">Plugin</div><div class="name">插件</div></a>
+  <a href="terms/api.html" class="card"><div class="label">API</div><div class="name">接口</div></a>
+  <a href="terms/nlp.html" class="card"><div class="label">NLP</div><div class="name">自然语言处理</div></a>
+  <a href="terms/knowledge-graph.html" class="card"><div class="label">Knowledge Graph</div><div class="name">知识图谱</div></a>
+  <a href="terms/mlops.html" class="card"><div class="label">MLOps</div><div class="name">机器学习工程化</div></a>
+  <a href="terms/benchmark.html" class="card"><div class="label">Benchmark</div><div class="name">基准测试</div></a>
+</div>
+</div>
+
+</div>
+
+<script>
+const btn = document.getElementById('toggle');
+btn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  btn.textContent = document.body.classList.contains('dark') ? '切换浅色卡片' : '切换深色图谱';
+});
+</script>
+
+</body>
+</html>
