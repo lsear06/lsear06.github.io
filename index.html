@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI大模型专业术语词典</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="card-mode">
+
+<nav class="navbar">
+    <div class="nav-left">AI术语词典</div>
+    <div class="nav-right">
+        <a href="index.html">首页</a>
+        <a href="materials.html">资料中心</a>
+        <a href="favorites.html">我的收藏</a>
+        <button id="toggleModeBtn">切换图谱模式</button>
+    </div>
+</nav>
+
+<div class="container">
+    <header>
+        <h1>AI大模型专业术语词典</h1>
+        <p>100+术语中英对照 · 附视频讲解与资料下载</p>
+    </header>
+
+    <div class="term-grid" id="termContainer">
+        <a href="terms/transformer.html" class="term-item" data-name="Transformer">
+            Transformer - Transformer模型
+        </a>
+        <a href="terms/llm.html" class="term-item" data-name="LLM">
+            LLM - 大语言模型
+        </a>
+        <a href="terms/token.html" class="term-item" data-name="Token">
+            Token - 词元/令牌
+        </a>
+    </div>
+</div>
+
+<script>
+    const toggleBtn = document.getElementById('toggleModeBtn');
+    const body = document.body;
+
+    toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('card-mode');
+        body.classList.toggle('graph-mode');
+        toggleBtn.textContent = body.classList.contains('card-mode') 
+            ? '切换图谱模式' 
+            : '切换卡片模式';
+    });
+
+    function getFavorites() {
+        return JSON.parse(localStorage.getItem('aiFavorites') || '[]');
+    }
+</script>
+
+</body>
+</html>
