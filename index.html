@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>lsear06 的 AI 导航站</title>
-    <style>
-        body { font-family: system-ui, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
-        .header { text-align: center; padding: 40px 0; background: white; border-radius: 12px; margin-bottom: 30px; }
-        .container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-        .card { background: white; border-radius: 10px; width: 280px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); }
-        .card h3 { margin-top: 0; color: #1a73e8; }
-        .card p { color: #5f6368; font-size: 14px; line-height: 1.5; }
-        .card a { display: inline-block; margin-top: 10px; text-decoration: none; color: white; background: #1a73e8; padding: 8px 16px; border-radius: 5px; font-size: 14px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI大模型术语词典</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="card-mode">
 
-    <div class="header">
-        <h1>我的 AI 工具导航站</h1>
-        <p>收集最实用的 AI 资源</p >
-    </div>
+<!-- 顶部导航栏 -->
+<nav class="navbar">
+  <div class="nav-left">AI术语词典</div>
+  <div class="nav-right">
+    <a href="index.html">首页</a>
+    <a href="materials.html">资料中心</a>
+    <a href="favorites.html">我的收藏</a>
+    <button id="toggleMode">切换图谱模式</button>
+  </div>
+</nav>
 
-    <div class="container">
-        <div class="card">
-            <h3>ChatGPT</h3>
-            <p>最强大的 AI 对话助手，支持文案创作和代码编写。</p >
-            <a href=" " target="_blank">点击访问</a >
-        </div>
+<div class="container">
+  <h1>AI大模型专业术语</h1>
 
-        <div class="card">
-            <h3>Claude</h3>
-            <p>长文本处理能力极强，语气更自然、更有逻辑。</p >
-            <a href="https://claude.ai" target="_blank">点击访问</a >
-        </div>
-    </div>
+  <div class="term-grid" id="termContainer">
+    <a href="terms/transformer.html" class="term-item" data-name="Transformer">
+      Transformer - Transformer模型
+    </a>
+    <a href="terms/llm.html" class="term-item" data-name="LLM">
+      LLM - 大语言模型
+    </a>
+    <a href="terms/token.html" class="term-item" data-name="Token">
+      Token - 词元
+    </a>
+    <!-- 你可以继续复制上面的项，凑够100个 -->
+  </div>
+</div>
+
+<script>
+  // 切换模式
+  const btn = document.getElementById('toggleMode')
+  const body = document.body
+  btn.addEventListener('click', () => {
+    body.classList.toggle('card-mode')
+    body.classList.toggle('graph-mode')
+    btn.textContent = body.classList.contains('card-mode') ? '切换图谱模式' : '切换卡片模式'
+  })
+
+  // 本地收藏基础逻辑
+  function getFavs() { return JSON.parse(localStorage.getItem('favs') || '[]') }
+</script>
 
 </body>
 </html>
