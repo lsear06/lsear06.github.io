@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI大模型专业术语词典</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="card-mode">
+
+<nav class="navbar">
+    <div class="nav-left">AI术语词典</div>
+    <div class="nav-right">
+        <a href="index.html">首页</a>
+        <a href="materials.html">资料中心</a>
+        <a href="favorites.html">我的收藏</a>
+        <button id="toggleModeBtn">切换图谱模式</button>
+    </div>
+</nav>
+
+<div class="container">
+    <header>
+        <h1>AI大模型专业术语词典</h1>
+        <p>100+术语中英对照 · 附视频讲解与资料下载</p>
+    </header>
+
+    <div class="term-grid" id="termContainer">
+
+        <a href="terms/transformer.html" class="term-item" data-name="Transformer">Transformer - Transformer模型</a>
+        <a href="terms/llm.html" class="term-item" data-name="LLM">LLM - 大语言模型</a>
+        <a href="terms/token.html" class="term-item" data-name="Token">Token - 词元/令牌</a>
+        <a href="terms/attention.html" class="term-item" data-name="Attention">Attention - 注意力机制</a>
+        <a href="terms/self-attention.html" class="term-item" data-name="Self-Attention">Self-Attention - 自注意力</a>
+        <a href="terms/multi-head-attention.html" class="term-item" data-name="Multi-Head Attention">Multi-Head Attention - 多头注意力</a>
+        <a href="terms/finetuning.html" class="term-item" data-name="Fine-tuning">Fine-tuning - 微调</a>
+        <a href="terms/pretraining.html" class="term-item" data-name="Pretraining">Pretraining - 预训练</a>
+        <a href="terms/prompt.html" class="term-item" data-name="Prompt">Prompt - 提示词</a>
+        <a href="terms/prompt-engineering.html" class="term-item" data-name="Prompt Engineering">Prompt Engineering - 提示词工程</a>
+
+        <a href="terms/context-window.html" class="term-item" data-name="Context Window">Context Window - 上下文窗口</a>
+        <a href="terms/embedding.html" class="term-item" data-name="Embedding">Embedding - 词嵌入</a>
+        <a href="terms/vector.html" class="term-item" data-name="Vector">Vector - 向量</a>
+        <a href="terms/vector-database.html" class="term-item" data-name="Vector Database">Vector Database - 向量数据库</a>
+        <a href="terms/encoder.html" class="term-item" data-name="Encoder">Encoder - 编码器</a>
+        <a href="terms/decoder.html" class="term-item" data-name="Decoder">Decoder - 解码器</a>
+        <a href="terms/neural-network.html" class="term-item" data-name="Neural Network">Neural Network - 神经网络</a>
+        <a href="terms/cnn.html" class="term-item" data-name="CNN">CNN - 卷积神经网络</a>
+        <a href="terms/rnn.html" class="term-item" data-name="RNN">RNN - 循环神经网络</a>
+        <a href="terms/lstm.html" class="term-item" data-name="LSTM">LSTM - 长短期记忆网络</a>
+
+        <a href="terms/gru.html" class="term-item" data-name="GRU">GRU - 门控循环单元</a>
+        <a href="terms/gan.html" class="term-item" data-name="GAN">GAN - 生成对抗网络</a>
+        <a href="terms/diffusion.html" class="term-item" data-name="Diffusion">Diffusion - 扩散模型</a>
+        <a href="terms/clip.html" class="term-item" data-name="CLIP">CLIP - 对比语言-图像预训练</a>
+        <a href="terms/rlhf.html" class="term-item" data-name="RLHF">RLHF - 人类反馈强化学习</a>
+        <a href="terms/sft.html" class="term-item" data-name="SFT">SFT - 监督微调</a>
+        <a href="terms/ppo.html" class="term-item" data-name="PPO">PPO - 近端策略优化</a>
+        <a href="terms/dpo.html" class="term-item" data-name="DPO">DPO - 直接偏好优化</a>
+        <a href="terms/overfitting.html" class="term-item" data-name="Overfitting">Overfitting - 过拟合</a>
+        <a href="terms/underfitting.html" class="term-item" data-name="Underfitting">Underfitting - 欠拟合</a>
+
+        <a href="terms/parameter.html" class="term-item" data-name="Parameter">Parameter - 参数</a>
+        <a href="terms/hyperparameter.html" class="term-item" data-name="Hyperparameter">Hyperparameter - 超参数</a>
+        <a href="terms/epoch.html" class="term-item" data-name="Epoch">Epoch - 迭代轮次</a>
+        <a href="terms/batch-size.html" class="term-item" data-name="Batch Size">Batch Size - 批次大小</a>
+        <a href="terms/learning-rate.html" class="term-item" data-name="Learning Rate">Learning Rate - 学习率</a>
+        <a href="terms/optimizer.html" class="term-item" data-name="Optimizer">Optimizer - 优化器</a>
+        <a href="terms/gradient.html" class="term-item" data-name="Gradient">Gradient - 梯度</a>
+        <a href="terms/backpropagation.html" class="term-item" data-name="Backpropagation">Backpropagation - 反向传播</a>
+        <a href="terms/activation.html" class="term-item" data-name="Activation Function">Activation - 激活函数</a>
+        <a href="terms/relu.html" class="term-item" data-name="ReLU">ReLU - 线性整流单元</a>
+
+        <a href="terms/sigmoid.html" class="term-item" data-name="Sigmoid">Sigmoid - S型激活函数</a>
+        <a href="terms/softmax.html" class="term-item" data-name="Softmax">Softmax - 归一化指数函数</a>
+        <a href="terms/loss-function.html" class="term-item" data-name="Loss Function">Loss Function - 损失函数</a>
+        <a href="terms/cross-entropy.html" class="term-item" data-name="Cross Entropy">Cross Entropy - 交叉熵</a>
+        <a href="terms/mse.html" class="term-item" data-name="MSE">MSE - 均方误差</a>
+        <a href="terms/regression.html" class="term-item" data-name="Regression">Regression - 回归</a>
+        <a href="terms/classification.html" class="term-item" data-name="Classification">Classification - 分类</a>
+        <a href="terms/unsupervised.html" class="term-item" data-name="Unsupervised Learning">Unsupervised - 无监督学习</a>
+        <a href="terms/supervised.html" class="term-item" data-name="Supervised Learning">Supervised - 监督学习</a>
+        <a href="terms/self-supervised.html" class="term-item" data-name="Self-Supervised">Self-Supervised - 自监督学习</a>
+
+        <a href="terms/zero-shot.html" class="term-item" data-name="Zero-Shot">Zero-Shot - 零样本学习</a>
+        <a href="terms/few-shot.html" class="term-item" data-name="Few-Shot">Few-Shot - 小样本学习</a>
+        <a href="terms/one-shot.html" class="term-item" data-name="One-Shot">One-Shot - 单样本学习</a>
+        <a href="terms/in-context-learning.html" class="term-item" data-name="In-Context Learning">In-Context Learning - 上下文学习</a>
+        <a href="terms/chain-of-thought.html" class="term-item" data-name="Chain of Thought">Chain of Thought - 思维链</a>
+        <a href="terms/rag.html" class="term-item" data-name="RAG">RAG - 检索增强生成</a>
+        <a href="terms/agent.html" class="term-item" data-name="AI Agent">AI Agent - 智能体</a>
+        <a href="terms/tool-use.html" class="term-item" data-name="Tool Use">Tool Use - 工具使用</a>
+        <a href="terms/plugin.html" class="term-item" data-name="Plugin">Plugin - 插件</a>
+        <a href="terms/api.html" class="term-item" data-name="API">API - 应用程序接口</a>
+
+        <a href="terms/tokenization.html" class="term-item" data-name="Tokenization">Tokenization - 分词</a>
+        <a href="terms/bleu.html" class="term-item" data-name="BLEU">BLEU - 双语评估替补</a>
+        <a href="terms/rouge.html" class="term-item" data-name="ROUGE">ROUGE - 召回率导向评估</a>
+        <a href="terms/perplexity.html" class="term-item" data-name="Perplexity">Perplexity - 困惑度</a>
+        <a href="terms/benchmark.html" class="term-item" data-name="Benchmark">Benchmark - 基准测试</a>
+        <a href="terms/mlops.html" class="term-item" data-name="MLOps">MLOps - 机器学习工程化</a>
+        <a href="terms/lora.html" class="term-item" data-name="LoRA">LoRA - 低秩适配</a>
+        <a href="terms/qlora.html" class="term-item" data-name="QLoRA">QLoRA - 量化低秩适配</a>
+        <a href="terms/quantization.html" class="term-item" data-name="Quantization">Quantization - 模型量化</a>
+        <a href="terms/gguf.html" class="term-item" data-name="GGUF">GGUF - 大模型格式</a>
+
+        <a href="terms/gpu.html" class="term-item" data-name="GPU">GPU - 图形处理器</a>
+        <a href="terms/tpu.html" class="term-item" data-name="TPU">TPU - 张量处理器</a>
+        <a href="terms/npu.html" class="term-item" data-name="NPU">NPU - 神经网络处理器</a>
+        <a href="terms/fp16.html" class="term-item" data-name="FP16">FP16 - 半精度浮点数</a>
+        <a href="terms/bf16.html" class="term-item" data-name="BF16">BF16 - 脑浮点精度</a>
+        <a href="terms/int8.html" class="term-item" data-name="INT8">INT8 - 8位整型</a>
+        <a href="terms/int4.html" class="term-item" data-name="INT4">INT4 - 4位整型</a>
+        <a href="terms/inference.html" class="term-item" data-name="Inference">Inference - 推理</a>
+        <a href="terms/training.html" class="term-item" data-name="Training">Training - 训练</a>
+        <a href="terms/finetune.html" class="term-item" data-name="Finetune">Finetune - 微调</a>
+
+        <a href="terms/alignment.html" class="term-item" data-name="Alignment">Alignment - 对齐</a>
+        <a href="terms/hallucination.html" class="term-item" data-name="Hallucination">Hallucination - 幻觉</a>
+        <a href="terms/context-length.html" class="term-item" data-name="Context Length">Context Length - 上下文长度</a>
+        <a href="terms/temperature.html" class="term-item" data-name="Temperature">Temperature - 温度系数</a>
+        <a href="terms/top-p.html" class="term-item" data-name="Top-P">Top-P - 核采样</a>
+        <a href="terms/top-k.html" class="term-item" data-name="Top-K">Top-K - 候选采样</a>
+        <a href="terms/beam-search.html" class="term-item" data-name="Beam Search">Beam Search - 束搜索</a>
+        <a href="terms/auto-regressive.html" class="term-item" data-name="Auto-Regressive">Auto-Regressive - 自回归</a>
+        <a href="terms/seq2seq.html" class="term-item" data-name="Seq2Seq">Seq2Seq - 序列到序列</a>
+        <a href="terms/nlp.html" class="term-item" data-name="NLP">NLP - 自然语言处理</a>
+
+        <a href="terms/asr.html" class="term-item" data-name="ASR">ASR - 自动语音识别</a>
+        <a href="terms/tts.html" class="term-item" data-name="TTS">TTS - 文本转语音</a>
+        <a href="terms/stt.html" class="term-item" data-name="STT">STT - 语音转文本</a>
+        <a href="terms/cv.html" class="term-item" data-name="CV">CV - 计算机视觉</a>
+        <a href="terms/ocr.html" class="term-item" data-name="OCR">OCR - 光学字符识别</a>
+        <a href="terms/semantic.html" class="term-item" data-name="Semantic">Semantic - 语义</a>
+        <a href="terms/syntactic.html" class="term-item" data-name="Syntactic">Syntactic - 句法</a>
+        <a href="terms/pragmatic.html" class="term-item" data-name="Pragmatic">Pragmatic - 语用</a>
+        <a href="terms/knowledge-graph.html" class="term-item" data-name="Knowledge Graph">Knowledge Graph - 知识图谱</a>
+        <a href="terms/multimodal.html" class="term-item" data-name="Multimodal">Multimodal - 多模态</a>
+
+    </div>
+</div>
+
+<script>
+    const toggleBtn = document.getElementById('toggleModeBtn');
+    const body = document.body;
+
+    toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('card-mode');
+        body.classList.toggle('graph-mode');
+        toggleBtn.textContent = body.classList.contains('card-mode')
+            ? '切换图谱模式'
+            : '切换卡片模式';
+    });
+
+    function getFavorites() {
+        return JSON.parse(localStorage.getItem('aiFavorites') || '[]');
+    }
+</script>
+
+</body>
+</html>
