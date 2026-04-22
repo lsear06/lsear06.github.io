@@ -3,215 +3,497 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI术语中英词典</title>
+    <title>AI 术语中英词典</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: "Microsoft YaHei", sans-serif;
         }
+
         body {
-            background: #f7f9fc;
-            color: #2d3748;
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 20px;
             line-height: 1.6;
-            padding-bottom: 60px;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
+
         .header {
             text-align: center;
             margin-bottom: 30px;
         }
+
         .header h1 {
+            color: #2d3748;
+            margin-bottom: 8px;
             font-size: 28px;
-            color: #2b6cb0;
-            margin-bottom: 10px;
         }
-        .stats {
+
+        .total-count {
             color: #718096;
-            font-size: 14px;
+            font-size: 16px;
         }
-        .toolbar {
-            display: flex;
-            gap: 12px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .search {
-            flex: 1;
-            min-width: 280px;
-            padding: 12px 16px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 15px;
-            outline: none;
-        }
-        .search:focus {
-            border-color: #2b6cb0;
-        }
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 10px;
-            background: #2b6cb0;
-            color: white;
-            cursor: pointer;
-        }
-        .category-bar {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 24px;
-        }
-        .category-btn {
-            padding: 8px 14px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            cursor: pointer;
-        }
-        .category-btn.active {
-            background: #2b6cb0;
-            color: white;
-            border-color: #2b6cb0;
-        }
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: white;
-            border-radius: 14px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            cursor: pointer;
+
+        .search-box {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 20px;
             position: relative;
         }
-        .card-fav {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            font-size: 20px;
-            color: #cbd5e0;
+
+        #search {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        #search:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 20px;
             cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
         }
-        .card-fav.active {
-            color: #ffc107;
+
+        .tab-btn:hover {
+            background-color: #edf2f7;
         }
+
+        .tab-btn.active {
+            background-color: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
         .card-en {
             font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 6px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 8px;
         }
+
         .card-zh {
             font-size: 15px;
+            color: #718096;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #cbd5e0;
+            transition: color 0.3s;
+        }
+
+        .favorite-btn.active {
+            color: #f56565;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal {
+            background: white;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .modal-title-en {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .modal-title-zh {
+            font-size: 18px;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .modal-section {
+            margin-bottom: 20px;
+        }
+
+        .modal-section h3 {
+            font-size: 16px;
             color: #4a5568;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+            border-left: 3px solid #4299e1;
+            padding-left: 8px;
         }
-        .card-preview {
-            font-size: 13px;
-            color: #718096;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+
+        .modal-img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 10px 0;
         }
-        .empty {
-            text-align: center;
-            padding: 60px 20px;
-            color: #718096;
+
+        .modal-link {
+            color: #4299e1;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
         }
+
+        .modal-link:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
-            .card-grid {
+            .header h1 {
+                font-size: 24px;
+            }
+            .card-list {
                 grid-template-columns: 1fr;
+            }
+            .modal {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h1>AI 术语中英双语词典</h1>
-        <div class="stats" id="stats">共 102 个术语</div>
+    <div class="container">
+        <div class="header">
+            <h1>AI 术语中英词典</h1>
+            <p class="total-count">共 <span id="totalNum">0</span> 个术语</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="search" placeholder="搜索英文/中文术语...">
+        </div>
+
+        <div class="category-tabs">
+            <button class="tab-btn active" data-category="all">全部</button>
+            <button class="tab-btn" data-category="basic">基础</button>
+            <button class="tab-btn" data-category="model">模型</button>
+            <button class="tab-btn" data-category="train">训练</button>
+            <button class="tab-btn" data-category="multi">多模态</button>
+            <button class="tab-btn" data-category="deploy">部署</button>
+            <button class="tab-btn" data-category="safe">安全</button>
+            <button class="tab-btn" data-category="favorite">我的收藏</button>
+        </div>
+
+        <div class="card-list" id="cardList"></div>
     </div>
-    <div class="toolbar">
-        <input type="text" class="search" id="search" placeholder="搜索中文或英文…">
-        <button class="btn" id="resetBtn">重置</button>
-        <button class="btn" id="favBtn">收藏</button>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <button class="close-btn" id="closeBtn">×</button>
+            <div class="modal-title-en" id="modalEn"></div>
+            <div class="modal-title-zh" id="modalZh"></div>
+
+            <div class="modal-section">
+                <h3>英文定义</h3>
+                <p id="modalDefEn"></p>
+            </div>
+            <div class="modal-section">
+                <h3>中文定义</h3>
+                <p id="modalDefZh"></p>
+            </div>
+            <div class="modal-section">
+                <h3>图片展示</h3>
+                <img src="https://picsum.photos/800/400" alt="术语图片" class="modal-img" id="modalImg">
+            </div>
+            <div class="modal-section">
+                <h3>参考资料</h3>
+                <a href="" target="_blank" class="modal-link" id="modalLink1">参考资料 1</a>
+                <a href="" target="_blank" class="modal-link" id="modalLink2">参考资料 2</a>
+            </div>
+            <div class="modal-section">
+                <h3>补充说明</h3>
+                <p id="modalDesc"></p>
+            </div>
+        </div>
     </div>
-    <div class="category-bar">
-        <button class="category-btn active" data-cat="all">全部</button>
-        <button class="category-btn" data-cat="basic">基础</button>
-        <button class="category-btn" data-cat="model">模型</button>
-        <button class="category-btn" data-cat="train">训练</button>
-        <button class="category-btn" data-cat="multi">多模态</button>
-        <button class="category-btn" data-cat="deploy">部署</button>
-        <button class="category-btn" data-cat="safety">安全</button>
-    </div>
-    <div class="card-grid" id="cardGrid"></div>
-    <div class="empty" id="empty" style="display:none">暂无结果</div>
-</div>
 
 <script>
+// ========================== 完整AI术语数据（已全部导入） ==========================
 const aiTerms = [
-    { termEn: "Machine Learning", termZh: "机器学习", category: "basic" },
-    { termEn: "Deep Learning", termZh: "深度学习", category: "basic" },
-    { termEn: "Neural Network", termZh: "神经网络", category: "basic" },
-    { termEn: "Supervised Learning", termZh: "监督学习", category: "basic" },
-    { termEn: "Unsupervised Learning", termZh: "无监督学习", category: "basic" },
-    { termEn: "Reinforcement Learning", termZh: "强化学习", category: "basic" },
-    { termEn: "Classification", termZh: "分类", category: "basic" },
-    { termEn: "Regression", termZh: "回归", category: "basic" },
-    { termEn: "Clustering", termZh: "聚类", category: "basic" },
-    { termEn: "AGI", termZh: "通用人工智能", category: "basic" }
+    {id:1,en:"Machine Learning",zh:"机器学习",category:"basic",defEn:"",defZh:"",img:"",links:["https://baike.baidu.com/item/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0","https://zh.wikipedia.org/wiki/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"],desc:""},
+    {id:2,en:"Deep Learning",zh:"深度学习",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:3,en:"Neural Network",zh:"神经网络",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:4,en:"Supervised Learning",zh:"监督学习",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:5,en:"Unsupervised Learning",zh:"无监督学习",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:6,en:"Semi-supervised Learning",zh:"半监督学习",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:7,en:"Reinforcement Learning",zh:"强化学习",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:8,en:"Classification",zh:"分类",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:9,en:"Regression",zh:"回归",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:10,en:"Clustering",zh:"聚类",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:11,en:"Feature Extraction",zh:"特征提取",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:12,en:"Embedding",zh:"嵌入",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:13,en:"Tokenization",zh:"Token 化",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:14,en:"Binary Representation",zh:"二进制表示",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:15,en:"AGI",zh:"通用人工智能",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:16,en:"Precision",zh:"精确率",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:17,en:"Recall",zh:"召回率",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:18,en:"F1 Score",zh:"F1 分数",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:19,en:"Accuracy",zh:"准确率",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:20,en:"Dataset",zh:"数据集",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:21,en:"Cross Validation",zh:"交叉验证",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:22,en:"Tensor",zh:"张量",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:23,en:"Transformer",zh:"Transformer",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:24,en:"Large Language Model",zh:"大语言模型",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:25,en:"CNN",zh:"卷积神经网络",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:26,en:"RNN",zh:"循环神经网络",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:27,en:"LSTM",zh:"长短期记忆网络",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:28,en:"GRU",zh:"门控循环单元",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:29,en:"Self-Attention",zh:"自注意力",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:30,en:"MoE",zh:"混合专家模型",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:31,en:"GPT",zh:"GPT",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:32,en:"BERT",zh:"BERT",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:33,en:"Mamba",zh:"Mamba",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:34,en:"GAN",zh:"生成对抗网络",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:35,en:"VAE",zh:"变分自编码器",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:36,en:"Diffusion Model",zh:"扩散模型",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:37,en:"RLHF",zh:"人类反馈强化学习",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:38,en:"Context Window",zh:"上下文窗口",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:39,en:"CLIP",zh:"CLIP",category:"multi",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:40,en:"SAM",zh:"分割任何模型",category:"multi",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:41,en:"Stable Diffusion",zh:"Stable Diffusion",category:"multi",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:42,en:"DALL·E",zh:"DALL·E",category:"multi",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:43,en:"Flux",zh:"Flux",category:"multi",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:44,en:"Pre-training",zh:"预训练",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:45,en:"Fine-tuning",zh:"微调",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:46,en:"LoRA",zh:"低秩适配",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:47,en:"Prompt Engineering",zh:"提示工程",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:48,en:"Chain of Thought",zh:"思维链",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:49,en:"Zero-shot Learning",zh:"零样本学习",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:50,en:"Few-shot Learning",zh:"小样本学习",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:51,en:"Transfer Learning",zh:"迁移学习",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:52,en:"Overfitting",zh:"过拟合",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:53,en:"Underfitting",zh:"欠拟合",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:54,en:"Regularization",zh:"正则化",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:55,en:"Dropout",zh:"随机失活",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:56,en:"Batch Normalization",zh:"批归一化",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:57,en:"Learning Rate",zh:"学习率",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:58,en:"Optimizer",zh:"优化器",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:59,en:"Loss Function",zh:"损失函数",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:60,en:"Backpropagation",zh:"反向传播",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:61,en:"Gradient Descent",zh:"梯度下降",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:62,en:"Epoch",zh:"轮次",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:63,en:"Batch Size",zh:"批次大小",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:64,en:"Temperature",zh:"温度系数",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:65,en:"Top-k",zh:"Top-k 采样",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:66,en:"Top-p",zh:"核采样",category:"model",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:67,en:"Annotation",zh:"数据标注",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:68,en:"Data Augmentation",zh:"数据增强",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:69,en:"Normalization",zh:"归一化",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:70,en:"Synthetic Data",zh:"合成数据",category:"train",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:71,en:"Multimodal",zh:"多模态",category:"multi",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:72,en:"TTS",zh:"文本转语音",category:"multi",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:73,en:"ASR",zh:"自动语音识别",category:"multi",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:74,en:"OCR",zh:"光学字符识别",category:"multi",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:75,en:"Midjourney",zh:"Midjourney",category:"multi",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:76,en:"Inference",zh:"推理",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:77,en:"Quantization",zh:"量化",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:78,en:"Pruning",zh:"剪枝",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:79,en:"Knowledge Distillation",zh:"知识蒸馏",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:80,en:"Vector Database",zh:"向量数据库",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:81,en:"RAG",zh:"检索增强生成",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:82,en:"Deployment",zh:"部署",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:83,en:"Edge AI",zh:"边缘 AI",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:84,en:"Cloud AI",zh:"云端 AI",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:85,en:"Latency",zh:"延迟",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:86,en:"Throughput",zh:"吞吐量",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:87,en:"API",zh:"应用程序接口",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:88,en:"GPU",zh:"图形处理器",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:89,en:"ONNX",zh:"开放神经网络交换",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:90,en:"PyTorch",zh:"PyTorch",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:91,en:"TensorFlow",zh:"TensorFlow",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:92,en:"Hugging Face",zh:"Hugging Face",category:"deploy",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:93,en:"Hallucination",zh:"幻觉",category:"safe",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:94,en:"Alignment",zh:"对齐",category:"safe",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:95,en:"AI Safety",zh:"AI 安全",category:"safe",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:96,en:"AI Ethics",zh:"AI 伦理",category:"safe",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:97,en:"Bias",zh:"算法偏见",category:"safe",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:98,en:"AI Agent",zh:"AI 智能体",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:99,en:"Tool Use",zh:"工具使用",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:100,en:"Memory",zh:"记忆机制",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:101,en:"Reasoning",zh:"推理能力",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""},
+    {id:102,en:"Planning",zh:"任务规划",category:"basic",defEn:"",defZh:"",img:"",links:["",""],desc:""}
 ];
 
-let currentList = [...aiTerms];
+const cardList = document.getElementById('cardList');
+const totalNum = document.getElementById('totalNum');
+const searchInput = document.getElementById('search');
+const tabBtns = document.querySelectorAll('.tab-btn');
+const modalOverlay = document.getElementById('modalOverlay');
+const closeBtn = document.getElementById('closeBtn');
+const modalEn = document.getElementById('modalEn');
+const modalZh = document.getElementById('modalZh');
+const modalDefEn = document.getElementById('modalDefEn');
+const modalDefZh = document.getElementById('modalDefZh');
+const modalImg = document.getElementById('modalImg');
+const modalLink1 = document.getElementById('modalLink1');
+const modalLink2 = document.getElementById('modalLink2');
+const modalDesc = document.getElementById('modalDesc');
 
-function render() {
-    const grid = document.getElementById("cardGrid");
-    grid.innerHTML = "";
-    currentList.forEach(term => {
-        const card = document.createElement("div");
-        card.className = "card";
-        
-        // ✅ 绝对路径跳转（永远不会错）
-        const fileName = term.termEn.toLowerCase().replace(/ /g, "-") + ".html";
-        const url = "/terms/" + fileName;
+let currentCategory = 'all';
+let favoriteList = JSON.parse(localStorage.getItem('aiFavorite')) || [];
+totalNum.textContent = aiTerms.length;
+renderCards(aiTerms);
 
+function renderCards(data) {
+    cardList.innerHTML = '';
+    data.forEach(item => {
+        const isFavorite = favoriteList.includes(item.id);
+        const card = document.createElement('div');
+        card.className = 'card';
         card.innerHTML = `
-            <div class="card-en">${term.termEn}</div>
-            <div class="card-zh">${term.termZh}</div>
+            <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${item.id}">★</button>
+            <div class="card-en">${item.en}</div>
+            <div class="card-zh">${item.zh}</div>
         `;
+        cardList.appendChild(card);
 
-        // ✅ 点击强制跳转（最稳）
-        card.onclick = () => { window.open(url, "_blank"); };
+        card.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('favorite-btn')) openModal(item);
+        });
 
-        grid.appendChild(card);
+        const favBtn = card.querySelector('.favorite-btn');
+        favBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite(item.id);
+            favBtn.classList.toggle('active');
+        });
     });
 }
 
-document.getElementById("search").oninput = (e) => {
-    const kw = e.target.value.toLowerCase();
-    currentList = aiTerms.filter(t => 
-        t.termEn.toLowerCase().includes(kw) || t.termZh.includes(kw)
-    );
-    render();
-};
+function openModal(item) {
+    modalEn.textContent = item.en;
+    modalZh.textContent = item.zh;
+    modalDefEn.textContent = item.defEn;
+    modalDefZh.textContent = item.defZh;
+    modalImg.src = item.img || 'https://picsum.photos/800/400';
+    modalLink1.href = item.links[0];
+    modalLink1.textContent = item.links[0] || '暂无链接';
+    modalLink2.href = item.links[1];
+    modalLink2.textContent = item.links[1] || '暂无链接';
+    modalDesc.innerHTML = item.desc || '暂无补充说明';
+    modalOverlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
 
-document.getElementById("resetBtn").onclick = () => {
-    currentList = [...aiTerms];
-    document.getElementById("search").value = "";
-    render();
-};
+function closeModal() {
+    modalOverlay.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
 
-render();
+function toggleFavorite(id) {
+    const index = favoriteList.indexOf(id);
+    index === -1 ? favoriteList.push(id) : favoriteList.splice(index, 1);
+    localStorage.setItem('aiFavorite', JSON.stringify(favoriteList));
+    if (currentCategory === 'favorite') filterCards();
+}
+
+function filterCards() {
+    let filtered = aiTerms;
+    if (currentCategory === 'favorite') {
+        filtered = aiTerms.filter(item => favoriteList.includes(item.id));
+    } else if (currentCategory !== 'all') {
+        filtered = aiTerms.filter(item => item.category === currentCategory);
+    }
+    const keyword = searchInput.value.toLowerCase().trim();
+    if (keyword) {
+        filtered = filtered.filter(item =>
+            item.en.toLowerCase().includes(keyword) || item.zh.includes(keyword)
+        );
+    }
+    renderCards(filtered);
+}
+
+searchInput.addEventListener('input', filterCards);
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.category;
+        filterCards();
+    });
+});
+closeBtn.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', e => e.target === modalOverlay && closeModal());
+document.addEventListener('keydown', e => e.key === 'Escape' && closeModal());
 </script>
 </body>
 </html>
