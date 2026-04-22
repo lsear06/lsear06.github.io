@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI术语中英词典 · 120+ 专业词汇</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: #f7f9fc;
+            color: #2d3748;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #2b6cb0;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search {
+            flex: 1;
+            min-width: 280px;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .search:focus {
+            border-color: #2b6cb0;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #2b6cb0;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .btn:hover {
+            background: #2c5282;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 分类栏 */
+        .category-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .category-btn {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .category-btn:hover {
+            border-color: #2b6cb0;
+            color: #2b6cb0;
+        }
+
+        .category-btn.active {
+            background: #2b6cb0;
+            color: white;
+            border-color: #2b6cb0;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1),
+                        box-shadow 0.25s ease;
+            position: relative;
+            user-select: none;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .card:active {
+            transform: translateY(-2px) scale(0.99);
+        }
+
+        .card-fav {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 20px;
+            color: #cbd5e0;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s, color 0.2s;
+            z-index: 10;
+        }
+
+        .card-fav:hover {
+            transform: scale(1.15);
+        }
+
+        .card-fav.active {
+            color: #ffc107;
+            transform: scale(1.1);
+        }
+
+        .card-en {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 6px;
+        }
+
+        .card-zh {
+            font-size: 15px;
+            color: #4a5568;
+            margin-bottom: 12px;
+        }
+
+        .card-preview {
+            font-size: 13px;
+            color: #718096;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .detail-link {
+            display: none;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #718096;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI 术语中英双语词典</h1>
+            <div class="stats" id="stats">共 120 个术语 · 显示 120 个</div>
+        </div>
+
+        <div class="toolbar">
+            <input type="text" class="search" id="search" placeholder="搜索中文或英文术语…">
+            <button class="btn" id="libraryBtn">资料库</button>
+            <button class="btn" id="favBtn">收藏 (0)</button>
+        </div>
+
+        <div class="category-bar" id="categoryBar">
+            <button class="category-btn active" data-cat="all">全部</button>
+            <button class="category-btn" data-cat="basic">基础概念</button>
+            <button class="category-btn" data-cat="model">模型架构</button>
+            <button class="category-btn" data-cat="train">训练优化</button>
+            <button class="category-btn" data-cat="multi">多模态</button>
+            <button class="category-btn" data-cat="deploy">部署工程</button>
+            <button class="category-btn" data-cat="safety">安全伦理</button>
+        </div>
+
+        <div class="card-grid" id="cardGrid"></div>
+        <div class="empty" id="empty" style="display: none;">暂无匹配结果</div>
+    </div>
+
+<script>
+// ==========================
+// AI 术语数据
+// ==========================
+const aiTerms = [
+    { termEn: "Machine Learning", termZh: "机器学习", definitionEn: "A subset of AI that enables systems to learn patterns from data without explicit programming.", definitionZh: "人工智能的重要分支，使系统能自动从数据中学习规律，无需人工逐条编程。", category: "basic", file: "" },
+    { termEn: "Deep Learning", termZh: "深度学习", definitionEn: "A subfield of ML that uses deep neural networks to learn hierarchical representations.", definitionZh: "机器学习的子领域，通过深度神经网络学习数据的层级化特征表示。", category: "basic", file: "" },
+    { termEn: "Neural Network", termZh: "神经网络", definitionEn: "Computational systems inspired by biological neurons for pattern recognition and prediction.", definitionZh: "受生物神经元结构启发，用于模式识别与拟合预测的计算模型。", category: "basic", file: "" },
+    { termEn: "Supervised Learning", termZh: "监督学习", definitionEn: "Learning mapping from labeled input-output pairs in training data.", definitionZh: "利用带标签的输入输出对，学习从输入到输出的映射关系。", category: "basic", file: "" },
+    { termEn: "Unsupervised Learning", termZh: "无监督学习", definitionEn: "Discovering hidden patterns and structures in unlabeled datasets.", definitionZh: "在无标注数据中自动发现隐藏结构、聚类与关联规则。", category: "basic", file: "" },
+    { termEn: "Semi-supervised Learning", termZh: "半监督学习", definitionEn: "Combining a small amount of labeled data with large unlabeled data for training.", definitionZh: "结合少量标注数据与大量无标注数据进行训练的学习范式。", category: "basic", file: "" },
+    { termEn: "Reinforcement Learning", termZh: "强化学习", definitionEn: "An agent learns optimal policies by interacting with an environment and receiving rewards.", definitionZh: "智能体通过与环境交互、获得奖励信号，逐步学习最优决策策略。", category: "basic", file: "" },
+    { termEn: "Classification", termZh: "分类", definitionEn: "Predicting discrete categorical labels for given input data.", definitionZh: "对输入数据预测离散的类别标签，如二分类、多分类任务。", category: "basic", file: "" },
+    { termEn: "Regression", termZh: "回归", definitionEn: "Predicting continuous numerical values based on input features.", definitionZh: "根据输入特征预测连续型数值的任务。", category: "basic", file: "" },
+    { termEn: "Clustering", termZh: "聚类", definitionEn: "Grouping similar data points into clusters without labeled information.", definitionZh: "在无标签条件下将相似数据自动归为不同簇的方法。", category: "basic", file: "" },
+    { termEn: "Feature Extraction", termZh: "特征提取", definitionEn: "Automatically learning compact and useful representations from raw data.", definitionZh: "从原始数据中自动学习紧凑且有效的特征表示。", category: "basic", file: "" },
+    { termEn: "Embedding", termZh: "嵌入", definitionEn: "Dense low-dimensional vectors that encode semantic meaning of tokens or data.", definitionZh: "用于编码文本或数据语义信息的稠密低维向量表示。", category: "basic", file: "" },
+    { termEn: "Tokenization", termZh: "Token 化", definitionEn: "Splitting raw text into smaller units called tokens for model processing.", definitionZh: "将原始文本切分为模型可处理的最小单元（Token）。", category: "basic", file: "" },
+    { termEn: "Binary Representation", termZh: "二进制表示", definitionEn: "A way to encode data, weights, and signals using only two states: 0 and 1.", definitionZh: "使用 0 和 1 两种状态对数据、权重与信号进行数字化编码的方式。", category: "basic", file: "" },
+    { termEn: "AGI", termZh: "通用人工智能", definitionEn: "Artificial General Intelligence with human-level ability to learn any intellectual task.", definitionZh: "具备人类水平、可学习任意智力任务的通用人工智能系统。", category: "basic", file: "" },
+    { termEn: "Transformer", termZh: "Transformer", definitionEn: "A neural architecture relying on self-attention for parallel sequence modeling.", definitionZh: "基于自注意力机制、支持并行建模的主流序列模型架构。", category: "model", file: "" },
+    { termEn: "Large Language Model", termZh: "大语言模型", definitionEn: "Models trained on massive text corpora to understand and generate human language.", definitionZh: "在海量文本语料上训练，可理解与生成自然语言的大规模模型。", category: "model", file: "" },
+    { termEn: "CNN", termZh: "卷积神经网络", definitionEn: "Neural networks using convolution operations for grid data like images.", definitionZh: "使用卷积操作、擅长处理图像等网格数据的神经网络。", category: "model", file: "" },
+    { termEn: "RNN", termZh: "循环神经网络", definitionEn: "Recurrent networks designed for sequential data with internal memory states.", definitionZh: "带有内部记忆状态、适用于时序数据的循环网络。", category: "model", file: "" },
+    { termEn: "LSTM", termZh: "长短期记忆网络", definitionEn: "An improved RNN to mitigate vanishing gradients for long sequence modeling.", definitionZh: "可缓解梯度消失、适合长序列建模的改进型 RNN。", category: "model", file: "" },
+    { termEn: "GRU", termZh: "门控循环单元", definitionEn: "A simplified LSTM with fewer parameters and faster training speed.", definitionZh: "参数更少、训练更快的简化版 LSTM 结构。", category: "model", file: "" },
+    { termEn: "Self-Attention", termZh: "自注意力", definitionEn: "A mechanism to model dependencies between all positions in a sequence.", definitionZh: "建模序列中所有位置之间依赖关系的核心机制。", category: "model", file: "" },
+    { termEn: "MoE", termZh: "混合专家模型", definitionEn: "Mixture of Experts that routes inputs to specialized sub-networks.", definitionZh: "将输入分配给不同专业子网络处理的稀疏激活架构。", category: "model", file: "" },
+    { termEn: "GPT", termZh: "GPT", definitionEn: "Generative Pre-trained Transformer based on autoregressive language modeling.", definitionZh: "基于自回归语言建模的生成式预训练 Transformer 模型。", category: "model", file: "" },
+    { termEn: "BERT", termZh: "BERT", definitionEn: "Bidirectional Encoder Representations from Transformers for understanding tasks.", definitionZh: "用于理解类任务的双向 Transformer 预训练模型。", category: "model", file: "" },
+    { termEn: "Mamba", termZh: "Mamba", definitionEn: "A selective state space model for efficient long-sequence processing.", definitionZh: "用于高效长序列处理的选择性状态空间模型。", category: "model", file: "" },
+    { termEn: "GAN", termZh: "生成对抗网络", definitionEn: "A framework with generator and discriminator trained adversarially.", definitionZh: "由生成器与判别器对抗训练的生成模型框架。", category: "model", file: "" },
+    { termEn: "VAE", termZh: "变分自编码器", definitionEn: "A generative model that learns latent variable distributions of data.", definitionZh: "学习数据隐变量分布的生成式模型。", category: "model", file: "" },
+    { termEn: "Diffusion Model", termZh: "扩散模型", definitionEn: "Generative models that reverse a noise process to create realistic data.", definitionZh: "通过逆噪声过程生成高保真图像等数据的模型。", category: "model", file: "" },
+    { termEn: "RLHF", termZh: "人类反馈强化学习", definitionEn: "Reinforcement Learning from Human Feedback to align models with human intent.", definitionZh: "利用人类反馈进行强化学习，使模型行为对齐人类意图。", category: "model", file: "" },
+    { termEn: "Pre-training", termZh: "预训练", definitionEn: "Training a model on large-scale general data before task-specific tuning.", definitionZh: "在特定任务微调前，用大规模通用数据进行基础训练。", category: "train", file: "" },
+    { termEn: "Fine-tuning", termZh: "微调", definitionEn: "Adapting a pre-trained model to downstream tasks with task data.", definitionZh: "利用任务数据将预训练模型适配到下游场景。", category: "train", file: "" },
+    { termEn: "LoRA", termZh: "低秩适配", definitionEn: "Low-Rank Adaptation for efficient parameter-efficient fine-tuning.", definitionZh: "一种低秩适配的轻量级微调方法，仅训练极少参数。", category: "train", file: "" },
+    { termEn: "Prompt Engineering", termZh: "提示工程", definitionEn: "Designing effective prompts to guide LLMs toward desired outputs.", definitionZh: "通过设计提示词引导大模型生成目标内容的技术。", category: "train", file: "" },
+    { termEn: "Chain of Thought", termZh: "思维链", definitionEn: "A prompting method that encourages models to reason step by step.", definitionZh: "让模型分步呈现推理过程的提示增强方法。", category: "train", file: "" },
+    { termEn: "Zero-shot Learning", termZh: "零样本学习", definitionEn: "Performing tasks without any task-specific training examples.", definitionZh: "无需任何任务专属样本即可完成任务的能力。", category: "train", file: "" },
+    { termEn: "Few-shot Learning", termZh: "小样本学习", definitionEn: "Learning a new task from only a handful of examples.", definitionZh: "仅用极少量样本即可快速学习新任务。", category: "train", file: "" },
+    { termEn: "Transfer Learning", termZh: "迁移学习", definitionEn: "Reusing knowledge from pre-trained models on new target tasks.", definitionZh: "将预训练模型的知识迁移应用到新任务。", category: "train", file: "" },
+    { termEn: "Overfitting", termZh: "过拟合", definitionEn: "A model fits training data too closely and fails on unseen data.", definitionZh: "模型在训练集表现过好，在未知数据上泛化能力差。", category: "train", file: "" },
+    { termEn: "Underfitting", termZh: "欠拟合", definitionEn: "A model is too simple to capture underlying data patterns.", definitionZh: "模型过于简单，无法学习数据的基本规律。", category: "train", file: "" },
+    { termEn: "Regularization", termZh: "正则化", definitionEn: "Techniques to prevent overfitting by adding penalty terms.", definitionZh: "通过添加惩罚项抑制过拟合的训练技巧。", category: "train", file: "" },
+    { termEn: "Dropout", termZh: "随机失活", definitionEn: "Randomly deactivating neurons during training to reduce co-adaptation.", definitionZh: "训练中随机让神经元失效，减少神经元共适应。", category: "train", file: "" },
+    { termEn: "Batch Normalization", termZh: "批归一化", definitionEn: "Normalizing layer inputs to stabilize and accelerate training.", definitionZh: "对层输入归一化，稳定训练并加速收敛。", category: "train", file: "" },
+    { termEn: "Learning Rate", termZh: "学习率", definitionEn: "Step size for updating model weights during optimization.", definitionZh: "优化过程中更新模型权重的步长参数。", category: "train", file: "" },
+    { termEn: "Optimizer", termZh: "优化器", definitionEn: "Algorithm to minimize loss by adjusting model parameters.", definitionZh: "通过调整参数最小化损失函数的算法。", category: "train", file: "" },
+    { termEn: "Loss Function", termZh: "损失函数", definitionEn: "A function measuring the difference between prediction and label.", definitionZh: "衡量模型输出与真实标签差异的函数。", category: "train", file: "" },
+    { termEn: "Backpropagation", termZh: "反向传播", definitionEn: "Computing gradients to update neural network weights efficiently.", definitionZh: "高效计算梯度并更新神经网络权重的核心算法。", category: "train", file: "" },
+    { termEn: "Gradient Descent", termZh: "梯度下降", definitionEn: "An optimization algorithm to minimize loss along gradient direction.", definitionZh: "沿梯度方向最小化损失的基础优化算法。", category: "train", file: "" },
+    { termEn: "Epoch", termZh: "轮次", definitionEn: "One full pass through the entire training dataset.", definitionZh: "对全部训练数据完成一次完整遍历训练。", category: "train", file: "" },
+    { termEn: "Batch Size", termZh: "批次大小", definitionEn: "Number of samples processed before a gradient update.", definitionZh: "执行一次梯度更新所使用的样本数量。", category: "train", file: "" },
+    { termEn: "Multimodal", termZh: "多模态", definitionEn: "Systems that process and align text, image, audio, and other modalities.", definitionZh: "能同时处理文本、图像、音频等多种模态的模型体系。", category: "multi", file: "" },
+    { termEn: "TTS", termZh: "文本转语音", definitionEn: "Text-to-Speech synthesis generating natural human voice.", definitionZh: "将文本自动合成为自然人类语音的技术。", category: "multi", file: "" },
+    { termEn: "ASR", termZh: "自动语音识别", definitionEn: "Automatic Speech Recognition converting audio to text.", definitionZh: "将语音信号自动转换为文本的技术。", category: "multi", file: "" },
+    { termEn: "OCR", termZh: "光学字符识别", definitionEn: "Extracting text content from images and scanned documents.", definitionZh: "从图像与扫描件中提取文字内容的技术。", category: "multi", file: "" },
+    { termEn: "CLIP", termZh: "CLIP", definitionEn: "A multi-modal model learning alignment between text and images.", definitionZh: "学习文本与图像对齐表示的多模态模型。", category: "multi", file: "" },
+    { termEn: "SAM", termZh: "分割任何模型", definitionEn: "Segment Anything Model for universal image segmentation.", definitionZh: "可实现任意目标分割的通用图像分割模型。", category: "multi", file: "" },
+    { termEn: "Stable Diffusion", termZh: "Stable Diffusion", definitionEn: "An open-source text-to-image diffusion model.", definitionZh: "开源的文本生成图像扩散模型。", category: "multi", file: "" },
+    { termEn: "DALL·E", termZh: "DALL·E", definitionEn: "OpenAI's text-to-image generation model series.", definitionZh: "OpenAI 推出的文生图模型系列。", category: "multi", file: "" },
+    { termEn: "Flux", termZh: "Flux", definitionEn: "A high-performance open-source text-to-image model.", definitionZh: "高性能开源文生图模型。", category: "multi", file: "" },
+    { termEn: "Midjourney", termZh: "Midjourney", definitionEn: "A popular AI image generation service via interactive prompts.", definitionZh: "主流交互式 AI 图像生成服务。", category: "multi", file: "" },
+    { termEn: "Inference", termZh: "推理", definitionEn: "Using a trained model to make predictions on new inputs.", definitionZh: "使用训练完成的模型对新输入进行预测。", category: "deploy", file: "" },
+    { termEn: "Quantization", termZh: "量化", definitionEn: "Reducing numerical precision to shrink model size and speed up inference.", definitionZh: "降低数值精度以压缩模型体积、提升推理速度。", category: "deploy", file: "" },
+    { termEn: "Pruning", termZh: "剪枝", definitionEn: "Removing redundant weights to compress neural networks.", definitionZh: "移除冗余权重实现神经网络压缩。", category: "deploy", file: "" },
+    { termEn: "Knowledge Distillation", termZh: "知识蒸馏", definitionEn: "Training a small student model to mimic a large teacher model.", definitionZh: "让小型模型学习大型教师模型能力的压缩方法。", category: "deploy", file: "" },
+    { termEn: "Vector Database", termZh: "向量数据库", definitionEn: "Database optimized for storing and querying high-dimensional embeddings.", definitionZh: "针对高维向量存储与检索优化的数据库。", category: "deploy", file: "" },
+    { termEn: "RAG", termZh: "检索增强生成", definitionEn: "Retrieval-Augmented Generation using external knowledge to enhance LLMs.", definitionZh: "结合外部知识库检索以增强大模型生成效果。", category: "deploy", file: "" },
+    { termEn: "Deployment", termZh: "部署", definitionEn: "Putting a trained model into production environment for usage.", definitionZh: "将模型上线到生产环境提供实际服务。", category: "deploy", file: "" },
+    { termEn: "Edge AI", termZh: "边缘 AI", definitionEn: "Running AI models locally on devices instead of cloud servers.", definitionZh: "在终端设备本地运行 AI 模型而非云端。", category: "deploy", file: "" },
+    { termEn: "Cloud AI", termZh: "云端 AI", definitionEn: "AI services hosted and computed on cloud platforms.", definitionZh: "在云端平台托管与计算的 AI 服务。", category: "deploy", file: "" },
+    { termEn: "Latency", termZh: "延迟", definitionEn: "Time taken for a model to generate a response from input.", definitionZh: "模型从接收输入到生成输出所需耗时。", category: "deploy", file: "" },
+    { termEn: "Throughput", termZh: "吞吐量", definitionEn: "Number of inference requests processed per unit time.", definitionZh: "单位时间可处理的推理请求数量。", category: "deploy", file: "" },
+    { termEn: "API", termZh: "应用程序接口", definitionEn: "An interface for applications to interact with AI models.", definitionZh: "应用程序与 AI 模型交互的接口。", category: "deploy", file: "" },
+    { termEn: "GPU", termZh: "图形处理器", definitionEn: "Hardware accelerator for parallel training and inference.", definitionZh: "用于并行加速训练与推理的硬件。", category: "deploy", file: "" },
+    { termEn: "Tensor", termZh: "张量", definitionEn: "Multi-dimensional arrays representing data in ML frameworks.", definitionZh: "机器学习框架中表示数据的多维数组。", category: "deploy", file: "" },
+    { termEn: "ONNX", termZh: "开放神经网络交换", definitionEn: "Open format for cross-platform AI model representation.", definitionZh: "跨平台 AI 模型的开放交换格式。", category: "deploy", file: "" },
+    { termEn: "Hallucination", termZh: "幻觉", definitionEn: "LLMs generate plausible but factually incorrect content.", definitionZh: "大模型生成看似合理但与事实不符的内容。", category: "safety", file: "" },
+    { termEn: "Alignment", termZh: "对齐", definitionEn: "Making AI systems consistent with human values and intentions.", definitionZh: "让 AI 系统行为符合人类价值观与意图。", category: "safety", file: "" },
+    { termEn: "AI Safety", termZh: "AI 安全", definitionEn: "Research on reducing harmful and risky AI behaviors.", definitionZh: "研究降低 AI 有害与风险行为的领域。", category: "safety", file: "" },
+    { termEn: "AI Ethics", termZh: "AI 伦理", definitionEn: "Moral principles guiding the development of AI technology.", definitionZh: "指导 AI 技术发展的道德规范与原则。", category: "safety", file: "" },
+    { termEn: "Bias", termZh: "算法偏见", definitionEn: "Unfair and discriminatory tendencies in model outputs.", definitionZh: "模型输出中存在的不公平与歧视性倾向。", category: "safety", file: "" },
+    { termEn: "AI Agent", termZh: "AI 智能体", definitionEn: "Autonomous systems that can plan, use tools, and complete tasks.", definitionZh: "可自主规划、使用工具并完成任务的自治系统。", category: "safety", file: "" },
+    { termEn: "Tool Use", termZh: "工具使用", definitionEn: "LLMs calling external tools such as search and calculators.", definitionZh: "大模型调用搜索、计算器等外部工具的能力。", category: "safety", file: "" },
+    { termEn: "Memory", termZh: "记忆机制", definitionEn: "Ability of AI to store and reference historical information.", definitionZh: "AI 存储与引用历史对话信息的能力。", category: "safety", file: "" },
+    { termEn: "Reasoning", termZh: "推理能力", definitionEn: "Capability of logical deduction and problem-solving.", definitionZh: "AI 进行逻辑推演与问题求解的能力。", category: "safety", file: "" },
+    { termEn: "Planning", termZh: "任务规划", definitionEn: "Decomposing complex goals into executable steps.", definitionZh: "将复杂目标拆解为可执行步骤的能力。", category: "safety", file: "" },
+    { termEn: "Context Window", termZh: "上下文窗口", definitionEn: "Maximum length of text a model can process in one forward pass.", definitionZh: "模型单次前向推理可处理的最大文本长度。", category: "model", file: "" },
+    { termEn: "Temperature", termZh: "温度系数", definitionEn: "Controls randomness and creativity of LLM outputs.", definitionZh: "控制大模型输出随机性与创造性的参数。", category: "train", file: "" },
+    { termEn: "Top-k", termZh: "Top-k 采样", definitionEn: "Sampling from the top k most probable tokens.", definitionZh: "仅从概率最高的 k 个 Token 中采样。", category: "train", file: "" },
+    { termEn: "Top-p", termZh: "核采样", definitionEn: "Sampling from the smallest set with cumulative probability p.", definitionZh: "从累积概率达到 p 的最小集合中采样。", category: "train", file: "" },
+    { termEn: "Precision", termZh: "精确率", definitionEn: "Ratio of true positives among all predicted positive samples.", definitionZh: "预测为正的样本中真实为正的比例。", category: "basic", file: "" },
+    { termEn: "Recall", termZh: "召回率", definitionEn: "Ratio of true positives among all actual positive samples.", definitionZh: "所有真实正样本中被成功预测的比例。", category: "basic", file: "" },
+    { termEn: "F1 Score", termZh: "F1 分数", definitionEn: "Harmonic mean of precision and recall for classification.", definitionZh: "精确率与召回率的调和平均评估指标。", category: "basic", file: "" },
+    { termEn: "Accuracy", termZh: "准确率", definitionEn: "Overall proportion of correct predictions.", definitionZh: "预测正确样本占全部样本的比例。", category: "basic", file: "" },
+    { termEn: "Dataset", termZh: "数据集", definitionEn: "Collection of data used for training, validation, and test.", definitionZh: "用于训练、验证与测试的数据集合。", category: "basic", file: "" },
+    { termEn: "Annotation", termZh: "数据标注", definitionEn: "Labeling data to create supervised training sets.", definitionZh: "为数据添加标签以构建监督学习数据集。", category: "train", file: "" },
+    { termEn: "Data Augmentation", termZh: "数据增强", definitionEn: "Generating new training samples from existing data.", definitionZh: "从现有数据生成更多训练样本的方法。", category: "train", file: "" },
+    { termEn: "Normalization", termZh: "归一化", definitionEn: "Scaling data to a standard range for stable training.", definitionZh: "将数据缩放到标准范围以稳定训练过程。", category: "train", file: "" },
+    { termEn: "PyTorch", termZh: "PyTorch", definitionEn: "Popular open-source machine learning framework.", definitionZh: "主流开源深度学习训练框架。", category: "deploy", file: "" },
+    { termEn: "TensorFlow", termZh: "TensorFlow", definitionEn: "Open-source ML framework developed by Google.", definitionZh: "谷歌推出的开源机器学习框架。", category: "deploy", file: "" },
+    { termEn: "Hugging Face", termZh: "Hugging Face", definitionEn: "Platform for sharing models, datasets, and pipelines.", definitionZh: "分享模型、数据集与推理流水线的开源社区。", category: "deploy", file: "" },
+    { termEn: "Synthetic Data", termZh: "合成数据", definitionEn: "Artificially generated data for model training.", definitionZh: "人工生成的用于模型训练的数据。", category: "train", file: "" },
+    { termEn: "Cross Validation", termZh: "交叉验证", definitionEn: "Evaluating model performance across multiple data splits.", definitionZh: "通过多组数据划分评估模型泛化性能。", category: "basic", file: "" }
+];
+
+// ==========================
+// 全局状态
+// ==========================
+let currentList = [...aiTerms];
+let favSet = new Set(JSON.parse(localStorage.getItem('aiFavs') || '[]'));
+let showFavOnly = false;
+let currentCategory = "all";
+
+// ==========================
+// DOM
+// ==========================
+const cardGrid = document.getElementById('cardGrid');
+const empty = document.getElementById('empty');
+const search = document.getElementById('search');
+const favBtn = document.getElementById('favBtn');
+const libraryBtn = document.getElementById('libraryBtn');
+const stats = document.getElementById('stats');
+const categoryBtns = document.querySelectorAll('.category-btn');
+
+// ==========================
+// 渲染卡片（修复跳转）
+// ==========================
+function renderCards() {
+    cardGrid.innerHTML = '';
+    currentList.forEach(term => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const isFav = favSet.has(term.termEn);
+        
+        // 生成标准文件名
+        const fileName = term.termEn.toLowerCase().replace(/\s+/g, '-') + ".html";
+        const targetUrl = "./terms/" + fileName;
+
+        card.innerHTML = `
+            <div class="card-fav ${isFav ? 'active' : ''}" data-fav="${term.termEn}">★</div>
+            <div class="card-en">${term.termEn}</div>
+            <div class="card-zh">${term.termZh}</div>
+            <div class="card-preview">${term.definitionEn}</div>
+        `;
+
+        // 点击卡片 → 跳转到二级页面（修复版）
+        card.onclick = function(e) {
+            if (e.target.closest('[data-fav]')) return;
+            window.location.href = targetUrl;
+        };
+
+        cardGrid.appendChild(card);
+    });
+    empty.style.display = currentList.length ? 'none' : 'block';
+    stats.textContent = `共 ${aiTerms.length} 个术语 · 显示 ${currentList.length} 个`;
+    favBtn.textContent = `收藏 (${favSet.size})`;
+}
+
+// ==========================
+// 收藏功能
+// ==========================
+document.addEventListener('click', (e) => {
+    const favEl = e.target.closest('[data-fav]');
+    if (favEl) {
+        const en = favEl.dataset.fav;
+        favSet.has(en) ? favSet.delete(en) : favSet.add(en);
+        localStorage.setItem('aiFavs', JSON.stringify([...favSet]));
+        applyFilter();
+    }
+});
+
+// ==========================
+// 分类切换
+// ==========================
+categoryBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        categoryBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.cat;
+        applyFilter();
+    });
+});
+
+// ==========================
+// 过滤
+// ==========================
+function applyFilter() {
+    let list = [...aiTerms];
+    if (currentCategory !== 'all') {
+        list = list.filter(t => t.category === currentCategory);
+    }
+    const kw = search.value.toLowerCase().trim();
+    if (kw) {
+        list = list.filter(t =>
+            t.termEn.toLowerCase().includes(kw) || t.termZh.includes(kw)
+        );
+    }
+    if (showFavOnly) {
+        list = list.filter(t => favSet.has(t.termEn));
+    }
+    currentList = list;
+    renderCards();
+}
+
+search.addEventListener('input', applyFilter);
+
+// ==========================
+// 收藏视图
+// ==========================
+favBtn.addEventListener('click', () => {
+    showFavOnly = !showFavOnly;
+    applyFilter();
+});
+
+// ==========================
+// 重置
+// ==========================
+libraryBtn.addEventListener('click', () => {
+    showFavOnly = false;
+    currentCategory = "all";
+    search.value = "";
+    categoryBtns.forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-cat="all"]').classList.add('active');
+    applyFilter();
+});
+
+// ==========================
+// 启动
+// ==========================
+applyFilter();
+</script>
+</body>
+</html>
