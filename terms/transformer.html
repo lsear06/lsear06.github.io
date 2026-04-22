@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transformer</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">AI术语词典</div>
+  <div class="nav-right">
+    <a href="../index.html">首页</a>
+    <a href="../materials.html">资料</a>
+    <a href="../favorites.html">收藏</a>
+  </div>
+</nav>
+
+<div class="detail-page">
+  <h1>Transformer</h1>
+  <p style="font-size: 18px; color: #666;">Transformer 模型</p>
+
+  <div class="desc">
+    Transformer 是2017年提出的深度学习架构，基于自注意力机制，是当前所有大模型的基础。
+  </div>
+
+  <div class="links">
+    <a href="https://www.bilibili.com/xxx" target="_blank">B站讲解</a>
+    <a href="https://v.douyin.com/xxx" target="_blank">抖音讲解</a>
+    <a href="../files/transformer.pdf" download class="download-btn">📥 下载资料</a>
+  </div>
+
+  <button class="fav-btn" onclick="toggleFav('Transformer')">⭐ 收藏术语</button>
+</div>
+
+<script>
+function getFavs() { return JSON.parse(localStorage.getItem('favs') || '[]') }
+function toggleFav(name) {
+  let f = getFavs()
+  if (f.includes(name)) f = f.filter(x=>x!==name)
+  else f.push(name)
+  localStorage.setItem('favs', JSON.stringify(f))
+  alert('已更新收藏')
+}
+</script>
+
+</body>
+</html>
