@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformer - AI专业术语词典</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+        .back-btn:hover {
+            background: #5561d1;
+        }
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        .chinese-name {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 1.3rem;
+            color: #667eea;
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #eee;
+        }
+        .video-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .video-link {
+            display: inline-block;
+            padding: 10px 16px;
+            background: #f0f2ff;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .video-link:hover {
+            background: #e0e4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-btn">← 返回术语列表</a>
+
+        <header>
+            <h1>Transformer</h1>
+            <p class="chinese-name">Transformer 模型</p>
+        </header>
+
+        <div class="content">
+            <h2 class="section-title">📖 术语定义</h2>
+            <p>Transformer 是一种基于自注意力机制（Self-Attention）的深度学习模型架构，由 Google 在 2017 年的论文《Attention Is All You Need》中提出。它是现代所有大语言模型（如 GPT、BERT 等）的基础架构，解决了传统循环神经网络（RNN）无法并行计算和长距离依赖的问题。</p>
+
+            <h2 class="section-title">💡 通俗解释</h2>
+            <p>你可以把 Transformer 想象成一个超级高效的“阅读理解专家”，它能同时关注一句话里所有单词的关系，不管它们离得有多远，从而更好地理解上下文和生成文本。</p>
+
+            <h2 class="section-title">🎬 视频讲解</h2>
+            <div class="video-links">
+                <a href="https://www.bilibili.com/video/BV1RE411g7rQ/" class="video-link" target="_blank">B站：Transformer 从入门到理解</a>
+                <a href="https://v.douyin.com/xxxxxx/" class="video-link" target="_blank">抖音：3分钟看懂 Transformer 原理</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
