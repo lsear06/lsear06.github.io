@@ -1104,7 +1104,7 @@ function renderCards() {
         const isFav = favSet.has(term.termEn);
         // 生成文件名（空格替换为连字符，小写）
         const fileName = term.termEn.toLowerCase().replace(/ /g, '-') + ".html";
-        card.innerHTML = '"terms/${fileName}">查看详情</a>
+        card.innerHTML = '
             <div class="card-fav ${isFav ? 'active' : ''}" data-fav="${term.termEn}">★</div>
             <div class="card-en">${term.termEn}</div>
             <div class="card-zh">${term.termZh}</div>
