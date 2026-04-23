@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 术语中英词典</title>
+    <style>
+    /* ========== 全局样式 & 科技炫酷风格 ========== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', 'Poppins', 'Orbitron', 'Fira Code', monospace, system-ui;
+        background: radial-gradient(circle at 10% 20%, #0a0f1e, #020408);
+        color: #eef5ff;
+        line-height: 1.6;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* 动态粒子噪点层 + 科幻光晕 */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(rgba(0, 255, 255, 0.08) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(ellipse at 40% 50%, rgba(0, 180, 255, 0.1), transparent 70%),
+                    radial-gradient(ellipse at 80% 30%, rgba(255, 0, 200, 0.08), transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px 30px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* 头部科幻风格 */
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+        backdrop-filter: blur(4px);
+    }
+
+    .header h1 {
+        font-size: 2.8rem;
+        background: linear-gradient(135deg, #aaffff, #7a4eff, #ff46c0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+        letter-spacing: -0.5px;
+        font-weight: 800;
+    }
+
+    .stats {
+        font-size: 0.9rem;
+        color: #8aa9d6;
+        background: rgba(10, 20, 40, 0.6);
+        backdrop-filter: blur(8px);
+        display: inline-block;
+        padding: 6px 20px;
+        border-radius: 60px;
+        border: 1px solid rgba(0, 255, 255, 0.4);
+        box-shadow: 0 0 8px rgba(0, 255, 255, 0.2);
+        margin-top: 12px;
+    }
+
+    /* 搜索容器 */
+    .search-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        width: 100%;
+        max-width: 450px;
+        padding: 12px 24px;
+        font-size: 1rem;
+        background: rgba(15, 25, 45, 0.7);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(0, 255, 255, 0.5);
+        border-radius: 60px;
+        color: #fff;
+        outline: none;
+        transition: all 0.2s;
+    }
+
+    .search-input:focus {
+        border-color: #ff66cc;
+        box-shadow: 0 0 12px #ff66cc66;
+    }
+
+    /* 分类筛选按钮 */
+    .filter-buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 30px;
+    }
+
+    .filter-btn {
+        padding: 8px 22px;
+        background: rgba(20, 40, 65, 0.7);
+        backdrop-filter: blur(4px);
+        border: 1px solid #2c5a8c;
+        border-radius: 40px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #c4ffff;
+        transition: all 0.2s;
+    }
+
+    .filter-btn.active {
+        background: linear-gradient(95deg, #1a4c8c, #0f2e5a);
+        border-color: #0ff;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        color: white;
+    }
+
+    .filter-btn:hover {
+        background: #2a5f8f;
+        border-color: #ff77aa;
+        transform: scale(1.02);
+    }
+
+    /* 收藏按钮（炫酷） */
+    .favorites-toggle {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .favorites-btn {
+        padding: 10px 28px;
+        background: linear-gradient(145deg, #c0392b, #8e1e1e);
+        border: none;
+        border-radius: 40px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: 0.2s;
+        box-shadow: 0 0 8px #ff4444aa;
+    }
+
+    .favorites-btn:hover {
+        background: linear-gradient(145deg, #e74c3c, #a82313);
+        transform: scale(1.02);
+        box-shadow: 0 0 15px #ff6666;
+    }
+
+    /* 卡片网格 */
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+    }
+
+    .card {
+        background: rgba(12, 22, 40, 0.6);
+        backdrop-filter: blur(12px);
+        border-radius: 28px;
+        padding: 20px;
+        border: 1px solid rgba(0, 255, 255, 0.35);
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        border-color: #ff66dd;
+        box-shadow: 0 0 25px rgba(255, 102, 221, 0.3);
+    }
+
+    /* 卡片内文字 */
+    .card .term {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #fff, #9ad8ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 8px;
+    }
+
+    .card .translation {
+        font-size: 0.95rem;
+        color: #ccddf8;
+        border-left: 2px solid #0ff;
+        padding-left: 12px;
+        margin-top: 6px;
+    }
+
+    /* 收藏图标（科幻红） */
+    .card .favorite-icon {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 1.6rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        filter: drop-shadow(0 0 2px #ff3366);
+    }
+
+    .card .favorite-icon.favorited {
+        color: #ff3366;
+        text-shadow: 0 0 5px #ff3366;
+    }
+
+    .card .favorite-icon:not(.favorited) {
+        color: #5f7f9e;
+    }
+
+    .card .favorite-icon:hover {
+        transform: scale(1.1);
+    }
+
+    /* 模态框（玻璃态） */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(12px);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal.show {
+        display: flex;
+    }
+
+    .modal-content {
+        background: rgba(10, 20, 40, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 32px;
+        max-width: 650px;
+        width: 90%;
+        max-height: 85%;
+        overflow-y: auto;
+        padding: 28px;
+        position: relative;
+        border: 1px solid rgba(0, 255, 255, 0.6);
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #0ff;
+        padding-bottom: 12px;
+    }
+
+    .modal-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        background: linear-gradient(135deg, #fff, #7aaef0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: #0ff;
+        transition: 0.2s;
+    }
+
+    .close-btn:hover {
+        color: #ff66cc;
+        transform: rotate(90deg);
+    }
+
+    .modal-body {
+        line-height: 1.6;
+        color: #eef5ff;
+    }
+
+    .definition h3,
+    .references h3,
+    .notes h3 {
+        margin: 20px 0 10px 0;
+        font-size: 1.2rem;
+        color: #0ff;
+        border-left: 3px solid #ff66cc;
+        padding-left: 12px;
+    }
+
+    .image-section {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .image-section img {
+        max-width: 100%;
+        border-radius: 16px;
+        border: 1px solid #0ff;
+        box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+    }
+
+    .references a {
+        display: block;
+        color: #7aaef0;
+        text-decoration: none;
+        margin-bottom: 5px;
+        transition: 0.2s;
+    }
+
+    .references a:hover {
+        color: #0ff;
+        text-decoration: underline;
+        text-shadow: 0 0 2px cyan;
+    }
+
+    /* 滚动条（科技风） */
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #0e1a2a;
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #0ff;
+        border-radius: 10px;
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+        .header h1 {
+            font-size: 2rem;
+        }
+        .cards-container {
+            grid-template-columns: 1fr;
+        }
+        .filter-buttons {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .filter-btn {
+            text-align: center;
+        }
+        .modal-content {
+            padding: 20px;
+        }
+        .modal-title {
+            font-size: 1.4rem;
+        }
+    }
+</style>
+<style>
+    /* 智能助手悬浮窗样式 */
+    .assistant-float {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1001;
+    }
+    .chat-toggle {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #1f3f6e, #0a1a3a);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 30px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        border: 1px solid #0ff;
+        transition: 0.2s;
+    }
+    .chat-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 28px #ff44dd;
+    }
+    .chat-window {
+        position: fixed;
+        bottom: 110px;
+        right: 30px;
+        width: 380px;
+        height: 520px;
+        background: rgba(8, 18, 32, 0.95);
+        backdrop-filter: blur(16px);
+        border-radius: 28px;
+        border: 1px solid rgba(0, 255, 255, 0.7);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(0, 150, 255, 0.4);
+        z-index: 1002;
+    }
+    .chat-window.hidden {
+        display: none;
+    }
+    .chat-header {
+        background: linear-gradient(95deg, #0b2340, #030d1f);
+        padding: 16px 18px;
+        font-weight: bold;
+        border-bottom: 1px solid #0ff;
+        display: flex;
+        justify-content: space-between;
+    }
+    .chat-close {
+        cursor: pointer;
+        font-size: 22px;
+        color: #ff88cc;
+    }
+    .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .message {
+        max-width: 85%;
+        padding: 10px 14px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        word-break: break-word;
+    }
+    .user-msg {
+        align-self: flex-end;
+        background: linear-gradient(135deg, #1b4c8c, #0c2a55);
+        border: 0.5px solid #3affee;
+        border-bottom-right-radius: 4px;
+    }
+    .bot-msg {
+        align-self: flex-start;
+        background: rgba(30, 50, 70, 0.7);
+        border: 0.5px solid #8c7aff;
+        border-bottom-left-radius: 4px;
+    }
+    .chat-input-area {
+        display: flex;
+        padding: 14px;
+        background: #07152a;
+        border-top: 1px solid #2c5a8c;
+        gap: 10px;
+    }
+    .chat-input {
+        flex: 1;
+        background: #10223b;
+        border: 1px solid #3f8eff;
+        border-radius: 40px;
+        padding: 10px 15px;
+        color: white;
+        outline: none;
+    }
+    .chat-send {
+        background: #1f4172;
+        border: none;
+        border-radius: 40px;
+        padding: 0 18px;
+        color: white;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .chat-send:hover {
+        background: #3a6eae;
+        box-shadow: 0 0 8px cyan;
+    }
+    @media (max-width: 700px) {
+        .chat-window { width: 310px; right: 15px; bottom: 100px; }
+    }
+</style>
+</head>
+<!-- 智能助手悬浮窗 HTML 结构 -->
+<div class="assistant-float">
+    <div class="chat-toggle" id="chatToggle">🧠</div>
+    <div class="chat-window hidden" id="chatWindow">
+        <div class="chat-header">
+            <span>🤖 AI 工具专家 · 智语助手</span>
+            <div class="chat-close" id="chatClose">✖</div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-msg">✨ 我是AI助手，可以回答任何关于AI工具、术语或用法的问题！<br>例如：“ChatGPT和Claude的区别”</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="输入你的问题...">
+            <button class="chat-send" id="chatSendBtn">发送</button>
+        </div>
+    </div>
+</div>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI 术语中英词典</h1>
+            <div class="stats">总计 <span id="total-terms">0</span> 个术语</div>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="搜索术语（中英双语）" id="search-input">
+        </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-category="all">全部</button>
+            <button class="filter-btn" data-category="基础">基础</button>
+            <button class="filter-btn" data-category="模型">模型</button>
+            <button class="filter-btn" data-category="训练">训练</button>
+            <button class="filter-btn" data-category="多模态">多模态</button>
+            <button class="filter-btn" data-category="部署">部署</button>
+            <button class="filter-btn" data-category="安全">安全</button>
+        </div>
+        <div class="favorites-toggle">
+            <button class="favorites-btn" id="favorites-btn">显示收藏</button>
+        </div>
+        <div class="cards-container" id="cards-container">
+            <!-- 卡片将通过 JS 动态生成 -->
+        </div>
+    </div>
+
+    <!-- 详情弹窗 -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title"></div>
+                <button class="close-btn" id="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="definition">
+                    <h3>英文定义</h3>
+                    <p id="en-definition"></p>
+                    <h3>中文定义</h3>
+                    <p id="zh-definition"></p>
+                </div>
+                <div class="image-section">
+                    <h3>图片展示</h3>
+                    <img id="term-image" src="" alt="术语图片">
+                </div>
+                <div class="references">
+                    <h3>参考资料</h3>
+                    <a id="ref1" href="" target="_blank"></a>
+                    <a id="ref2" href="" target="_blank"></a>
+                </div>
+                <div class="notes">
+                    <h3>补充说明</h3>
+                    <p id="notes"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 可编辑区域：术语数据数组
+        // 每个术语对象包含：英文、中文、英文定义、中文定义、图片链接、参考链接1、参考链接2、补充说明、分类
+        const terms = [
+            // 基础 (约20个)
+            { en: "Artificial Intelligence", zh: "人工智能", enDef: "The simulation of human intelligence processes by machines, especially computer systems.", zhDef: "机器，特别是计算机系统，模拟人类智能过程。", image: "https://via.placeholder.com/400x200?text=AI", ref1: "https://en.wikipedia.org/wiki/Artificial_intelligence", ref2: "https://www.ibm.com/topics/artificial-intelligence", notes: "人工智能是计算机科学的一个分支，致力于创建能够执行通常需要人类智能的任务的系统。", category: "基础" },
+            { en: "Machine Learning", zh: "机器学习", enDef: "A subset of AI that enables systems to learn and improve from experience without being explicitly programmed.", zhDef: "人工智能的一个子集，使系统能够从经验中学习和改进，而无需显式编程。", image: "https://via.placeholder.com/400x200?text=ML", ref1: "https://en.wikipedia.org/wiki/Machine_learning", ref2: "https://developers.google.com/machine-learning/crash-course", notes: "机器学习是数据科学的核心，通过算法从数据中学习模式。", category: "基础" },
+            { en: "Deep Learning", zh: "深度学习", enDef: "A subset of machine learning using neural networks with multiple layers.", zhDef: "机器学习的一个子集，使用具有多层的神经网络。", image: "https://via.placeholder.com/400x200?text=DL", ref1: "https://en.wikipedia.org/wiki/Deep_learning", ref2: "https://www.deeplearning.ai/", notes: "深度学习模仿人脑的神经网络结构，用于复杂模式识别。", category: "基础" },
+            { en: "Neural Network", zh: "神经网络", enDef: "A computing system inspired by biological neural networks.", zhDef: "受生物神经网络启发的计算系统。", image: "https://via.placeholder.com/400x200?text=NN", ref1: "https://en.wikipedia.org/wiki/Artificial_neural_network", ref2: "https://cs231n.github.io/", notes: "神经网络由互连的节点组成，能够学习和处理信息。", category: "基础" },
+            { en: "Algorithm", zh: "算法", enDef: "A set of rules or processes followed by a computer to perform calculations or solve problems.", zhDef: "计算机遵循的一组规则或过程，用于执行计算或解决问题。", image: "https://via.placeholder.com/400x200?text=Algo", ref1: "https://en.wikipedia.org/wiki/Algorithm", ref2: "https://www.geeksforgeeks.org/fundamentals-of-algorithms/", notes: "算法是计算机程序的基础，定义了解决特定问题的步骤。", category: "基础" },
+            { en: "Data Mining", zh: "数据挖掘", enDef: "The process of discovering patterns in large data sets.", zhDef: "在大型数据集中发现模式的过程。", image: "https://via.placeholder.com/400x200?text=DM", ref1: "https://en.wikipedia.org/wiki/Data_mining", ref2: "https://www.oracle.com/data-science/data-mining.html", notes: "数据挖掘从数据中提取有价值的见解和知识。", category: "基础" },
+            { en: "Big Data", zh: "大数据", enDef: "Extremely large data sets that may be analyzed computationally to reveal patterns.", zhDef: "可能通过计算分析以揭示模式的极大数据集。", image: "https://via.placeholder.com/400x200?text=BD", ref1: "https://en.wikipedia.org/wiki/Big_data", ref2: "https://aws.amazon.com/big-data/", notes: "大数据处理需要特殊的工具和技术来管理海量信息。", category: "基础" },
+            { en: "Computer Vision", zh: "计算机视觉", enDef: "A field of AI that trains computers to interpret and understand visual information.", zhDef: "人工智能的一个领域，训练计算机解释和理解视觉信息。", image: "https://via.placeholder.com/400x200?text=CV", ref1: "https://en.wikipedia.org/wiki/Computer_vision", ref2: "https://opencv.org/", notes: "计算机视觉使机器能够像人类一样“看”和理解图像。", category: "基础" },
+            { en: "Natural Language Processing", zh: "自然语言处理", enDef: "A branch of AI that helps computers understand, interpret, and manipulate human language.", zhDef: "人工智能的一个分支，帮助计算机理解、解释和操纵人类语言。", image: "https://via.placeholder.com/400x200?text=NLP", ref1: "https://en.wikipedia.org/wiki/Natural_language_processing", ref2: "https://huggingface.co/", notes: "NLP 使计算机能够处理和生成人类语言。", category: "基础" },
+            { en: "Supervised Learning", zh: "监督学习", enDef: "A type of machine learning where the model is trained on labeled data.", zhDef: "一种机器学习类型，其中模型在标记数据上进行训练。", image: "https://via.placeholder.com/400x200?text=SL", ref1: "https://en.wikipedia.org/wiki/Supervised_learning", ref2: "https://scikit-learn.org/stable/supervised_learning.html", notes: "监督学习使用已知输出来训练模型预测新数据。", category: "基础" },
+            { en: "Unsupervised Learning", zh: "无监督学习", enDef: "A type of machine learning where the model finds patterns in unlabeled data.", zhDef: "一种机器学习类型，其中模型在未标记数据中发现模式。", image: "https://via.placeholder.com/400x200?text=UL", ref1: "https://en.wikipedia.org/wiki/Unsupervised_learning", ref2: "https://scikit-learn.org/stable/unsupervised_learning.html", notes: "无监督学习用于发现数据中的隐藏结构。", category: "基础" },
+            { en: "Reinforcement Learning", zh: "强化学习", enDef: "A type of machine learning where an agent learns by interacting with its environment.", zhDef: "一种机器学习类型，其中代理通过与环境互动来学习。", image: "https://via.placeholder.com/400x200?text=RL", ref1: "https://en.wikipedia.org/wiki/Reinforcement_learning", ref2: "https://spinningup.openai.com/en/latest/", notes: "强化学习通过奖励和惩罚来优化决策。", category: "基础" },
+            { en: "Feature Engineering", zh: "特征工程", enDef: "The process of selecting and transforming variables for use in machine learning models.", zhDef: "选择和转换变量以用于机器学习模型的过程。", image: "https://via.placeholder.com/400x200?text=FE", ref1: "https://en.wikipedia.org/wiki/Feature_engineering", ref2: "https://www.kaggle.com/learn/feature-engineering", notes: "特征工程是提高模型性能的关键步骤。", category: "基础" },
+            { en: "Overfitting", zh: "过拟合", enDef: "When a model performs well on training data but poorly on new data.", zhDef: "当模型在训练数据上表现良好，但在新数据上表现不佳时。", image: "https://via.placeholder.com/400x200?text=OF", ref1: "https://en.wikipedia.org/wiki/Overfitting", ref2: "https://developers.google.com/machine-learning/crash-course/overfitting", notes: "过拟合是机器学习中的常见问题，需要正则化技术来解决。", category: "基础" },
+            { en: "Underfitting", zh: "欠拟合", enDef: "When a model is too simple to capture the underlying pattern in the data.", zhDef: "当模型过于简单，无法捕捉数据中的底层模式时。", image: "https://via.placeholder.com/400x200?text=UF", ref1: "https://en.wikipedia.org/wiki/Overfitting#Underfitting", ref2: "https://developers.google.com/machine-learning/crash-course/overfitting", notes: "欠拟合通常通过增加模型复杂度来解决。", category: "基础" },
+            { en: "Bias-Variance Tradeoff", zh: "偏差-方差权衡", enDef: "The balance between a model's ability to fit training data and generalize to new data.", zhDef: "模型拟合训练数据能力和泛化到新数据之间的平衡。", image: "https://via.placeholder.com/400x200?text=BVT", ref1: "https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff", ref2: "https://developers.google.com/machine-learning/crash-course/generalization/bias-and-variance", notes: "偏差-方差权衡是机器学习模型选择的核心概念。", category: "基础" },
+            { en: "Cross-Validation", zh: "交叉验证", enDef: "A technique to evaluate model performance by dividing data into training and testing sets.", zhDef: "一种通过将数据分为训练和测试集来评估模型性能的技术。", image: "https://via.placeholder.com/400x200?text=CV", ref1: "https://en.wikipedia.org/wiki/Cross-validation_(statistics)", ref2: "https://scikit-learn.org/stable/modules/cross_validation.html", notes: "交叉验证有助于防止过拟合并评估模型的泛化能力。", category: "基础" },
+            { en: "Hyperparameter Tuning", zh: "超参数调优", enDef: "The process of optimizing the parameters that control the learning process.", zhDef: "优化控制学习过程的参数的过程。", image: "https://via.placeholder.com/400x200?text=HT", ref1: "https://en.wikipedia.org/wiki/Hyperparameter_optimization", ref2: "https://optuna.org/", notes: "超参数调优对于提高模型性能至关重要。", category: "基础" },
+            { en: "Ensemble Learning", zh: "集成学习", enDef: "A technique that combines multiple models to improve prediction accuracy.", zhDef: "一种结合多个模型以提高预测准确性的技术。", image: "https://via.placeholder.com/400x200?text=EL", ref1: "https://en.wikipedia.org/wiki/Ensemble_learning", ref2: "https://scikit-learn.org/stable/modules/ensemble.html", notes: "集成学习如随机森林和梯度提升是强大的机器学习方法。", category: "基础" },
+            { en: "Transfer Learning", zh: "迁移学习", enDef: "A technique where a model trained on one task is reused for another related task.", zhDef: "一种技术，其中在一个任务上训练的模型被重用于另一个相关任务。", image: "https://via.placeholder.com/400x200?text=TL", ref1: "https://en.wikipedia.org/wiki/Transfer_learning", ref2: "https://keras.io/guides/transfer_learning/", notes: "迁移学习减少了对大量数据的需要，提高了效率。", category: "基础" },
+            // 模型 (约20个)
+            { en: "Convolutional Neural Network", zh: "卷积神经网络", enDef: "A type of neural network designed for processing grid-like data, such as images.", zhDef: "一种设计用于处理网格状数据（如图像）的神经网络类型。", image: "https://via.placeholder.com/400x200?text=CNN", ref1: "https://en.wikipedia.org/wiki/Convolutional_neural_network", ref2: "https://cs231n.github.io/convolutional-networks/", notes: "CNN 在图像识别和计算机视觉任务中非常有效。", category: "模型" },
+            { en: "Recurrent Neural Network", zh: "循环神经网络", enDef: "A type of neural network that processes sequential data by maintaining internal state.", zhDef: "一种通过维护内部状态来处理顺序数据的神经网络类型。", image: "https://via.placeholder.com/400x200?text=RNN", ref1: "https://en.wikipedia.org/wiki/Recurrent_neural_network", ref2: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/", notes: "RNN 适用于时间序列和自然语言处理。", category: "模型" },
+            { en: "Long Short-Term Memory", zh: "长短期记忆", enDef: "A type of RNN designed to remember information for long periods.", zhDef: "一种设计用于长时间记忆信息的 RNN 类型。", image: "https://via.placeholder.com/400x200?text=LSTM", ref1: "https://en.wikipedia.org/wiki/Long_short-term_memory", ref2: "https://colah.github.io/posts/2015-08-Understanding-LSTMs/", notes: "LSTM 解决了 RNN 的梯度消失问题。", category: "模型" },
+            { en: "Transformer", zh: "变换器", enDef: "A neural network architecture based on self-attention mechanisms.", zhDef: "一种基于自注意力机制的神经网络架构。", image: "https://via.placeholder.com/400x200?text=Transformer", ref1: "https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)", ref2: "https://arxiv.org/abs/1706.03762", notes: "Transformer 是现代 NLP 模型的基础，如 BERT 和 GPT。", category: "模型" },
+            { en: "Generative Adversarial Network", zh: "生成对抗网络", enDef: "A framework where two neural networks compete to generate realistic data.", zhDef: "一个框架，其中两个神经网络竞争以生成真实数据。", image: "https://via.placeholder.com/400x200?text=GAN", ref1: "https://en.wikipedia.org/wiki/Generative_adversarial_network", ref2: "https://arxiv.org/abs/1406.2661", notes: "GAN 用于生成图像、视频和文本。", category: "模型" },
+            { en: "Autoencoder", zh: "自动编码器", enDef: "A neural network that learns to compress and reconstruct data.", zhDef: "一种学习压缩和重建数据的神经网络。", image: "https://via.placeholder.com/400x200?text=AE", ref1: "https://en.wikipedia.org/wiki/Autoencoder", ref2: "https://blog.keras.io/building-autoencoders-in-keras.html", notes: "自动编码器用于降维和特征学习。", category: "模型" },
+            { en: "Variational Autoencoder", zh: "变分自动编码器", enDef: "A type of autoencoder that generates new data by learning a probabilistic distribution.", zhDef: "一种通过学习概率分布来生成新数据的自动编码器类型。", image: "https://via.placeholder.com/400x200?text=VAE", ref1: "https://en.wikipedia.org/wiki/Variational_autoencoder", ref2: "https://arxiv.org/abs/1312.6114", notes: "VAE 用于生成模型和半监督学习。", category: "模型" },
+            { en: "Graph Neural Network", zh: "图神经网络", enDef: "A neural network designed to work with graph-structured data.", zhDef: "一种设计用于处理图结构数据的神经网络。", image: "https://via.placeholder.com/400x200?text=GNN", ref1: "https://en.wikipedia.org/wiki/Graph_neural_network", ref2: "https://www.deepmind.com/blog/graph-networks", notes: "GNN 用于社交网络分析和分子结构预测。", category: "模型" },
+            { en: "Attention Mechanism", zh: "注意力机制", enDef: "A technique that allows models to focus on relevant parts of the input.", zhDef: "一种允许模型关注输入相关部分的技术。", image: "https://via.placeholder.com/400x200?text=Attention", ref1: "https://en.wikipedia.org/wiki/Attention_(machine_learning)", ref2: "https://arxiv.org/abs/1706.03762", notes: "注意力机制提高了序列到序列模型的性能。", category: "模型" },
+            { en: "Self-Attention", zh: "自注意力", enDef: "A mechanism where the model attends to different parts of its own input.", zhDef: "一种机制，其中模型关注其自身输入的不同部分。", image: "https://via.placeholder.com/400x200?text=Self-Attention", ref1: "https://en.wikipedia.org/wiki/Attention_(machine_learning)#Self-attention", ref2: "https://jalammar.github.io/illustrated-transformer/", notes: "自注意力是 Transformer 的核心组件。", category: "模型" },
+            { en: "Multi-Head Attention", zh: "多头注意力", enDef: "An extension of attention that uses multiple attention heads in parallel.", zhDef: "注意力的扩展，使用多个注意力头并行。", image: "https://via.placeholder.com/400x200?text=MHA", ref1: "https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)#Multi-head_attention", ref2: "https://jalammar.github.io/illustrated-transformer/", notes: "多头注意力允许模型同时关注不同的表示子空间。", category: "模型" },
+            { en: "Positional Encoding", zh: "位置编码", enDef: "A technique to inject position information into sequence data.", zhDef: "一种将位置信息注入序列数据的技术。", image: "https://via.placeholder.com/400x200?text=PE", ref1: "https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)#Positional_encoding", ref2: "https://jalammar.github.io/illustrated-transformer/", notes: "位置编码帮助 Transformer 理解序列中的顺序。", category: "模型" },
+            { en: "Feedforward Network", zh: "前馈网络", enDef: "A neural network where connections do not form cycles.", zhDef: "一种连接不形成循环的神经网络。", image: "https://via.placeholder.com/400x200?text=FFN", ref1: "https://en.wikipedia.org/wiki/Feedforward_neural_network", ref2: "https://cs231n.github.io/neural-networks-1/", notes: "前馈网络是神经网络的基础架构。", category: "模型" },
+            { en: "Residual Network", zh: "残差网络", enDef: "A neural network that uses skip connections to ease training of deep networks.", zhDef: "一种使用跳跃连接来简化深度网络训练的神经网络。", image: "https://via.placeholder.com/400x200?text=ResNet", ref1: "https://en.wikipedia.org/wiki/Residual_neural_network", ref2: "https://arxiv.org/abs/1512.03385", notes: "ResNet 解决了深度网络的梯度消失问题。", category: "模型" },
+            { en: "DenseNet", zh: "密集连接网络", enDef: "A convolutional network where each layer connects to all subsequent layers.", zhDef: "一种卷积网络，其中每一层都连接到所有后续层。", image: "https://via.placeholder.com/400x200?text=DenseNet", ref1: "https://en.wikipedia.org/wiki/Densely_connected_convolutional_networks", ref2: "https://arxiv.org/abs/1608.06993", notes: "DenseNet 通过密集连接提高了特征重用。", category: "模型" },
+            { en: "U-Net", zh: "U-Net", enDef: "A convolutional network for biomedical image segmentation.", zhDef: "一种用于生物医学图像分割的卷积网络。", image: "https://via.placeholder.com/400x200?text=U-Net", ref1: "https://en.wikipedia.org/wiki/U-Net", ref2: "https://arxiv.org/abs/1505.04597", notes: "U-Net 以其 U 形架构而闻名，用于精确分割。", category: "模型" },
+            { en: "YOLO", zh: "YOLO", enDef: "A real-time object detection system.", zhDef: "一种实时物体检测系统。", image: "https://via.placeholder.com/400x200?text=YOLO", ref1: "https://pjreddie.com/darknet/yolo/", ref2: "https://arxiv.org/abs/1506.02640", notes: "YOLO 以其速度和准确性在物体检测中流行。", category: "模型" },
+            { en: "SSD", zh: "单发多框检测", enDef: "A method for object detection using a single deep neural network.", zhDef: "一种使用单个深度神经网络进行物体检测的方法。", image: "https://via.placeholder.com/400x200?text=SSD", ref1: "https://en.wikipedia.org/wiki/Single_shot_multi-box_detector", ref2: "https://arxiv.org/abs/1512.02325", notes: "SSD 提供了物体检测的快速且准确的解决方案。", category: "模型" },
+            { en: "Faster R-CNN", zh: "Faster R-CNN", enDef: "A region-based convolutional neural network for object detection.", zhDef: "一种用于物体检测的基于区域的卷积神经网络。", image: "https://via.placeholder.com/400x200?text=Faster-RCNN", ref1: "https://en.wikipedia.org/wiki/Region_Based_Convolutional_Neural_Networks", ref2: "https://arxiv.org/abs/1506.01497", notes: "Faster R-CNN 是两阶段物体检测器的代表。", category: "模型" },
+            { en: "Mask R-CNN", zh: "Mask R-CNN", enDef: "An extension of Faster R-CNN for instance segmentation.", zhDef: "Faster R-CNN 的扩展，用于实例分割。", image: "https://via.placeholder.com/400x200?text=Mask-RCNN", ref1: "https://en.wikipedia.org/wiki/Mask_R-CNN", ref2: "https://arxiv.org/abs/1703.06870", notes: "Mask R-CNN 不仅检测物体，还生成像素级掩码。", category: "模型" },
+            // 训练 (约15个)
+            { en: "Backpropagation", zh: "反向传播", enDef: "An algorithm for training neural networks by propagating errors backward.", zhDef: "一种通过向后传播误差来训练神经网络的算法。", image: "https://via.placeholder.com/400x200?text=BP", ref1: "https://en.wikipedia.org/wiki/Backpropagation", ref2: "https://cs231n.github.io/optimization-2/", notes: "反向传播是神经网络训练的核心算法。", category: "训练" },
+            { en: "Gradient Descent", zh: "梯度下降", enDef: "An optimization algorithm that minimizes a function by iteratively moving in the direction of steepest descent.", zhDef: "一种通过迭代向最陡下降方向移动来最小化函数的优化算法。", image: "https://via.placeholder.com/400x200?text=GD", ref1: "https://en.wikipedia.org/wiki/Gradient_descent", ref2: "https://developers.google.com/machine-learning/crash-course/reducing-loss/gradient-descent", notes: "梯度下降是机器学习中最常用的优化方法。", category: "训练" },
+            { en: "Stochastic Gradient Descent", zh: "随机梯度下降", enDef: "A variant of gradient descent that uses a random subset of data for each update.", zhDef: "梯度下降的一种变体，为每次更新使用数据的随机子集。", image: "https://via.placeholder.com/400x200?text=SGD", ref1: "https://en.wikipedia.org/wiki/Stochastic_gradient_descent", ref2: "https://scikit-learn.org/stable/modules/sgd.html", notes: "SGD 对于大数据集更有效，但可能有噪声。", category: "训练" },
+            { en: "Adam Optimizer", zh: "Adam 优化器", enDef: "An adaptive learning rate optimization algorithm.", zhDef: "一种自适应学习率的优化算法。", image: "https://via.placeholder.com/400x200?text=Adam", ref1: "https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam", ref2: "https://arxiv.org/abs/1412.6980", notes: "Adam 结合了动量和 RMSProp 的优点。", category: "训练" },
+            { en: "Batch Normalization", zh: "批归一化", enDef: "A technique to normalize layer inputs for faster and more stable training.", zhDef: "一种标准化层输入以实现更快、更稳定训练的技术。", image: "https://via.placeholder.com/400x200?text=BN", ref1: "https://en.wikipedia.org/wiki/Batch_normalization", ref2: "https://arxiv.org/abs/1502.03167", notes: "批归一化减少了内部协变量偏移。", category: "训练" },
+            { en: "Dropout", zh: "丢弃", enDef: "A regularization technique that randomly drops units during training.", zhDef: "一种在训练期间随机丢弃单元的正则化技术。", image: "https://via.placeholder.com/400x200?text=Dropout", ref1: "https://en.wikipedia.org/wiki/Dropout_(neural_networks)", ref2: "https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf", notes: "丢弃有助于防止过拟合。", category: "训练" },
+            { en: "Early Stopping", zh: "提前停止", enDef: "A technique to stop training when validation performance stops improving.", zhDef: "一种在验证性能停止改善时停止训练的技术。", image: "https://via.placeholder.com/400x200?text=ES", ref1: "https://en.wikipedia.org/wiki/Early_stopping", ref2: "https://developers.google.com/machine-learning/crash-course/early-stopping", notes: "提前停止防止过拟合并节省计算资源。", category: "训练" },
+            { en: "Learning Rate Scheduling", zh: "学习率调度", enDef: "Techniques to adjust the learning rate during training.", zhDef: "在训练期间调整学习率的技术。", image: "https://via.placeholder.com/400x200?text=LRS", ref1: "https://en.wikipedia.org/wiki/Learning_rate#Learning_rate_scheduling", ref2: "https://pytorch.org/docs/stable/optim.html#torch.optim.lr_scheduler", notes: "学习率调度可以提高收敛速度和最终性能。", category: "训练" },
+            { en: "Data Augmentation", zh: "数据增强", enDef: "Techniques to artificially increase the size of a training dataset.", zhDef: "人为增加训练数据集大小的技术。", image: "https://via.placeholder.com/400x200?text=DA", ref1: "https://en.wikipedia.org/wiki/Data_augmentation", ref2: "https://keras.io/api/preprocessing/image/", notes: "数据增强提高了模型的泛化能力。", category: "训练" },
+            { en: "Transfer Learning", zh: "迁移学习", enDef: "Using a pre-trained model as a starting point for a new task.", zhDef: "使用预训练模型作为新任务的起点。", image: "https://via.placeholder.com/400x200?text=TL", ref1: "https://en.wikipedia.org/wiki/Transfer_learning", ref2: "https://keras.io/guides/transfer_learning/", notes: "迁移学习减少了训练时间和数据需求。", category: "训练" },
+            { en: "Fine-Tuning", zh: "微调", enDef: "Adjusting a pre-trained model for a specific task.", zhDef: "为特定任务调整预训练模型。", image: "https://via.placeholder.com/400x200?text=FT", ref1: "https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)", ref2: "https://huggingface.co/docs/transformers/training#fine-tune-a-pretrained-model", notes: "微调允许使用较少的计算资源获得良好性能。", category: "训练" },
+            { en: "Curriculum Learning", zh: "课程学习", enDef: "Training models by gradually increasing task difficulty.", zhDef: "通过逐渐增加任务难度来训练模型。", image: "https://via.placeholder.com/400x200?text=CL", ref1: "https://en.wikipedia.org/wiki/Curriculum_learning", ref2: "https://arxiv.org/abs/2101.10382", notes: "课程学习模仿人类学习过程。", category: "训练" },
+            { en: "Multi-Task Learning", zh: "多任务学习", enDef: "Training a model to perform multiple related tasks simultaneously.", zhDef: "训练模型同时执行多个相关任务。", image: "https://via.placeholder.com/400x200?text=MTL", ref1: "https://en.wikipedia.org/wiki/Multi-task_learning", ref2: "https://arxiv.org/abs/1706.05098", notes: "多任务学习提高了效率和泛化。", category: "训练" },
+            { en: "Meta-Learning", zh: "元学习", enDef: "Learning to learn, enabling quick adaptation to new tasks.", zhDef: "学习学习，使快速适应新任务成为可能。", image: "https://via.placeholder.com/400x200?text=MetaL", ref1: "https://en.wikipedia.org/wiki/Meta-learning_(computer_science)", ref2: "https://arxiv.org/abs/2004.05439", notes: "元学习是实现通用 AI 的关键。", category: "训练" },
+            { en: "Federated Learning", zh: "联邦学习", enDef: "Training models across decentralized devices while preserving privacy.", zhDef: "在保护隐私的同时跨分散设备训练模型。", image: "https://via.placeholder.com/400x200?text=FL", ref1: "https://en.wikipedia.org/wiki/Federated_learning", ref2: "https://ai.googleblog.com/2017/04/federated-learning-collaborative.html", notes: "联邦学习是隐私保护机器学习的范例。", category: "训练" },
+            // 多模态 (约10个)
+            { en: "Multimodal Learning", zh: "多模态学习", enDef: "Learning from multiple types of data modalities simultaneously.", zhDef: "同时从多种类型的数据模态中学习。", image: "https://via.placeholder.com/400x200?text=MM", ref1: "https://en.wikipedia.org/wiki/Multimodal_learning", ref2: "https://arxiv.org/abs/1705.09406", notes: "多模态学习结合文本、图像和音频等。", category: "多模态" },
+            { en: "Vision-Language Models", zh: "视觉-语言模型", enDef: "Models that process both visual and textual information.", zhDef: "处理视觉和文本信息的模型。", image: "https://via.placeholder.com/400x200?text=VLM", ref1: "https://en.wikipedia.org/wiki/Multimodal_large_language_model", ref2: "https://openai.com/research/clip", notes: "视觉-语言模型如 CLIP 实现了零样本学习。", category: "多模态" },
+            { en: "CLIP", zh: "对比语言-图像预训练", enDef: "A model that learns visual concepts from natural language supervision.", zhDef: "一个从自然语言监督中学习视觉概念的模型。", image: "https://via.placeholder.com/400x200?text=CLIP", ref1: "https://openai.com/research/clip", ref2: "https://arxiv.org/abs/2103.00020", notes: "CLIP 实现了强大的零样本图像分类。", category: "多模态" },
+            { en: "DALL-E", zh: "DALL-E", enDef: "A model that generates images from text descriptions.", zhDef: "一个从文本描述生成图像的模型。", image: "https://via.placeholder.com/400x200?text=DALL-E", ref1: "https://openai.com/research/dall-e-2", ref2: "https://arxiv.org/abs/2102.12092", notes: "DALL-E 展示了文本到图像生成的潜力。", category: "多模态" },
+            { en: "Stable Diffusion", zh: "稳定扩散", enDef: "A latent diffusion model for high-quality image generation.", zhDef: "一种用于高质量图像生成的潜在扩散模型。", image: "https://via.placeholder.com/400x200?text=SD", ref1: "https://stability.ai/blog/stable-diffusion-public-release", ref2: "https://arxiv.org/abs/2112.10752", notes: "稳定扩散是开源图像生成的领先模型。", category: "多模态" },
+            { en: "Audio-Visual Learning", zh: "视听学习", enDef: "Learning from synchronized audio and visual data.", zhDef: "从同步的音频和视觉数据中学习。", image: "https://via.placeholder.com/400x200?text=AVL", ref1: "https://arxiv.org/abs/1804.03641", ref2: "https://github.com/speechbrain/speechbrain", notes: "视听学习用于唇读和多媒体分析。", category: "多模态" },
+            { en: "Cross-Modal Retrieval", zh: "跨模态检索", enDef: "Retrieving information across different modalities.", zhDef: "跨不同模态检索信息。", image: "https://via.placeholder.com/400x200?text=CMR", ref1: "https://en.wikipedia.org/wiki/Cross-modal_retrieval", ref2: "https://arxiv.org/abs/1906.05849", notes: "跨模态检索允许使用文本查询图像，反之亦然。", category: "多模态" },
+            { en: "Multimodal Fusion", zh: "多模态融合", enDef: "Combining information from multiple modalities.", zhDef: "结合来自多个模态的信息。", image: "https://via.placeholder.com/400x200?text=MF", ref1: "https://en.wikipedia.org/wiki/Multimodal_integration", ref2: "https://arxiv.org/abs/1705.09406", notes: "多模态融合是多模态系统的基础。", category: "多模态" },
+            { en: "Video Understanding", zh: "视频理解", enDef: "AI systems that comprehend video content.", zhDef: "理解视频内容的 AI 系统。", image: "https://via.placeholder.com/400x200?text=VU", ref1: "https://arxiv.org/abs/2006.16228", ref2: "https://github.com/pytorch/vision", notes: "视频理解涉及动作识别和事件检测。", category: "多模态" },
+            { en: "Embodied AI", zh: "具身 AI", enDef: "AI systems that interact with the physical world through a body.", zhDef: "通过身体与物理世界互动的 AI 系统。", image: "https://via.placeholder.com/400x200?text=EAI", ref1: "https://en.wikipedia.org/wiki/Embodied_cognition", ref2: "https://arxiv.org/abs/1808.00177", notes: "具身 AI 结合感知、行动和学习。", category: "多模态" },
+            // 部署 (约10个)
+            { en: "Model Deployment", zh: "模型部署", enDef: "The process of making a trained model available for inference.", zhDef: "使训练好的模型可用于推理的过程。", image: "https://via.placeholder.com/400x200?text=MD", ref1: "https://en.wikipedia.org/wiki/Model_deployment", ref2: "https://aws.amazon.com/sagemaker/model-deployment/", notes: "模型部署涉及将模型从开发环境移动到生产环境。", category: "部署" },
+            { en: "Inference", zh: "推理", enDef: "The process of using a trained model to make predictions.", zhDef: "使用训练好的模型进行预测的过程。", image: "https://via.placeholder.com/400x200?text=Inf", ref1: "https://en.wikipedia.org/wiki/Inference", ref2: "https://pytorch.org/docs/stable/jit.html", notes: "推理是模型部署的核心功能。", category: "部署" },
+            { en: "Model Compression", zh: "模型压缩", enDef: "Techniques to reduce model size and computational requirements.", zhDef: "减少模型大小和计算需求的技术。", image: "https://via.placeholder.com/400x200?text=MC", ref1: "https://en.wikipedia.org/wiki/Model_compression", ref2: "https://arxiv.org/abs/1710.09282", notes: "模型压缩使模型适合边缘设备。", category: "部署" },
+            { en: "Quantization", zh: "量化", enDef: "Reducing the precision of model weights to save memory and computation.", zhDef: "降低模型权重的精度以节省内存和计算。", image: "https://via.placeholder.com/400x200?text=Quant", ref1: "https://en.wikipedia.org/wiki/Quantization_(signal_processing)", ref2: "https://pytorch.org/docs/stable/quantization.html", notes: "量化将浮点权重转换为整数。", category: "部署" },
+            { en: "Pruning", zh: "剪枝", enDef: "Removing unnecessary connections or neurons from a neural network.", zhDef: "从神经网络中移除不必要的连接或神经元。", image: "https://via.placeholder.com/400x200?text=Prune", ref1: "https://en.wikipedia.org/wiki/Pruning_(artificial_neural_network)", ref2: "https://arxiv.org/abs/1608.08710", notes: "剪枝减少了模型的参数数量。", category: "部署" },
+            { en: "Knowledge Distillation", zh: "知识蒸馏", enDef: "Training a smaller model to mimic a larger model's behavior.", zhDef: "训练较小的模型模仿较大模型的行为。", image: "https://via.placeholder.com/400x200?text=KD", ref1: "https://en.wikipedia.org/wiki/Knowledge_distillation", ref2: "https://arxiv.org/abs/1503.02531", notes: "知识蒸馏将知识从教师模型转移到学生模型。", category: "部署" },
+            { en: "Edge Computing", zh: "边缘计算", enDef: "Processing data near the source rather than in a centralized location.", zhDef: "在靠近源头的地方处理数据，而不是在集中位置。", image: "https://via.placeholder.com/400x200?text=EC", ref1: "https://en.wikipedia.org/wiki/Edge_computing", ref2: "https://aws.amazon.com/edge/", notes: "边缘计算减少了延迟并提高了隐私。", category: "部署" },
+            { en: "Model Serving", zh: "模型服务", enDef: "Infrastructure for deploying and serving machine learning models.", zhDef: "部署和服务机器学习模型的基础设施。", image: "https://via.placeholder.com/400x200?text=MS", ref1: "https://en.wikipedia.org/wiki/Model_serving", ref2: "https://www.tensorflow.org/tfx/guide/serving", notes: "模型服务处理推理请求并管理资源。", category: "部署" },
+            { en: "A/B Testing", zh: "A/B 测试", enDef: "Comparing two versions of a model or system to determine which performs better.", zhDef: "比较模型或系统的两个版本，以确定哪个表现更好。", image: "https://via.placeholder.com/400x200?text=AB", ref1: "https://en.wikipedia.org/wiki/A/B_testing", ref2: "https://developers.google.com/optimize", notes: "A/B 测试用于评估模型改进。", category: "部署" },
+            { en: "Continuous Integration/Continuous Deployment", zh: "持续集成/持续部署", enDef: "Practices for automating the testing and deployment of ML models.", zhDef: "自动化 ML 模型测试和部署的实践。", image: "https://via.placeholder.com/400x200?text=CI/CD", ref1: "https://en.wikipedia.org/wiki/CI/CD", ref2: "https://mlflow.org/docs/latest/model-registry.html", notes: "CI/CD 确保了模型的可靠部署。", category: "部署" },
+            // 安全 (约10个)
+            { en: "Adversarial Attacks", zh: "对抗性攻击", enDef: "Inputs designed to fool machine learning models.", zhDef: "设计用于愚弄机器学习模型的输入。", image: "https://via.placeholder.com/400x200?text=AA", ref1: "https://en.wikipedia.org/wiki/Adversarial_machine_learning", ref2: "https://arxiv.org/abs/1412.6572", notes: "对抗性攻击揭示了模型的脆弱性。", category: "安全" },
+            { en: "Adversarial Training", zh: "对抗性训练", enDef: "Training models to be robust against adversarial inputs.", zhDef: "训练模型对对抗性输入具有鲁棒性。", image: "https://via.placeholder.com/400x200?text=AT", ref1: "https://en.wikipedia.org/wiki/Adversarial_machine_learning#Adversarial_training", ref2: "https://arxiv.org/abs/1706.06083", notes: "对抗性训练提高了模型的安全性。", category: "安全" },
+            { en: "Data Poisoning", zh: "数据中毒", enDef: "Maliciously altering training data to compromise model performance.", zhDef: "恶意更改训练数据以损害模型性能。", image: "https://via.placeholder.com/400x200?text=DP", ref1: "https://en.wikipedia.org/wiki/Data_poisoning", ref2: "https://arxiv.org/abs/1804.07933", notes: "数据中毒是训练阶段的攻击。", category: "安全" },
+            { en: "Model Inversion", zh: "模型反转", enDef: "Reconstructing training data from model outputs.", zhDef: "从模型输出重建训练数据。", image: "https://via.placeholder.com/400x200?text=MI", ref1: "https://en.wikipedia.org/wiki/Model_inversion_attack", ref2: "https://arxiv.org/abs/1912.12353", notes: "模型反转威胁隐私。", category: "安全" },
+            { en: "Membership Inference", zh: "成员推理", enDef: "Determining whether a particular data point was used in training.", zhDef: "确定特定数据点是否用于训练。", image: "https://via.placeholder.com/400x200?text=MemInf", ref1: "https://en.wikipedia.org/wiki/Membership_inference_attack", ref2: "https://arxiv.org/abs/1610.05820", notes: "成员推理攻击隐私。", category: "安全" },
+            { en: "Explainable AI", zh: "可解释 AI", enDef: "Techniques to make AI decisions understandable to humans.", zhDef: "使 AI 决策对人类可理解的技术。", image: "https://via.placeholder.com/400x200?text=XAI", ref1: "https://en.wikipedia.org/wiki/Explainable_artificial_intelligence", ref2: "https://christophm.github.io/interpretable-ml-book/", notes: "可解释 AI 提高了信任和问责制。", category: "安全" },
+            { en: "Fairness in AI", zh: "AI 公平性", enDef: "Ensuring AI systems do not discriminate against protected groups.", zhDef: "确保 AI 系统不对受保护群体进行歧视。", image: "https://via.placeholder.com/400x200?text=FairAI", ref1: "https://en.wikipedia.org/wiki/Algorithmic_bias", ref2: "https://fairlearn.org/", notes: "AI 公平性是道德 AI 的关键。", category: "安全" },
+            { en: "Robustness", zh: "鲁棒性", enDef: "The ability of a model to maintain performance under perturbations.", zhDef: "模型在扰动下保持性能的能力。", image: "https://via.placeholder.com/400x200?text=Robust", ref1: "https://en.wikipedia.org/wiki/Robustness_(computer_science)", ref2: "https://arxiv.org/abs/1804.05866", notes: "鲁棒性是安全 AI 的基础。", category: "安全" },
+            { en: "Differential Privacy", zh: "差分隐私", enDef: "A framework for quantifying privacy loss in data analysis.", zhDef: "量化数据分析中隐私损失的框架。", image: "https://via.placeholder.com/400x200?text=DP", ref1: "https://en.wikipedia.org/wiki/Differential_privacy", ref2: "https://privacytools.seas.harvard.edu/differential-privacy", notes: "差分隐私提供了数学保证的隐私保护。", category: "安全" },
+            { en: "Federated Learning", zh: "联邦学习", enDef: "Training models across decentralized devices while preserving privacy.", zhDef: "在保护隐私的同时跨分散设备训练模型。", image: "https://via.placeholder.com/400x200?text=FL", ref1: "https://en.wikipedia.org/wiki/Federated_learning", ref2: "https://ai.googleblog.com/2017/04/federated-learning-collaborative.html", notes: "联邦学习是隐私保护机器学习的范例。", category: "安全" }
+        ];
+
+        // 全局变量
+        let currentCategory = 'all';
+        let showFavorites = false;
+        let favorites = JSON.parse(localStorage.getItem('aiDictionaryFavorites')) || [];
+
+        // DOM 元素
+        const totalTermsEl = document.getElementById('total-terms');
+        const searchInput = document.getElementById('search-input');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const favoritesBtn = document.getElementById('favorites-btn');
+        const cardsContainer = document.getElementById('cards-container');
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const enDefinition = document.getElementById('en-definition');
+        const zhDefinition = document.getElementById('zh-definition');
+        const termImage = document.getElementById('term-image');
+        const ref1 = document.getElementById('ref1');
+        const ref2 = document.getElementById('ref2');
+        const notes = document.getElementById('notes');
+        const closeBtn = document.getElementById('close-btn');
+
+        // 初始化
+        function init() {
+            totalTermsEl.textContent = terms.length;
+            renderCards();
+            setupEventListeners();
+        }
+
+        // 渲染卡片
+        function renderCards() {
+            let filteredTerms = terms;
+
+            // 分类过滤
+            if (currentCategory !== 'all') {
+                filteredTerms = filteredTerms.filter(term => term.category === currentCategory);
+            }
+
+            // 收藏过滤
+            if (showFavorites) {
+                filteredTerms = filteredTerms.filter(term => favorites.includes(term.en));
+            }
+
+            // 搜索过滤	
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                filteredTerms = filteredTerms.filter(term =>
+                    term.en.toLowerCase().includes(searchTerm) ||
+                    term.zh.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            cardsContainer.innerHTML = '';
+            filteredTerms.forEach(term => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="term">${term.en}</div>
+                    <div class="translation">${term.zh}</div>
+                    <div class="favorite-icon ${favorites.includes(term.en) ? 'favorited' : ''}" data-term="${term.en}">&#10084;</div>
+                `;
+                card.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('favorite-icon')) {
+                        openModal(term);
+                    }
+                });
+                const favoriteIcon = card.querySelector('.favorite-icon');
+                favoriteIcon.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleFavorite(term.en);
+                });
+                cardsContainer.appendChild(card);
+            });
+        }
+
+        // 打开弹窗
+        function openModal(term) {
+            modalTitle.textContent = `${term.en} (${term.zh})`;
+            enDefinition.textContent = term.enDef;
+            zhDefinition.textContent = term.zhDef;
+            termImage.src = term.image;
+            ref1.href = term.ref1;
+            ref1.textContent = '参考资料 1';
+            ref2.href = term.ref2;
+            ref2.textContent = '参考资料 2';
+            notes.textContent = term.notes;
+            modal.classList.add('show');
+        }
+
+        // 关闭弹窗
+        function closeModal() {
+            modal.classList.remove('show');
+        }
+
+        // 切换收藏
+        function toggleFavorite(term) {
+            const index = favorites.indexOf(term);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(term);
+            }
+            localStorage.setItem('aiDictionaryFavorites', JSON.stringify(favorites));
+            renderCards();
+        }
+
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 搜索
+            searchInput.addEventListener('input', renderCards);
+
+            // 分类按钮
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategory = btn.dataset.category;
+                    renderCards();
+                });
+            });
+
+            // 收藏按钮
+            favoritesBtn.addEventListener('click', () => {
+                showFavorites = !showFavorites;
+                favoritesBtn.textContent = showFavorites ? '显示全部' : '显示收藏';
+                renderCards();
+            });
+
+            // 关闭弹窗
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+
+        // 初始化应用
+        init();
+  // ========= 智能助手部分 (直接调用 DeepSeek API，无需后端) =========
+const chatToggle = document.getElementById("chatToggle");
+const chatWindow = document.getElementById("chatWindow");
+const chatClose = document.getElementById("chatClose");
+chatToggle.onclick = () => chatWindow.classList.toggle("hidden");
+chatClose.onclick = () => chatWindow.classList.add("hidden");
+
+const chatMessages = document.getElementById("chatMessages");
+const chatInput = document.getElementById("chatInput");
+const sendBtn = document.getElementById("chatSendBtn");
+
+function appendMessage(text, isUser, isThinking = false) {
+    const div = document.createElement("div");
+    div.className = `message ${isUser ? "user-msg" : "bot-msg"}`;
+    div.innerText = text;
+    if(isThinking) div.style.opacity = "0.7";
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return div;
+}
+function removeMessage(msg) { if(msg && msg.remove) msg.remove(); }
+
+const DEEPSEEK_API_KEY = "sk-d25d9273538446f18d0c84d562c7969e";
+
+async function handleSend() {
+    const question = chatInput.value.trim();
+    if (!question) return;
+    appendMessage(question, true);
+    chatInput.value = "";
+    const thinking = appendMessage("🤔 思考中...", false, true);
+
+    try {
+        const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${DEEPSEEK_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "deepseek-chat",
+                messages: [
+                    { role: "system", content: "你是一位专业的AI工具专家，精通所有主流AI工具和术语。请用中文简洁、准确地回答。" },
+                    { role: "user", content: question }
+                ],
+                max_tokens: 500,
+                temperature: 0.7
+            })
+        });
+
+        const data = await response.json();
+        removeMessage(thinking);
+
+        if (data.choices && data.choices[0]) {
+            const reply = data.choices[0].message.content;
+            appendMessage(reply, false);
+        } else if (data.error) {
+            appendMessage(`❌ API 错误：${data.error.message}`, false);
+        } else {
+            appendMessage("❌ 未知错误，请查看控制台（F12）", false);
+        }
+    } catch (err) {
+        removeMessage(thinking);
+        appendMessage(`⚠️ 网络错误：${err.message}。请检查网络或API Key是否正确。`, false);
+        console.error(err);
+    }
+}
+
+sendBtn.addEventListener("click", handleSend);
+chatInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") handleSend();
+});
+    </script>
+</body>
+</html>
