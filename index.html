@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 术语中英词典</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+
+        .total-count {
+            color: #718096;
+            font-size: 16px;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        #search {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        #search:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+            outline: none;
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .tab-btn:hover {
+            background-color: #edf2f7;
+        }
+
+        .tab-btn.active {
+            background-color: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-en {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .card-zh {
+            font-size: 15px;
+            color: #718096;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #cbd5e0;
+            transition: color 0.3s;
+        }
+
+        .favorite-btn.active {
+            color: #f56565;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal {
+            background: white;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .modal-title-en {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .modal-title-zh {
+            font-size: 18px;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .modal-section {
+            margin-bottom: 20px;
+        }
+
+        .modal-section h3 {
+            font-size: 16px;
+            color: #4a5568;
+            margin-bottom: 8px;
+            border-left: 3px solid #4299e1;
+            padding-left: 8px;
+        }
+
+        .modal-img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .modal-link {
+            color: #4299e1;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+        }
+
+        .modal-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .card-list {
+                grid-template-columns: 1fr;
+            }
+            .modal {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI 术语中英词典</h1>
+            <p class="total-count">共 <span id="totalNum">0</span> 个术语</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="search" placeholder="搜索英文/中文术语...">
+        </div>
+
+        <div class="category-tabs">
+            <button class="tab-btn active" data-category="all">全部</button>
+            <button class="tab-btn" data-category="basic">基础</button>
+            <button class="tab-btn" data-category="model">模型</button>
+            <button class="tab-btn" data-category="train">训练</button>
+            <button class="tab-btn" data-category="multi">多模态</button>
+            <button class="tab-btn" data-category="deploy">部署</button>
+            <button class="tab-btn" data-category="safe">安全</button>
+            <button class="tab-btn" data-category="favorite">我的收藏</button>
+        </div>
+
+        <div class="card-list" id="cardList"></div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <button class="close-btn" id="closeBtn">×</button>
+            <div class="modal-title-en" id="modalEn"></div>
+            <div class="modal-title-zh" id="modalZh"></div>
+
+            <div class="modal-section">
+                <h3>英文定义</h3>
+                <p id="modalDefEn"></p>
+            </div>
+            <div class="modal-section">
+                <h3>中文定义</h3>
+                <p id="modalDefZh"></p>
+            </div>
+            <div class="modal-section">
+                <h3>图片展示</h3>
+                <img src="https://picsum.photos/800/400" alt="术语图片" class="modal-img" id="modalImg">
+            </div>
+            <div class="modal-section">
+                <h3>参考资料</h3>
+                <span class="modal-link" id="modalLink1">百度百科（待补充）</span>
+                <span class="modal-link" id="modalLink2">维基百科（待补充）</span>
+            </div>
+            <div class="modal-section">
+                <h3>补充说明</h3>
+                <p id="modalDesc"></p>
+            </div>
+        </div>
+    </div>
+
+<script>
+// ========================== 102个AI完整术语（无跳转链接） ==========================
+const aiTerms = [
+    {id:1,en:"Machine Learning",zh:"机器学习",category:"basic",defEn:"A subset of AI that enables systems to learn from data without explicit programming.",defZh:"人工智能的子集，使系统无需显式编程即可从数据中学习。",img:"https://picsum.photos/800/400?random=1",desc:"机器学习是实现人工智能的核心方法，涵盖监督学习、无监督学习、强化学习等多种范式。"},
+    {id:2,en:"Deep Learning",zh:"深度学习",category:"basic",defEn:"A subset of machine learning based on neural networks with multiple layers.",defZh:"基于多层神经网络的机器学习子集。",img:"https://picsum.photos/800/400?random=2",desc:"深度学习是当前AI的主流技术，广泛应用于计算机视觉、自然语言处理等领域。"},
+    {id:3,en:"Neural Network",zh:"神经网络",category:"model",defEn:"A computing system inspired by biological neural networks in human brains.",defZh:"受人类大脑生物神经网络启发的计算系统。",img:"https://picsum.photos/800/400?random=3",desc:"人工神经网络是深度学习的基础架构，由大量神经元相互连接构成。"},
+    {id:4,en:"Supervised Learning",zh:"监督学习",category:"train",defEn:"A machine learning approach using labeled training data to learn mapping function.",defZh:"使用带标签训练数据学习映射函数的机器学习方法。",img:"https://picsum.photos/800/400?random=4",desc:"常见任务：分类、回归，是工业界最常用的机器学习范式。"},
+    {id:5,en:"Unsupervised Learning",zh:"无监督学习",category:"train",defEn:"Learning patterns from unlabeled data without explicit supervision.",defZh:"从无标签数据中学习模式，无需显式监督。",img:"https://picsum.photos/800/400?random=5",desc:"常见任务：聚类、降维、异常检测，适用于无标注数据场景。"},
+    {id:6,en:"Semi-supervised Learning",zh:"半监督学习",category:"train",defEn:"Combines small labeled data and large unlabeled data for training.",defZh:"结合少量标注数据和大量无标注数据进行训练的方法。",img:"https://picsum.photos/800/400?random=6",desc:"适用于标注成本高、数据量大的实际场景。"},
+    {id:7,en:"Reinforcement Learning",zh:"强化学习",category:"train",defEn:"An agent learns to make decisions by interacting with environment and getting rewards.",defZh:"智能体通过与环境交互并获得奖励来学习决策。",img:"https://picsum.photos/800/400?random=7",desc:"核心思想：试错学习，广泛应用于游戏AI、机器人控制。"},
+    {id:8,en:"Classification",zh:"分类",category:"basic",defEn:"A supervised learning task to predict discrete category labels.",defZh:"预测离散类别标签的监督学习任务。",img:"https://picsum.photos/800/400?random=8",desc:"典型应用：图像分类、文本分类、垃圾邮件识别。"},
+    {id:9,en:"Regression",zh:"回归",category:"basic",defEn:"A supervised learning task to predict continuous numerical values.",defZh:"预测连续数值的监督学习任务。",img:"https://picsum.photos/800/400?random=9",desc:"典型应用：房价预测、销量预测、金融时序分析。"},
+    {id:10,en:"Clustering",zh:"聚类",category:"basic",defEn:"An unsupervised learning task to group similar data points together.",defZh:"将相似数据点归为一类的无监督学习任务。",img:"https://picsum.photos/800/400?random=10",desc:"常见算法：K-Means、DBSCAN、层次聚类。"},
+    {id:11,en:"Feature Extraction",zh:"特征提取",category:"basic",defEn:"The process of extracting meaningful features from raw data.",defZh:"从原始数据中提取有意义特征的过程。",img:"https://picsum.photos/800/400?random=11",desc:"是数据预处理的关键步骤，直接影响模型效果。"},
+    {id:12,en:"Embedding",zh:"嵌入",category:"basic",defEn:"A low-dimensional vector representation of discrete data in continuous space.",defZh:"离散数据在连续空间中的低维向量表示。",img:"https://picsum.photos/800/400?random=12",desc:"广泛用于词向量、图嵌入、推荐系统、多模态表征。"},
+    {id:13,en:"Tokenization",zh:"Token 化",category:"basic",defEn:"The process of splitting text into smaller units called tokens.",defZh:"将文本拆分为更小单元（Token）的过程。",img:"https://picsum.photos/800/400?random=13",desc:"是NLP预处理第一步，决定大语言模型的上下文长度和理解能力。"},
+    {id:14,en:"Binary Representation",zh:"二进制表示",category:"basic",defEn:"Representing data using binary numbers 0 and 1 in computing systems.",defZh:"在计算系统中使用0和1表示数据的方式。",img:"https://picsum.photos/800/400?random=14",desc:"是计算机存储和处理所有信息的基础编码方式。"},
+    {id:15,en:"AGI",zh:"通用人工智能",category:"basic",defEn:"Artificial General Intelligence that can understand or learn any intellectual task.",defZh:"能够理解或学习任何智力任务的通用人工智能。",img:"https://picsum.photos/800/400?random=15",desc:"是AI的终极目标，具备人类水平的通用认知能力。"},
+    {id:16,en:"Precision",zh:"精确率",category:"basic",defEn:"The ratio of true positive predictions among all positive predictions.",defZh:"所有预测为正的样本中，真实为正的比例。",img:"https://picsum.photos/800/400?random=16",desc:"分类模型核心指标，关注预测结果的准确性。"},
+    {id:17,en:"Recall",zh:"召回率",category:"basic",defEn:"The ratio of true positive predictions among all actual positive samples.",defZh:"所有真实为正的样本中，被预测为正的比例。",img:"https://picsum.photos/800/400?random=17",desc:"分类模型核心指标，关注真实样本的覆盖度。"},
+    {id:18,en:"F1 Score",zh:"F1 分数",category:"basic",defEn:"The harmonic mean of precision and recall for classification evaluation.",defZh:"精确率和召回率的调和平均数，用于分类评估。",img:"https://picsum.photos/800/400?random=18",desc:"平衡精确率与召回率，适用于不平衡数据集评估。"},
+    {id:19,en:"Accuracy",zh:"准确率",category:"basic",defEn:"The ratio of correct predictions among all total predictions.",defZh:"所有预测结果中，预测正确的比例。",img:"https://picsum.photos/800/400?random=19",desc:"最直观的模型评估指标，适用于平衡数据集。"},
+    {id:20,en:"Dataset",zh:"数据集",category:"train",defEn:"A collection of data used for model training, validation and testing.",defZh:"用于模型训练、验证和测试的数据集合。",img:"https://picsum.photos/800/400?random=20",desc:"分为训练集、验证集、测试集，是机器学习的生产原料。"},
+    {id:21,en:"Cross Validation",zh:"交叉验证",category:"train",defEn:"A statistical method to evaluate and compare machine learning models.",defZh:"评估和比较机器学习模型的统计方法。",img:"https://picsum.photos/800/400?random=21",desc:"有效避免过拟合，充分利用有限数据评估模型性能。"},
+    {id:22,en:"Tensor",zh:"张量",category:"model",defEn:"A multi-dimensional array of numerical values used in deep learning frameworks.",defZh:"深度学习框架中使用的多维数值数组。",img:"https://picsum.photos/800/400?random=22",desc:"是PyTorch、TensorFlow等框架的基础数据结构。"},
+    {id:23,en:"Transformer",zh:"Transformer",category:"model",defEn:"A deep learning model based on self-attention mechanism proposed in 2017.",defZh:"2017年提出的基于自注意力机制的深度学习模型。",img:"https://picsum.photos/800/400?random=23",desc:"彻底改变NLP领域，成为大语言模型的基础架构。"},
+    {id:24,en:"Large Language Model",zh:"大语言模型",category:"model",defEn:"A language model with large parameters trained on massive text corpora.",defZh:"在海量文本语料上训练的大参数量语言模型。",img:"https://picsum.photos/800/400?random=24",desc:"代表：GPT、LLaMA、文心一言、通义千问。"},
+    {id:25,en:"CNN",zh:"卷积神经网络",category:"model",defEn:"Convolutional Neural Network specialized for grid data like images.",defZh:"专门处理图像等网格数据的卷积神经网络。",img:"https://picsum.photos/800/400?random=25",desc:"计算机视觉领域的经典模型，擅长提取局部特征。"},
+    {id:26,en:"RNN",zh:"循环神经网络",category:"model",defEn:"Recurrent Neural Network for processing sequential data with memory.",defZh:"具有记忆功能、用于处理序列数据的循环神经网络。",img:"https://picsum.photos/800/400?random=26",desc:"适用于文本、语音等时序数据，但存在长序列梯度消失问题。"},
+    {id:27,en:"LSTM",zh:"长短期记忆网络",category:"model",defEn:"Long Short-Term Memory, an improved RNN to solve gradient vanishing.",defZh:"长短期记忆网络，解决梯度消失问题的改进型RNN。",img:"https://picsum.photos/800/400?random=27",desc:"有效捕捉长序列依赖，广泛用于NLP和时序预测。"},
+    {id:28,en:"GRU",zh:"门控循环单元",category:"model",defEn:"Gated Recurrent Unit, a simplified and efficient version of LSTM.",defZh:"门控循环单元，简化高效的LSTM变体。",img:"https://picsum.photos/800/400?random=28",desc:"参数更少、训练更快，性能接近LSTM。"},
+    {id:29,en:"Self-Attention",zh:"自注意力",category:"model",defEn:"A mechanism to model dependencies between all positions in a sequence.",defZh:"建模序列中所有位置之间依赖关系的机制。",img:"https://picsum.photos/800/400?random=29",desc:"Transformer的核心，让模型关注输入序列的重要部分。"},
+    {id:30,en:"MoE",zh:"混合专家模型",category:"model",defEn:"Mixture of Experts, a model architecture combining multiple expert networks.",defZh:"混合专家模型，结合多个专家网络的模型架构。",img:"https://picsum.photos/800/400?random=30",desc:"支持超大规模模型高效训练，代表：GPT-4、PaLM。"},
+    {id:31,en:"GPT",zh:"GPT",category:"model",defEn:"Generative Pre-trained Transformer, a series of large language models.",defZh:"生成式预训练Transformer，大语言模型系列。",img:"https://picsum.photos/800/400?random=31",desc:"OpenAI发布的代表性生成式大语言模型系列。"},
+    {id:32,en:"BERT",zh:"BERT",category:"model",defEn:"Bidirectional Encoder Representations from Transformers for NLP tasks.",defZh:"用于NLP任务的双向Transformer编码器表示。",img:"https://picsum.photos/800/400?random=32",desc:"谷歌发布的经典预训练模型，擅长理解类NLP任务。"},
+    {id:33,en:"Mamba",zh:"Mamba",category:"model",defEn:"A state space model for efficient long-sequence processing.",defZh:"用于高效长序列处理的状态空间模型。",img:"https://picsum.photos/800/400?random=33",desc:"新一代序列模型，长文本处理效率远超Transformer。"},
+    {id:34,en:"GAN",zh:"生成对抗网络",category:"model",defEn:"Generative Adversarial Network with generator and discriminator.",defZh:"包含生成器和判别器的生成对抗网络。",img:"https://picsum.photos/800/400?random=34",desc:"生成式模型经典架构，广泛用于图像、视频生成。"},
+    {id:35,en:"VAE",zh:"变分自编码器",category:"model",defEn:"Variational Autoencoder, a generative model based on autoencoder.",defZh:"基于自编码器的生成式模型。",img:"https://picsum.photos/800/400?random=35",desc:"可控生成数据，具备良好的隐空间表征能力。"},
+    {id:36,en:"Diffusion Model",zh:"扩散模型",category:"model",defEn:"A generative model learning to reverse diffusion process for data generation.",defZh:"学习逆转扩散过程进行数据生成的生成模型。",img:"https://picsum.photos/800/400?random=36",desc:"当前AIGC的主流模型，生成质量远超GAN。"},
+    {id:37,en:"RLHF",zh:"人类反馈强化学习",category:"train",defEn:"Reinforcement Learning from Human Feedback to align models with humans.",defZh:"基于人类反馈的强化学习，让模型与人类意图对齐。",img:"https://picsum.photos/800/400?random=37",desc:"大语言模型对齐的核心技术，代表：ChatGPT训练流程。"},
+    {id:38,en:"Context Window",zh:"上下文窗口",category:"model",defEn:"The maximum length of input text a LLM can process at one time.",defZh:"大语言模型一次能处理的最大输入文本长度。",img:"https://picsum.photos/800/400?random=38",desc:"决定模型能接收的文本量，越长越能理解长文档。"},
+    {id:39,en:"CLIP",zh:"CLIP",category:"multi",defEn:"Contrastive Language-Image Pre-training for multi-modal representation.",defZh:"用于多模态表征的对比语言-图像预训练模型。",img:"https://picsum.photos/800/400?random=39",desc:"OpenAI发布，连接文本与图像的经典多模态模型。"},
+    {id:40,en:"SAM",zh:"分割任何模型",category:"multi",defEn:"Segment Anything Model for universal image segmentation.",defZh:"用于通用图像分割的模型。",img:"https://picsum.photos/800/400?random=40",desc:"Meta发布的通用图像分割基础模型。"},
+    {id:41,en:"Stable Diffusion",zh:"Stable Diffusion",category:"multi",defEn:"An open-source text-to-image diffusion model.",defZh:"开源的文本生成图像扩散模型。",img:"https://picsum.photos/800/400?random=41",desc:"最流行的开源文生图模型，支持本地部署。"},
+    {id:42,en:"DALL·E",zh:"DALL·E",category:"multi",defEn:"OpenAI's text-to-image generation model series.",defZh:"OpenAI的文本生成图像模型系列。",img:"https://picsum.photos/800/400?random=42",desc:"商用级文生图模型，生成效果顶尖。"},
+    {id:43,en:"Flux",zh:"Flux",category:"multi",defEn:"A high-performance text-to-image generation model.",defZh:"高性能文本生成图像模型。",img:"https://picsum.photos/800/400?random=43",desc:"新一代文生图模型，速度与画质大幅提升。"},
+    {id:44,en:"Pre-training",zh:"预训练",category:"train",defEn:"Initial training on large-scale unlabeled data to get general features.",defZh:"在大规模无标签数据上的初始训练，学习通用特征。",img:"https://picsum.photos/800/400?random=44",desc:"大模型的第一步，耗时耗力，学习通用知识。"},
+    {id:45,en:"Fine-tuning",zh:"微调",category:"train",defEn:"Further training pre-trained models on downstream task data.",defZh:"在下游任务数据上进一步训练预训练模型。",img:"https://picsum.photos/800/400?random=45",desc:"让通用模型适配特定任务，成本远低于预训练。"},
+    {id:46,en:"LoRA",zh:"低秩适配",category:"train",defEn:"Low-Rank Adaptation, an efficient fine-tuning method for large models.",defZh:"低秩适配，大模型高效微调方法。",img:"https://picsum.photos/800/400?random=46",desc:"仅训练少量参数，快速适配大模型。"},
+    {id:47,en:"Prompt Engineering",zh:"提示工程",category:"basic",defEn:"Designing effective prompts to guide LLMs for desired outputs.",defZh:"设计有效提示词引导大模型输出理想结果。",img:"https://picsum.photos/800/400?random=47",desc:"使用大模型的核心技能，无需训练即可优化输出。"},
+    {id:48,en:"Chain of Thought",zh:"思维链",category:"basic",defEn:"A prompting technique encouraging LLMs to generate reasoning steps.",defZh:"鼓励大模型生成推理步骤的提示技术。",img:"https://picsum.photos/800/400?random=48",desc:"大幅提升大模型复杂推理、数学解题能力。"},
+    {id:49,en:"Zero-shot Learning",zh:"零样本学习",category:"train",defEn:"Making predictions on unseen tasks without any training examples.",defZh:"在无训练样本的未知任务上进行预测。",img:"https://picsum.photos/800/400?random=49",desc:"大模型核心能力，直接处理从未见过的任务。"},
+    {id:50,en:"Few-shot Learning",zh:"小样本学习",category:"train",defEn:"Learning from very few labeled training examples.",defZh:"从极少量标注样本中学习的方法。",img:"https://picsum.photos/800/400?random=50",desc:"适用于标注样本极度稀缺的场景。"},
+    {id:51,en:"Transfer Learning",zh:"迁移学习",category:"train",defEn:"Transfer knowledge from source task to improve target task learning.",defZh:"将源任务知识迁移到目标任务提升学习效果。",img:"https://picsum.photos/800/400?random=51",desc:"预训练+微调是迁移学习的典型应用。"},
+    {id:52,en:"Overfitting",zh:"过拟合",category:"train",defEn:"A model performs well on training data but poorly on unseen test data.",defZh:"模型在训练集表现极好，在未知测试集表现差。",img:"https://picsum.photos/800/400?random=52",desc:"机器学习最常见问题，需通过正则化、数据增强解决。"},
+    {id:53,en:"Underfitting",zh:"欠拟合",category:"train",defEn:"A model fails to capture underlying patterns in training data.",defZh:"模型无法捕捉训练数据中的潜在模式。",img:"https://picsum.photos/800/400?random=53",desc:"模型过于简单，训练和测试集表现都很差。"},
+    {id:54,en:"Regularization",zh:"正则化",category:"train",defEn:"Techniques to prevent overfitting by adding penalty to model complexity.",defZh:"通过惩罚模型复杂度防止过拟合的技术。",img:"https://picsum.photos/800/400?random=54",desc:"常见方法：L1、L2正则化、Dropout。"},
+    {id:55,en:"Dropout",zh:"随机失活",category:"train",defEn:"A regularization method randomly disabling neurons during training.",defZh:"训练中随机禁用神经元的正则化方法。",img:"https://picsum.photos/800/400?random=55",desc:"深度学习最常用的防止过拟合技巧。"},
+    {id:56,en:"Batch Normalization",zh:"批归一化",category:"train",defEn:"Normalizing activations in neural networks by batch statistics.",defZh:"按批次统计量归一化神经网络激活值。",img:"https://picsum.photos/800/400?random=56",desc:"加速训练、稳定梯度、缓解过拟合。"},
+    {id:57,en:"Learning Rate",zh:"学习率",category:"train",defEn:"A hyperparameter controlling step size in model parameter update.",defZh:"控制模型参数更新步长的超参数。",img:"https://picsum.photos/800/400?random=57",desc:"训练最重要的超参数，决定模型收敛速度与效果。"},
+    {id:58,en:"Optimizer",zh:"优化器",category:"train",defEn:"An algorithm to update model parameters to minimize loss function.",defZh:"更新模型参数最小化损失函数的算法。",img:"https://picsum.photos/800/400?random=58",desc:"常见：Adam、SGD、RMSProp，决定训练效率。"},
+    {id:59,en:"Loss Function",zh:"损失函数",category:"train",defEn:"A function measuring difference between model predictions and true labels.",defZh:"衡量模型预测与真实标签差异的函数。",img:"https://picsum.photos/800/400?random=59",desc:"模型训练的优化目标，指导参数更新方向。"},
+    {id:60,en:"Backpropagation",zh:"反向传播",category:"train",defEn:"A method to calculate gradients for neural network parameter update.",defZh:"计算神经网络参数更新梯度的方法。",img:"https://picsum.photos/800/400?random=60",desc:"深度学习训练的核心算法。"},
+    {id:61,en:"Gradient Descent",zh:"梯度下降",category:"train",defEn:"An optimization algorithm minimizing loss along negative gradient.",defZh:"沿负梯度方向最小化损失的优化算法。",img:"https://picsum.photos/800/400?random=61",desc:"最基础的模型优化算法。"},
+    {id:62,en:"Epoch",zh:"轮次",category:"train",defEn:"One full pass of entire training dataset during model training.",defZh:"模型训练时，完整遍历一次全部训练数据。",img:"https://picsum.photos/800/400?random=62",desc:"控制训练迭代次数，过多易导致过拟合。"},
+    {id:63,en:"Batch Size",zh:"批次大小",category:"train",defEn:"Number of training samples used in one forward/backward pass.",defZh:"一次前向/反向传播使用的训练样本数。",img:"https://picsum.photos/800/400?random=63",desc:"影响训练速度、显存占用、模型收敛稳定性。"},
+    {id:64,en:"Temperature",zh:"温度系数",category:"model",defEn:"A parameter controlling randomness of LLM generation outputs.",defZh:"控制大模型生成输出随机性的参数。",img:"https://picsum.photos/800/400?random=64",desc:"值越低输出越确定性，值越高越有创造性。"},
+    {id:65,en:"Top-k",zh:"Top-k 采样",category:"model",defEn:"A sampling method selecting from top k most probable next tokens.",defZh:"从概率最高的k个下一个Token中选择的采样方法。",img:"https://picsum.photos/800/400?random=65",desc:"控制生成多样性，限制模型只选高概率Token。"},
+    {id:66,en:"Top-p",zh:"核采样",category:"model",defEn:"Nucleus sampling selecting from smallest set of tokens with cumulative probability p.",defZh:"从累积概率p的最小Token集合中选择的采样方法。",img:"https://picsum.photos/800/400?random=66",desc:"比Top-k更灵活的生成控制方式。"},
+    {id:67,en:"Annotation",zh:"数据标注",category:"train",defEn:"The process of labeling raw data for supervised model training.",defZh:"为监督学习模型训练标注原始数据的过程。",img:"https://picsum.photos/800/400?random=67",desc:"AI工业化的基础环节，成本高、耗人力。"},
+    {id:68,en:"Data Augmentation",zh:"数据增强",category:"train",defEn:"Techniques to increase data diversity and volume without collecting new data.",defZh:"不收集新数据就能增加数据多样性和体量的技术。",img:"https://picsum.photos/800/400?random=68",desc:"有效缓解过拟合，提升模型泛化能力。"},
+    {id:69,en:"Normalization",zh:"归一化",category:"train",defEn:"Scaling data to a standard range to improve model training stability.",defZh:"将数据缩放到标准范围提升训练稳定性。",img:"https://picsum.photos/800/400?random=69",desc:"加速收敛，避免数值不稳定。"},
+    {id:70,en:"Synthetic Data",zh:"合成数据",category:"train",defEn:"Artificially generated data used for model training and testing.",defZh:"人工生成的用于模型训练和测试的数据。",img:"https://picsum.photos/800/400?random=70",desc:"解决真实数据稀缺、隐私、合规问题。"},
+    {id:71,en:"Multimodal",zh:"多模态",category:"multi",defEn:"AI systems processing and understanding multiple data types like text, image, audio.",defZh:"处理和理解文本、图像、音频等多种数据类型的AI系统。",img:"https://picsum.photos/800/400?random=71",desc:"AI下一代主流方向，实现跨模态理解与生成。"},
+    {id:72,en:"TTS",zh:"文本转语音",category:"multi",defEn:"Text-to-Speech, converting text into natural human speech.",defZh:"将文本转换为自然人类语音的技术。",img:"https://picsum.photos/800/400?random=72",desc:"广泛用于语音助手、有声书、配音。"},
+    {id:73,en:"ASR",zh:"自动语音识别",category:"multi",defEn:"Automatic Speech Recognition, converting speech to text.",defZh:"自动语音识别，将语音转换为文本。",img:"https://picsum.photos/800/400?random=73",desc:"人机交互的核心入口技术。"},
+    {id:74,en:"OCR",zh:"光学字符识别",category:"multi",defEn:"Optical Character Recognition, extracting text from images.",defZh:"光学字符识别，从图像中提取文本。",img:"https://picsum.photos/800/400?random=74",desc:"广泛用于文档数字化、票据识别、车牌识别。"},
+    {id:75,en:"Midjourney",zh:"Midjourney",category:"multi",defEn:"A popular commercial AI image generation service.",defZh:"流行的商用AI图像生成服务。",img:"https://picsum.photos/800/400?random=75",desc:"顶尖文生图产品，通过Discord使用。"},
+    {id:76,en:"Inference",zh:"推理",category:"deploy",defEn:"The process of trained model making predictions on new input data.",defZh:"训练好的模型对新输入数据进行预测的过程。",img:"https://picsum.photos/800/400?random=76",desc:"模型落地的核心环节，关注速度、成本、稳定性。"},
+    {id:77,en:"Quantization",zh:"量化",category:"deploy",defEn:"Reducing model parameter precision to accelerate inference and save memory.",defZh:"降低模型参数精度以加速推理、节省显存。",img:"https://picsum.photos/800/400?random=77",desc:"大模型轻量化部署必备技术。"},
+    {id:78,en:"Pruning",zh:"剪枝",category:"deploy",defEn:"Removing redundant neurons or connections to compress model size.",defZh:"移除冗余神经元或连接压缩模型体积。",img:"https://picsum.photos/800/400?random=78",desc:"模型轻量化经典方法，删除无用参数。"},
+    {id:79,en:"Knowledge Distillation",zh:"知识蒸馏",category:"deploy",defEn:"Transferring knowledge from large teacher model to small student model.",defZh:"将大教师模型知识迁移到小学生模型。",img:"https://picsum.photos/800/400?random=79",desc:"用小模型逼近大模型性能，便于部署。"},
+    {id:80,en:"Vector Database",zh:"向量数据库",category:"deploy",defEn:"A database specialized for storing and querying high-dimensional vectors.",defZh:"专门存储和查询高维向量的数据库。",img:"https://picsum.photos/800/400?random=80",desc:"RAG系统的核心组件，用于相似度检索。"},
+    {id:81,en:"RAG",zh:"检索增强生成",category:"deploy",defEn:"Retrieval-Augmented Generation enhancing LLMs with external knowledge.",defZh:"结合外部知识增强大语言模型的生成。",img:"https://picsum.photos/800/400?random=81",desc:"解决大模型幻觉、知识过时问题。"},
+    {id:82,en:"Deployment",zh:"部署",category:"deploy",defEn:"Putting trained models into production environment for practical use.",defZh:"将训练好的模型投入生产环境供实际使用。",img:"https://picsum.photos/800/400?random=82",desc:"AI从实验室走向实际应用的最后一步。"},
+    {id:83,en:"Edge AI",zh:"边缘 AI",category:"deploy",defEn:"AI models deployed and running on edge devices instead of cloud servers.",defZh:"在边缘设备而非云端服务器运行的AI。",img:"https://picsum.photos/800/400?random=83",desc:"低延迟、保护隐私、节省带宽。"},
+    {id:84,en:"Cloud AI",zh:"云端 AI",category:"deploy",defEn:"AI services running on cloud computing platforms.",defZh:"在云计算平台上运行的AI服务。",img:"https://picsum.photos/800/400?random=84",desc:"弹性扩容、算力强大，适合大规模推理。"},
+    {id:85,en:"Latency",zh:"延迟",category:"deploy",defEn:"The time taken for a model to complete one inference request.",defZh:"模型完成一次推理请求所需时间。",img:"https://picsum.photos/800/400?random=85",desc:"实时AI系统核心指标，越低体验越好。"},
+    {id:86,en:"Throughput",zh:"吞吐量",category:"deploy",defEn:"Number of inference requests a model can process per unit time.",defZh:"模型单位时间能处理的推理请求数。",img:"https://picsum.photos/800/400?random=86",desc:"衡量模型服务并发处理能力。"},
+    {id:87,en:"API",zh:"应用程序接口",category:"deploy",defEn:"Application Programming Interface for accessing AI services.",defZh:"访问AI服务的应用程序接口。",img:"https://picsum.photos/800/400?random=87",desc:"AI产品化最常用的交付方式。"},
+    {id:88,en:"GPU",zh:"图形处理器",category:"deploy",defEn:"Graphics Processing Unit for accelerating AI model training and inference.",defZh:"加速AI模型训练和推理的图形处理器。",img:"https://picsum.photos/800/400?random=88",desc:"AI算力核心硬件，并行计算能力极强。"},
+    {id:89,en:"ONNX",zh:"开放神经网络交换",category:"deploy",defEn:"Open Neural Network Exchange for cross-platform model deployment.",defZh:"用于跨平台模型部署的开放格式。",img:"https://picsum.photos/800/400?random=89",desc:"实现模型框架无关、跨平台部署。"},
+    {id:90,en:"PyTorch",zh:"PyTorch",category:"deploy",defEn:"An open-source deep learning framework widely used in research and industry.",defZh:"广泛用于科研和工业的开源深度学习框架。",img:"https://picsum.photos/800/400?random=90",desc:"目前最流行的深度学习开发框架。"},
+    {id:91,en:"TensorFlow",zh:"TensorFlow",category:"deploy",defEn:"An open-source deep learning framework developed by Google.",defZh:"谷歌开发的开源深度学习框架。",img:"https://picsum.photos/800/400?random=91",desc:"生产部署成熟稳定，企业级常用框架。"},
+    {id:92,en:"Hugging Face",zh:"Hugging Face",category:"deploy",defEn:"An AI community and platform for sharing pre-trained models.",defZh:"分享预训练模型的AI社区与平台。",img:"https://picsum.photos/800/400?random=92",desc:"全球最大的开源模型社区。"},
+    {id:93,en:"Hallucination",zh:"幻觉",category:"safe",defEn:"LLMs generate factually incorrect, non-existent or misleading content.",defZh:"大模型生成事实错误、不存在或误导性内容。",img:"https://picsum.photos/800/400?random=93",desc:"大模型核心缺陷，需通过RAG、对齐技术缓解。"},
+    {id:94,en:"Alignment",zh:"对齐",category:"safe",defEn:"Making AI systems behave according to human intentions and values.",defZh:"让AI系统行为符合人类意图与价值观。",img:"https://picsum.photos/800/400?random=94",desc:"AI安全的核心方向，RLHF是主流方案。"},
+    {id:95,en:"AI Safety",zh:"AI 安全",category:"safe",defEn:"Research on ensuring AI systems operate safely, reliably and ethically.",defZh:"确保AI系统安全、可靠、合规运行的研究。",img:"https://picsum.photos/800/400?random=95",desc:"包含防御、隐私、伦理、对齐等内容。"},
+    {id:96,en:"AI Ethics",zh:"AI 伦理",category:"safe",defEn:"Moral principles guiding the development and use of AI technologies.",defZh:"指导AI技术开发与使用的道德准则。",img:"https://picsum.photos/800/400?random=96",desc:"关注公平、责任、隐私、人权等议题。"},
+    {id:97,en:"Bias",zh:"算法偏见",category:"safe",defEn:"Systematic errors in AI models leading to unfair outcomes.",defZh:"AI模型中导致不公平结果的系统性错误。",img:"https://picsum.photos/800/400?random=97",desc:"源于训练数据偏差，影响AI公平性。"},
+    {id:98,en:"AI Agent",zh:"AI 智能体",category:"basic",defEn:"An autonomous AI system that can perceive, plan, act and learn to complete tasks.",defZh:"能感知、规划、执行、学习完成任务的自主AI系统。",img:"https://picsum.photos/800/400?random=98",desc:"AI下一代形态，具备自主执行复杂任务能力。"},
+    {id:99,en:"Tool Use",zh:"工具使用",category:"basic",defEn:"AI agents using external tools like calculators, browsers, APIs to solve tasks.",defZh:"AI智能体使用计算器、浏览器、API等外部工具。",img:"https://picsum.photos/800/400?random=99",desc:"大幅扩展AI能力边界。"},
+    {id:100,en:"Memory",zh:"记忆机制",category:"basic",defEn:"The ability of AI agents to store, retrieve and use historical information.",defZh:"AI智能体存储、检索、使用历史信息的能力。",img:"https://picsum.photos/800/400?random=100",desc:"实现长期对话、持续学习的基础。"},
+    {id:101,en:"Reasoning",zh:"推理能力",category:"basic",defEn:"The ability of AI to perform logical thinking and deduction.",defZh:"AI进行逻辑思考与演绎推导的能力。",img:"https://picsum.photos/800/400?random=101",desc:"高阶智能核心，支撑数学、逻辑、决策任务。"},
+    {id:102,en:"Planning",zh:"任务规划",category:"basic",defEn:"AI agents decomposing complex goals into executable steps.",defZh:"AI智能体将复杂目标分解为可执行步骤。",img:"https://picsum.photos/800/400?random=102",desc:"实现复杂任务自主解决的核心能力。"}
+];
+
+// DOM元素获取
+const cardList = document.getElementById('cardList');
+const totalNum = document.getElementById('totalNum');
+const searchInput = document.getElementById('search');
+const tabBtns = document.querySelectorAll('.tab-btn');
+const modalOverlay = document.getElementById('modalOverlay');
+const closeBtn = document.getElementById('closeBtn');
+const modalEn = document.getElementById('modalEn');
+const modalZh = document.getElementById('modalZh');
+const modalDefEn = document.getElementById('modalDefEn');
+const modalDefZh = document.getElementById('modalDefZh');
+const modalImg = document.getElementById('modalImg');
+const modalLink1 = document.getElementById('modalLink1');
+const modalLink2 = document.getElementById('modalLink2');
+const modalDesc = document.getElementById('modalDesc');
+
+// 全局变量
+let currentCategory = 'all';
+let favoriteList = JSON.parse(localStorage.getItem('aiFavorite')) || [];
+
+// 初始化
+totalNum.textContent = aiTerms.length;
+renderCards(aiTerms);
+
+// 渲染卡片列表
+function renderCards(data) {
+    cardList.innerHTML = '';
+    if (data.length === 0) {
+        cardList.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #718096;">暂无匹配的术语</div>';
+        return;
+    }
+    
+    data.forEach(item => {
+        const isFavorite = favoriteList.includes(item.id);
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${item.id}">★</button>
+            <div class="card-en">${item.en}</div>
+            <div class="card-zh">${item.zh}</div>
+        `;
+        cardList.appendChild(card);
+
+        // 卡片点击打开详情弹窗
+        card.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('favorite-btn')) openModal(item);
+        });
+
+        // 收藏按钮点击事件
+        const favBtn = card.querySelector('.favorite-btn');
+        favBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite(item.id);
+            favBtn.classList.toggle('active');
+        });
+    });
+}
+
+// 打开详情弹窗
+function openModal(item) {
+    modalEn.textContent = item.en;
+    modalZh.textContent = item.zh;
+    modalDefEn.textContent = item.defEn;
+    modalDefZh.textContent = item.defZh;
+    modalImg.src = item.img || 'https://picsum.photos/800/400';
+    modalDesc.innerHTML = item.desc || '暂无补充说明';
+    
+    modalOverlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+// 关闭弹窗
+function closeModal() {
+    modalOverlay.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// 切换收藏状态
+function toggleFavorite(id) {
+    const index = favoriteList.indexOf(id);
+    if (index === -1) {
+        favoriteList.push(id);
+    } else {
+        favoriteList.splice(index, 1);
+    }
+    localStorage.setItem('aiFavorite', JSON.stringify(favoriteList));
+    
+    // 如果当前在收藏标签页，重新渲染
+    if (currentCategory === 'favorite') {
+        filterCards();
+    }
+}
+
+// 筛选卡片（分类+搜索）
+function filterCards() {
+    let filteredData = [...aiTerms];
+    
+    // 分类筛选
+    if (currentCategory === 'favorite') {
+        filteredData = aiTerms.filter(item => favoriteList.includes(item.id));
+    } else if (currentCategory !== 'all') {
+        filteredData = aiTerms.filter(item => item.category === currentCategory);
+    }
+    
+    // 搜索筛选
+    const keyword = searchInput.value.trim().toLowerCase();
+    if (keyword) {
+        filteredData = filteredData.filter(item => 
+            item.en.toLowerCase().includes(keyword) || 
+            item.zh.includes(keyword)
+        );
+    }
+    
+    renderCards(filteredData);
+}
+
+// 事件监听
+searchInput.addEventListener('input', filterCards);
+
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.category;
+        filterCards();
+    });
+});
+
+closeBtn.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) closeModal();
+});
+
+// 按ESC键关闭弹窗
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>
